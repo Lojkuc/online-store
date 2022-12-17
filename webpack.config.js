@@ -4,9 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
+
 
 module.exports = {
-    entry: path.resolve(__dirname, './src/index.ts'),
+    entry: path.resolve(__dirname, './src/server'),
     mode: 'development',
     module: {
         rules: [
@@ -39,6 +41,12 @@ module.exports = {
     },
     devServer: {
         static: path.resolve(__dirname),
+        historyApiFallback: true,
+        historyApiFallback: {
+            rewrites: [
+                { from: /./, to: '/index.html' }, // all request to index.html
+            ],
+        }
         // port: 8080,
         // open: true,
         // hot: true
@@ -53,7 +61,18 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "./src/assets/img", to: "img" },
+                { from: "netlify.toml", to: "" },
             ]
-        })
+        }),
+        new NetlifyPlugin({
+            redirects: [
+                {
+                    from: "/api/*",
+                    to: "/index.html",
+                    status: 200,
+                    force: true,
+                }
+            ]
+        }),
     ]
 };
