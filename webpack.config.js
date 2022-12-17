@@ -4,9 +4,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+<<<<<<< HEAD
 
 module.exports = {
     entry: path.resolve(__dirname, './src/index.ts'),
+=======
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
+
+
+module.exports = {
+    entry: path.resolve(__dirname, './src/server'),
+>>>>>>> f40317ee5804eeb3a666297adad52a9792e76a17
     mode: 'development',
     module: {
         rules: [
@@ -39,6 +47,15 @@ module.exports = {
     },
     devServer: {
         static: path.resolve(__dirname),
+<<<<<<< HEAD
+=======
+        historyApiFallback: true,
+        historyApiFallback: {
+            rewrites: [
+                { from: /./, to: '/index.html' }, // all request to index.html
+            ],
+        }
+>>>>>>> f40317ee5804eeb3a666297adad52a9792e76a17
         // port: 8080,
         // open: true,
         // hot: true
@@ -53,7 +70,23 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: "./src/assets/img", to: "img" },
+<<<<<<< HEAD
             ]
         })
+=======
+                { from: "netlify.toml", to: "" },
+            ]
+        }),
+        new NetlifyPlugin({
+            redirects: [
+                {
+                    from: "/api/*",
+                    to: "/index.html",
+                    status: 200,
+                    force: true,
+                }
+            ]
+        }),
+>>>>>>> f40317ee5804eeb3a666297adad52a9792e76a17
     ]
 };
