@@ -27,6 +27,12 @@
         "semi-style": [
             "error",
             "last"
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
         ]
     },
     "parser": "@typescript-eslint/parser"

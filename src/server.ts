@@ -1,3 +1,6 @@
+import './styles/products.scss';
+import './styles/product1.scss';
+import './assets/img/product1.jpg'
 import account from './account';
 const route = (event: Event) => {
     event.preventDefault();
@@ -45,3 +48,4 @@ window.addEventListener('popstate', handleLocation);
 window.addEventListener('DOMContentLoaded', handleLocation);
 
 handleLocation();
+
