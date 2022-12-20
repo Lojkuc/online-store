@@ -29,6 +29,7 @@ body {
     font-size: 16rem;
     text-align: center;
     color: #222;
+    border-radius: 5%;
 
 
     &:hover {
@@ -101,20 +102,15 @@ hr {
 
     &__list {
         cursor: pointer;
-
     }
 }
 
-
-
 .filtres-center__sort {
-
     .sort__select {
         cursor: pointer;
         border: none;
     }
 }
-
 
 .center-content {
     &__items {
@@ -317,8 +313,6 @@ input:checked+.item__input-fake::before {
 }
 
 .aside {
-    &__title {}
-
     &__range {
         display: flex;
         justify-content: space-around;
@@ -350,12 +344,9 @@ input:checked+.item__input-fake::before {
 }
 
 @media (max-width: 650px) {
-
-
     .main-center__content {
         grid-template-columns: 33% 65%;
     }
-
 
     .center-content {
         &__items {

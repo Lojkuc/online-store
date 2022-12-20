@@ -1,0 +1,145 @@
+@import "./null.css";
+@import "./modal-popup.scss";
+
+
+
+.main {
+    &__content {
+        display: flex;
+        gap: 50rem;
+    }
+}
+
+.main-center {
+    &__button {
+        margin-bottom: 50rem;
+    }
+}
+
+.content {
+    &__gallery {
+        flex: 0 1 50%;
+    }
+
+    &__info {
+        flex: 0 1 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+    }
+}
+
+.gallery {
+    &__photo {
+        margin-bottom: 20rem;
+
+    }
+
+    &__photo-img {
+        height: 500rem;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 3%;
+    }
+
+    &__subphoto {
+        display: flex;
+        column-gap: 10rem;
+
+        img {
+            object-fit: cover;
+            cursor: pointer;
+            max-height: 75rem;
+            border: 2rem solid #ab7a5f;
+            border-radius: 7%;
+        }
+    }
+}
+
+.info {
+    &__title {
+        text-transform: capitalize;
+        font-size: 40rem;
+    }
+
+    &__grade {
+        display: flex;
+        gap: 20rem;
+    }
+
+    &__price {
+        color: #ab7a5f;
+        font-weight: bold;
+        font-size: 24rem;
+    }
+
+    &__description {
+        flex: 1 1 auto;
+    }
+
+    &__details {
+        display: grid;
+        grid-template-columns: 125px 1fr;
+    }
+
+    &__cart {
+        margin-right: 30rem;
+    }
+}
+
+.details {
+    &__key {
+        font-weight: bold;
+    }
+}
+
+.cart {
+    &__amount {
+        display: flex;
+        gap: 20rem;
+        align-items: center;
+        background-color: #fff;
+    }
+
+    &__number {
+        font-size: 40rem;
+    }
+
+    &__minus,
+    &__plus {
+        border: 0;
+        background: transparent;
+        font-size: 45rem;
+        font-weight: 900;
+    }
+}
+
+@media (max-width: 900px) {
+    html {
+        font-size: 0.8px;
+    }
+
+    .main {
+        &__content {
+            gap: 20rem;
+        }
+    }
+}
+
+@media (max-width: 680px) {
+    .navigation-main__block {
+        font-size: 25rem;
+        gap: 10rem;
+    }
+
+    .main {
+        &__content {
+            flex-direction: column;
+        }
+    }
+
+    .gallery__subphoto {
+        justify-content: space-between;
+        gap: 30rem;
+    }
+}
