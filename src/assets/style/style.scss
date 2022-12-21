@@ -1,0 +1,285 @@
+@import './products.scss';
+@import './product1.scss';
+@import './about.scss';
+
+* {
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.button-home {
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 15rem;
+    background-color: #ab7a5f;
+    color: #FFF;
+    border-radius: 5px;
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: #734831;
+    }
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+//HEADER
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-link {
+    display: flex;
+    column-gap: 20px;
+    font-size: 20px;
+    font-weight: 100;
+}
+
+.link-item {
+    position: relative;
+
+    &:hover {
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgb(174, 153, 127);
+        }
+    }
+}
+
+.using-block {
+    display: flex;
+    column-gap: 30px;
+    font-size: 30px;
+}
+
+.login,
+.card {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+}
+
+///MAIN SECTION
+
+.main-section {
+    padding: 100px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-block {
+    width: 50%;
+
+    p {
+        font-family: 'Roboto', sans-serif;
+        letter-spacing: 2px;
+        color: #617d98;
+        line-height: 30px;
+        padding-bottom: 20px;
+    }
+}
+
+.image-container {
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        left: -25px;
+        bottom: 0;
+        width: 30px;
+        height: 60%;
+        background-color: #cdc5b8;
+        border-radius: 5px;
+    }
+}
+
+.main-img {
+    position: relative;
+    z-index: 2;
+    height: 600px;
+    border-radius: 5px;
+}
+
+.submain-img {
+    border-radius: 5px;
+    width: 50%;
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+//FEATURED PRODUCTS
+
+.featured-products {
+    padding: 100px 0;
+    background-color: #f1f5f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        text-align: center;
+    }
+}
+
+.block-product {
+    padding: 20px 0;
+    display: flex;
+    column-gap: 20px;
+}
+
+.cart-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & span {
+        color: #ab7a5f;
+    }
+}
+
+.card-image {
+    position: relative;
+    z-index: 2;
+}
+
+.furniture-img {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    border-radius: 5px;
+
+    &:hover {
+        filter: brightness(70%);
+        transform: scale(0.95);
+        transition: 0.5s;
+    }
+}
+
+.fa-magnifying-glass {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+}
+
+//CUSTOM FURNITURE
+
+.custom-furniture {
+    padding: 100px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 40px;
+
+    h2 {
+        text-align: center;
+    }
+}
+
+.block-advantage {
+    padding: 30px 0;
+    display: flex;
+    column-gap: 20px;
+    color: #FFF;
+
+}
+
+.card-advantage {
+    display: flex;
+    row-gap: 30px;
+    flex-direction: column;
+    align-items: center;
+    background-color: #d5cdc8;
+    padding: 50px;
+    border-radius: 5px;
+
+    .fa-solid {
+        font-size: 50px;
+    }
+
+    h3 {
+        font-weight: 600;
+    }
+
+    p {
+        text-align: center;
+    }
+}
+
+//NEWSLETTER
+
+.newsletter {
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.input-block {
+    align-self: flex-end;
+
+    input::placeholder {
+        padding: 20px;
+    }
+}
+
+
+//FOOTER
+
+footer {
+    background-color: #ab7a5f;
+
+    span {
+        color: #FFF;
+    }
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.github-block {
+    display: flex;
+    flex-direction: column;
+
+    a {
+        color: #FFF;
+    }
+}
+
+.rsschool-img {
+    height: 100px;
+}
+
+//ABOUT

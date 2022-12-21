@@ -20,6 +20,7 @@ module.exports = {
                 test: /\.(scss|css)$/,
                 use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
             },
+
             {
                 test: /\.ts$/i,
                 use: 'ts-loader',
@@ -28,6 +29,10 @@ module.exports = {
             {
                 test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
                 type: 'asset/inline',
+            },
+            {
+                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
+                type: 'asset/resource',
             },
         ],
     },
@@ -40,27 +45,26 @@ module.exports = {
     },
     devServer: {
         static: path.resolve(__dirname),
-        // historyApiFallback: true,
-        // historyApiFallback: {
-        //     rewrites: [
-        //         { from: /./, to: '/index.html' }, // all request to index.html
-        //     ],
-        // },
-
-        port: 8080,
-        open: true,
-        hot: true
+        historyApiFallback: true,
+        historyApiFallback: {
+            rewrites: [
+                { from: /./, to: '/index.html' }, // all request to index.html
+            ],
+        }
+        // port: 8080,
+        // open: true,
+        // hot: true
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, './src/product1.html'),
+            template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
         }),
         new CleanWebpackPlugin(),
         new EslingPlugin({ extensions: 'ts' }),
         new CopyPlugin({
             patterns: [
-                { from: "./src/assets/img", to: "assets/img" },
+                { from: "./src/assets/img", to: "img" },
                 { from: "netlify.toml", to: "" },
             ]
         }),
