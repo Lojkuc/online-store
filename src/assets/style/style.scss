@@ -74,7 +74,19 @@ h2 {
     column-gap: 30px;
     font-size: 30px;
 }
-
+.fa-cart-shopping {
+    position: relative;
+  }
+  
+  .counter-products {
+    position: absolute;
+    bottom: 0;
+    right: -10px;
+    background-color: #FFF;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 20px;
+  }
 .login,
 .card {
     display: flex;
