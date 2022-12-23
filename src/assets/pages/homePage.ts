@@ -1,4 +1,4 @@
-const home = `
+const homePage = `
 <div class="container">
 <div class="main-section">
   <div class="info-block">
@@ -82,4 +82,4 @@ const home = `
 </div>
 </div>
 `;
-export default home;
+export default homePage;

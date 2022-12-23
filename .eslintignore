@@ -1,2 +1,4 @@
 webpack.config.js
-server.ts
+products.ts
+api.ts
+singleProduct.ts
