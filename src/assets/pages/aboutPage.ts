@@ -1,4 +1,4 @@
-const about = `
+const aboutPage = `
 <div class="history">
 <div class="container">
 <div class="navigation-main__block">
@@ -23,4 +23,4 @@ const about = `
 </div>  
 `;
 
-export default about;
+export default aboutPage;

@@ -1,4 +1,4 @@
-const products = `
+const productsPage = `
 <main class="main">
     <div class="main__navigation">
         <div class="container">
@@ -81,4 +81,4 @@ const products = `
     </div>
 </main>
 `;
-export default products;
+export default productsPage;

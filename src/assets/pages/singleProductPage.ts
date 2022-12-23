@@ -1,4 +1,4 @@
-const product1 = `
+const singleProductPage = `
 <main class="main">
 <div class="main__navigation">
   <div class="container">
@@ -63,7 +63,7 @@ const product1 = `
 </div>
 `;
 
-export default product1;
+export default singleProductPage;
 // <section class="content__gallery">
 // <div class="gallery__photo">
 //   <img src="./img/product1.jpg" alt="photo product" class="gallery__photo-img">

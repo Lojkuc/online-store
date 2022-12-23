@@ -1,31 +1,40 @@
 import api from './api';
-import products from '../assets/pages/products';
+import productsPage from '../assets/pages/productsPage';
+import { data } from '../assets/helper/types';
 
-class Catalog {
+class Products {
     main;
-    companies: any = [];
-    categories: any = [];
-    prices: any = [];
+    companies: string[] = [];
+    categories: string[] = [];
+    prices: number[] = [];
 
-    constructor(main: any) {
+    constructor(main: Element) {
         this.main = main;
     }
 
-    renderCatalog(data: any) {
-
-        this.main.innerHTML = products;
+    renderProducts(data: data) {
+        this.main.innerHTML = productsPage;
 
         const containerProducts = document.querySelector('.center-content__items') as HTMLElement;
         const containerCategories = document.querySelector('.categories-aside__list') as HTMLElement;
         const containerCompanies = document.querySelector('.aside__companies') as HTMLElement;
         const containerPrice = document.querySelector('.aside__price') as HTMLElement;
 
-        data.forEach(({ image, name, price, company, category }: { image: any, name: any, price: any, company: any, category: any }, index: number) => {
-
-            containerProducts.innerHTML += `
+        data.forEach(
+            (
+                {
+                    image,
+                    name,
+                    price,
+                    company,
+                    category,
+                }: { image: string; name: string; price: number; company: string; category: string },
+                index: number
+            ) => {
+                containerProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
-                  <a href="/product${index}" onclick="route(event)"><img  src="${image}" alt="product" class="product__img"href="/product1" onclick="route(event)"></a>
+                  <a href="/product-detail${index}" onclick="route(event)"><img  src="${image}" alt="product" class="product__img"href="/product1" onclick="route(event)"></a>
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>
@@ -37,8 +46,8 @@ class Catalog {
               </div>
             `;
 
-            if (!this.companies.includes(company)) {
-                containerCompanies.innerHTML += `
+                if (!this.companies.includes(company)) {
+                    containerCompanies.innerHTML += `
       <div class="categories-aside__item">
       <div class="item__input-container">
           <label for="${company}">
@@ -48,13 +57,13 @@ class Catalog {
       </div>
       <span>(3/5)</span>
   </div>
-      `
+      `;
 
-                this.companies.push(company)
-            }
+                    this.companies.push(company);
+                }
 
-            if (!this.categories.includes(category)) {
-                containerCategories.innerHTML += `
+                if (!this.categories.includes(category)) {
+                    containerCategories.innerHTML += `
         <div class="companies-aside__item">
         <div class="item__input-container">
             <label for="${category}">
@@ -64,25 +73,26 @@ class Catalog {
         </div>
         <span>(3/5)</span>
     </div>
-`
-                this.categories.push(category)
-            }
+`;
+                    this.categories.push(category);
+                }
 
-            if (!this.prices.includes(price)) {
-                this.prices.push(price / 100);
+                if (!this.prices.includes(price)) {
+                    this.prices.push(price / 100);
+                }
             }
-        })
+        );
 
-        this.price(containerPrice)
+        this.price(containerPrice);
     }
 
     async render() {
         const data = await api.load();
-        data ? this.renderCatalog(data) : console.log('no files');
+        data ? this.renderProducts(data) : console.log('no files');
     }
 
-    price(containerPrice: any) {
-        const sortPrices = this.prices.sort((a: number, b: number) => a - b)
+    price(containerPrice: Element) {
+        const sortPrices = this.prices.sort((a: number, b: number) => a - b);
         const min = sortPrices[0];
         const max = sortPrices[sortPrices.length - 1];
         const length = sortPrices.length;
@@ -98,8 +108,8 @@ class Catalog {
         <input class="aside__input" type="range" min="0" max="${length}" value="${length}"></input>
         <input class="aside__input" type="range" min="0" max="${length}" value="0"></input>
     </div>
-      `
+      `;
     }
 }
 
-export default Catalog;
+export default Products;

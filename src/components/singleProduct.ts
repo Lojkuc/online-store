@@ -1,26 +1,22 @@
 import api from './api';
-import product1Page from '../assets/pages/product1';
+import singleProductPage from '../assets/pages/singleProductPage';
+import { data } from '../assets/helper/types';
 
 class SingleProduct {
     main;
-    constructor(main: any) {
+
+    constructor(main: Element) {
         this.main = main;
     }
-    async render(num: string) {
-        console.log(num);
 
-        this.main.innerHTML = product1Page;
-        const data = await api.load();
+    async render() {
+        this.main.innerHTML = singleProductPage;
+
+        const productNumber = this.getNumberProduct();
+        const data: data = await api.load();
         const container = document.querySelector('.main__content') as HTMLElement;
-        const {
-            image,
-            name,
-            price,
-            company,
-            description,
-            id,
-        } = data[num];
-        console.log(num);
+
+        const { image, name, price, company, description, id } = data[productNumber];
 
         container.innerHTML = `
             <section class="content__gallery">
@@ -64,6 +60,11 @@ class SingleProduct {
             </div>
           </section>
             `;
+    }
+
+    getNumberProduct() {
+        const productNumber = Number(window.location.pathname.slice(15));
+        return productNumber;
     }
 }
 

@@ -1,43 +1,31 @@
-// import { homedir } from 'os';
-// import account from './assets/pages/account';
-import home from './assets/pages/homePages';
-import about from './assets/pages/about';
-import products from './assets/pages/products';
-import product1 from './assets/pages/product1';
-import cart from './assets/pages/cart';
-import Catalog from './components/products';
+import Home from './components/home';
+import About from './components/about';
+import Products from './components/products';
 import SingleProduct from './components/singleProduct';
+import Err from './components/error';
 import './assets/style/style.scss';
 
 class Server {
     routes = [
         {
             path: '/',
-            data: home,
+            data: Home,
         },
         {
             path: '/about',
-            data: about,
+            data: About,
         },
         {
             path: '/products',
-            data: products,
+            data: Products,
         },
         {
-            path: '/product0',
-            data: product1,
-        },
-        {
-            path: '/cart',
-            data: cart,
-        },
-        {
-            path: '/login',
-            data: `LOGIN`,
+            path: '/product-detail',
+            data: SingleProduct,
         },
         {
             path: '/404',
-            data: `<h1>Page not found</h1>`,
+            data: Err,
         },
     ];
 
@@ -55,23 +43,16 @@ class Server {
     };
 
     handleLocation = () => {
-        const html =
-            this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1];
+        const html = !window.location.pathname.includes('product-detail')
+            ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1]
+            : this.routes.find((route) => route.path == '/product-detail');
+
         const blockForContent: Element | null = document.getElementById('content');
 
         if (blockForContent !== null) {
-            blockForContent.innerHTML = html.data;
-        }
-
-        if (html.path === '/products') {
-            const catalog = new Catalog(blockForContent);
-            catalog.render();
-        }
-
-        if (window.location.pathname.includes('/product')) {
-            const singleProduct = new SingleProduct(blockForContent);
-            const numProduct = window.location.pathname.slice(8);
-            singleProduct.render(numProduct);
+            const page = html?.data as typeof Home | typeof SingleProduct | typeof Products;
+            const cl = new page(blockForContent);
+            cl.render();
         }
 
         window.addEventListener('popstate', this.handleLocation);
