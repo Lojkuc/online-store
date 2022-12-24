@@ -1,6 +1,6 @@
-import api from './api';
+import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
-import { data } from '../assets/helper/types';
+import { data } from '../assets/utils/types';
 
 class Products {
     main;
@@ -15,10 +15,10 @@ class Products {
     renderProducts(data: data) {
         this.main.innerHTML = productsPage;
 
-        const containerProducts = document.querySelector('.center-content__items') as HTMLElement;
-        const containerCategories = document.querySelector('.categories-aside__list') as HTMLElement;
-        const containerCompanies = document.querySelector('.aside__companies') as HTMLElement;
-        const containerPrice = document.querySelector('.aside__price') as HTMLElement;
+        const blockProducts = document.querySelector('.center-content__items') as HTMLElement;
+        const blockCategories = document.querySelector('.categories-aside__list') as HTMLElement;
+        const blockCompanies = document.querySelector('.aside__companies') as HTMLElement;
+        const blockPrice = document.querySelector('.aside__price') as HTMLElement;
 
         data.forEach(
             (
@@ -31,7 +31,7 @@ class Products {
                 }: { image: string; name: string; price: number; company: string; category: string },
                 index: number
             ) => {
-                containerProducts.innerHTML += `
+                blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
                   <a href="/product-detail${index}" onclick="route(event)"><img  src="${image}" alt="product" class="product__img"href="/product1" onclick="route(event)"></a>
@@ -47,7 +47,7 @@ class Products {
             `;
 
                 if (!this.companies.includes(company)) {
-                    containerCompanies.innerHTML += `
+                    blockCompanies.innerHTML += `
       <div class="categories-aside__item">
       <div class="item__input-container">
           <label for="${company}">
@@ -63,7 +63,7 @@ class Products {
                 }
 
                 if (!this.categories.includes(category)) {
-                    containerCategories.innerHTML += `
+                    blockCategories.innerHTML += `
         <div class="companies-aside__item">
         <div class="item__input-container">
             <label for="${category}">
@@ -83,7 +83,7 @@ class Products {
             }
         );
 
-        this.price(containerPrice);
+        this.price(blockPrice);
     }
 
     async render() {
@@ -91,13 +91,13 @@ class Products {
         data ? this.renderProducts(data) : console.log('no files');
     }
 
-    price(containerPrice: Element) {
+    price(blockPrice: Element) {
         const sortPrices = this.prices.sort((a: number, b: number) => a - b);
         const min = sortPrices[0];
         const max = sortPrices[sortPrices.length - 1];
         const length = sortPrices.length;
 
-        containerPrice.innerHTML = `
+        blockPrice.innerHTML = `
     <div class="aside__title title-aside">Price</div>
     <div class="aside__range">
         <div class="aside__range_min">${min}$</div>

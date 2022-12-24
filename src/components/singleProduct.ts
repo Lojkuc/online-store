@@ -1,6 +1,6 @@
-import api from './api';
+import api from '../assets/utils/api';
 import singleProductPage from '../assets/pages/singleProductPage';
-import { data } from '../assets/helper/types';
+import { data } from '../assets/utils/types';
 
 class SingleProduct {
     main;
@@ -21,7 +21,7 @@ class SingleProduct {
         container.innerHTML = `
             <section class="content__gallery">
             <div class="gallery__photo">
-              <img src="${image}" alt="photo product" class="gallery__photo-img">
+              <img src="${image}" id="main-photo" alt="photo product" class="gallery__photo-img">
             </div>
             <div class="gallery__subphoto">
               <img src="${image}" alt="photo product" class="gallery__photo-img">
@@ -60,11 +60,27 @@ class SingleProduct {
             </div>
           </section>
             `;
+        this.eventLiteners();
     }
 
     getNumberProduct() {
         const productNumber = Number(window.location.pathname.slice(15));
         return productNumber;
+    }
+
+    eventLiteners() {
+        const photoCont = document.querySelector('.gallery__subphoto');
+        photoCont?.addEventListener('click', (e: Event) => {
+            this.changeMainPhoto(e);
+        });
+    }
+
+    changeMainPhoto(e: Event) {
+        const currentImage = e.target as HTMLImageElement;
+        const mainPhoto: HTMLImageElement | null = document.querySelector('#main-photo');
+        if (mainPhoto !== null) {
+            mainPhoto.src = currentImage?.src;
+        }
     }
 }
 
