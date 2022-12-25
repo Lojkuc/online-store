@@ -8,7 +8,6 @@ import cart from './assets/pages/cart';
 import './assets/style/style.scss';
 import addBurgerMenu from './assets/script/burgerMenu';
 addBurgerMenu()
-viewProduct()
 
 
 const route = (event: Event) => {
