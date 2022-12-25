@@ -12,5 +12,9 @@ const cart = `
 </div>
 </div>
 </div>
+<div class="container__cart">
+<h1>Your cart is empty</h1>
+<a href="/product" onclick="route(event)" class="button-home">Fill it</a>
+</div>
 `;
 export default cart;

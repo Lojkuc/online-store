@@ -177,7 +177,7 @@ const product = `
         <div class="center-content__items items-center">
           <div class="items-center__product product">
             <div class="product__icon">
-              <img src="./img/product1.jpg" alt="product" class="product__img">
+              <a href="/product1" onclick="route(event)"><img  src="./img/product1.jpg" alt="product" class="product__img"href="/product1" onclick="route(event)"></a>
               <div class="product__footer">
                 <div class="footer-product__info info-product">
                   <div class="info-product__name">Modern Poster</div>
