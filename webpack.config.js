@@ -68,15 +68,15 @@ module.exports = {
                 { from: "netlify.toml", to: "" },
             ]
         }),
-        new NetlifyPlugin({
-            redirects: [
-                {
-                    from: "/api/*",
-                    to: "/index.html",
-                    status: 200,
-                    force: true,
-                }
-            ]
-        }),
+        // new NetlifyPlugin({
+        //     redirects: [
+        //         {
+        //             from: "/api/*",
+        //             to: "/index.html",
+        //             status: 200,
+        //             force: true,
+        //         }
+        //     ]
+        // }),
     ]
 };

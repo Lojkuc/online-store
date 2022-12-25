@@ -1,73 +1,64 @@
-import { homedir } from 'os';
-import account from './assets/pages/account';
-import home from './assets/pages/home';
-import about from './assets/pages/about';
-import product from './assets/pages/product';
-import product1 from './assets/pages/product1';
-import cart from './assets/pages/cart';
+import Home from './components/home';
+import About from './components/about';
+import Products from './components/products';
+import SingleProduct from './components/singleProduct';
+import Err from './components/error';
 import './assets/style/style.scss';
-import addBurgerMenu from './assets/script/burgerMenu';
-addBurgerMenu()
 
+class Server {
+    routes = [
+        {
+            path: '/',
+            data: Home,
+        },
+        {
+            path: '/about',
+            data: About,
+        },
+        {
+            path: '/products',
+            data: Products,
+        },
+        {
+            path: '/product-detail',
+            data: SingleProduct,
+        },
+        {
+            path: '/404',
+            data: Err,
+        },
+    ];
 
-const route = (event: Event) => {
-    event.preventDefault();
-    let block = event.target as HTMLLinkElement;
+    route = (event: Event) => {
+        event.preventDefault();
+        let block = event.target as HTMLLinkElement;
 
-    if (block.href === undefined) {
-        block = event.currentTarget as HTMLLinkElement
-    }
+        if (block.href === undefined) {
+            block = event.currentTarget as HTMLLinkElement;
+        }
+        const href: string = block.href;
 
-    window.history.pushState({}, '', block.href);
-    handleLocation();
-};
-const routes = [
-    {
-        path: '/',
-        data: home,
-    },
-    {
-        path: '/about',
-        data: about,
-    },
-    {
-        path: '/product',
-        data: product,
-    },
-    {
-        path: '/product1',
-        data: product1,
-    },
-    {
-        path: '/cart',
-        data: cart,
-    },
-    {
-        path: '/login',
-        data: `LOGIN`
-    },
-    {
-        path: '/404',
-        data: `<h1>Page not found</h1>`,
-    },
-];
-const handleLocation = () => {
-    const html = routes.find((route) => route.path == window.location.pathname) || routes[routes.length - 1];
-    const blockForContent: Element | null = document.getElementById('content');
-    if (blockForContent !== null) {
-        blockForContent.innerHTML = html.data;
-    }
-};
-declare global {
-    interface Window {
-        route: typeof route;
-    }
+        window.history.pushState({}, '', href);
+        this.handleLocation();
+    };
+
+    handleLocation = () => {
+        const html = !window.location.pathname.includes('product-detail')
+            ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1]
+            : this.routes.find((route) => route.path == '/product-detail');
+
+        const blockForContent: Element | null = document.getElementById('content');
+
+        if (blockForContent !== null) {
+            const page = html?.data as typeof Home | typeof SingleProduct | typeof Products;
+            const cl = new page(blockForContent);
+            cl.render();
+        }
+
+        window.addEventListener('popstate', this.handleLocation);
+        window.addEventListener('DOMContentLoaded', this.handleLocation);
+    };
 }
-window.route = route;
 
-window.addEventListener('popstate', handleLocation);
-window.addEventListener('DOMContentLoaded', handleLocation);
-
-handleLocation();
-
-
+const server = new Server();
+server.handleLocation();

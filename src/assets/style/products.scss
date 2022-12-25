@@ -153,6 +153,10 @@ hr {
 }
 
 .info-product {
+    &__name {
+        text-transform: capitalize;
+    }
+
     &__price {
         color: #ab7a5f;
     }
