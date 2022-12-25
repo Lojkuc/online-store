@@ -12,4 +12,4 @@ interface IDataObj {
     shipping: string;
 }
 
-export { data };
+export { data, IDataObj };

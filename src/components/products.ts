@@ -1,9 +1,11 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data } from '../assets/utils/types';
+//import { sort, $ } from '../assets/utils/helpers';
 
 class Products {
     main;
+    productsData: data = [];
     companies: string[] = [];
     categories: string[] = [];
     prices: number[] = [];
@@ -84,12 +86,38 @@ class Products {
         );
 
         this.price(blockPrice);
+        //this.eventListeners();
     }
 
     async render() {
-        const data = await api.load();
-        data ? this.renderProducts(data) : console.log('no files');
+        this.productsData = await api.load();
+        this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
+        // this.productsData ? this.renderProducts(sort(this.productsData, 'price', 'low')) : console.log('no files');
     }
+
+    // eventListeners() {
+    //     const select = $('.filtres-center__sort');
+    //     select?.addEventListener('click', (e: Event) => {
+    //         const currentSelect = e.target as HTMLOptionElement;
+    //         console.log('br');
+    //         switch (currentSelect.value) {
+    //             case 'high':
+    //                 sort(this.productsData, 'price', 'high');
+    //                 break;
+    //             case 'low':
+    //                 sort(this.productsData, 'price', 'low');
+    //                 break;
+    //             case 'a':
+    //                 sort(this.productsData, 'name', 'high');
+    //                 break;
+    //             case 'z':
+    //                 sort(this.productsData, 'name', 'low');
+    //                 this.companies = [];
+    //                 this.categories = [];
+    //                 this.renderProducts(this.productsData);
+    //         }
+    //     });
+    // }
 
     price(blockPrice: Element) {
         const sortPrices = this.prices.sort((a: number, b: number) => a - b);
