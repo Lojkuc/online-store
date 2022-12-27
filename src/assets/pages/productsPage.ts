@@ -66,11 +66,11 @@ const productsPage = `
                         <form class="filtres-center__sort">
                             <label for="sort">Sort by</label>
                             <select class="sort__select" name="sort" id="sort">
-                                <option >Choose sort category</option>
-                                <option id="price" value="lowest">Price (lowest)</option>
-                                <option id="price"  value="highest">Price (highest)</option>
-                                <option id="name"  value="a">Name (A-Z)</option>
-                                <option id="name"  value="z">Name (Z-A)</option>
+                                <option value="disabled">Choose sort category</option>
+                                <option id="price" value="sort=price-low">Price (lowest)</option>
+                                <option id="price"  value="sort=price-high">Price (highest)</option>
+                                <option id="name"  value="sort=name-high">Name (A-Z)</option>
+                                <option id="name"  value="sort=name-low">Name (Z-A)</option>
                             </select>
                         </form>
                     </div>

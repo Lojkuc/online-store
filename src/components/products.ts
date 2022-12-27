@@ -1,7 +1,8 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data } from '../assets/utils/types';
-//import { sort, $ } from '../assets/utils/helpers';
+import { sort, $, getLocalStorage } from '../assets/utils/helpers';
+import QueryParams from '../assets/utils/queryParams';
 
 class Products {
     main;
@@ -9,14 +10,15 @@ class Products {
     companies: string[] = [];
     categories: string[] = [];
     prices: number[] = [];
+    queryParams;
 
     constructor(main: Element) {
         this.main = main;
+        this.queryParams = new QueryParams();
     }
 
     renderProducts(data: data) {
         this.main.innerHTML = productsPage;
-
         const blockProducts = document.querySelector('.center-content__items') as HTMLElement;
         const blockCategories = document.querySelector('.categories-aside__list') as HTMLElement;
         const blockCompanies = document.querySelector('.aside__companies') as HTMLElement;
@@ -86,38 +88,29 @@ class Products {
         );
 
         this.price(blockPrice);
-        //this.eventListeners();
+        this.eventListeners();
     }
 
     async render() {
         this.productsData = await api.load();
-        this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
-        // this.productsData ? this.renderProducts(sort(this.productsData, 'price', 'low')) : console.log('no files');
+        if (this.queryParams.isIncludeQueryParams('=')) {
+            this.sortProducts(this.queryParams.getQueryParams());
+        } else {
+            this.productsData ? this.renderProducts(sort(this.productsData, 'price', 'low')) : console.log('no files');
+        }
     }
 
-    // eventListeners() {
-    //     const select = $('.filtres-center__sort');
-    //     select?.addEventListener('click', (e: Event) => {
-    //         const currentSelect = e.target as HTMLOptionElement;
-    //         console.log('br');
-    //         switch (currentSelect.value) {
-    //             case 'high':
-    //                 sort(this.productsData, 'price', 'high');
-    //                 break;
-    //             case 'low':
-    //                 sort(this.productsData, 'price', 'low');
-    //                 break;
-    //             case 'a':
-    //                 sort(this.productsData, 'name', 'high');
-    //                 break;
-    //             case 'z':
-    //                 sort(this.productsData, 'name', 'low');
-    //                 this.companies = [];
-    //                 this.categories = [];
-    //                 this.renderProducts(this.productsData);
-    //         }
-    //     });
-    // }
+    eventListeners() {
+        const select = $('.filtres-center__sort');
+        select?.addEventListener('click', (e: Event) => {
+            const currentSelect = e.target as HTMLOptionElement;
+            if (currentSelect.value === 'disabled') {
+                return;
+            }
+            this.queryParams.addQueryParams(`${currentSelect.value}`);
+            this.sortProducts(currentSelect.value);
+        });
+    }
 
     price(blockPrice: Element) {
         const sortPrices = this.prices.sort((a: number, b: number) => a - b);
@@ -137,6 +130,25 @@ class Products {
         <input class="aside__input" type="range" min="0" max="${length}" value="0"></input>
     </div>
       `;
+    }
+
+    sortProducts(method: string) {
+        switch (method) {
+            case 'sort=price-low':
+                sort(this.productsData, 'price', 'low');
+                break;
+            case 'sort=price-high':
+                sort(this.productsData, 'price', 'high');
+                break;
+            case 'sort=name-high':
+                sort(this.productsData, 'name', 'high');
+                break;
+            case 'sort=name-low':
+                sort(this.productsData, 'name', 'low');
+        }
+        this.companies.length = 0;
+        this.categories.length = 0;
+        this.renderProducts(getLocalStorage('data'));
     }
 }
 

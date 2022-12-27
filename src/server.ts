@@ -29,14 +29,16 @@ class Server {
         },
     ];
 
-    route = (event: Event) => {
+    route = (event: Event, href?: string) => {
         event.preventDefault();
-        let block = event.target as HTMLLinkElement;
+        if (!href) {
+            let block = event.target as HTMLLinkElement;
 
-        if (block.href === undefined) {
-            block = event.currentTarget as HTMLLinkElement;
+            if (block.href === undefined) {
+                block = event.currentTarget as HTMLLinkElement;
+            }
+            href = block.href;
         }
-        const href: string = block.href;
 
         window.history.pushState({}, '', href);
         this.handleLocation();

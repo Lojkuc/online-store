@@ -1,6 +1,6 @@
-import api from '../assets/utils/api';
 import singleProductPage from '../assets/pages/singleProductPage';
 import { data } from '../assets/utils/types';
+import { getLocalStorage } from '../assets/utils/helpers';
 
 class SingleProduct {
     main;
@@ -9,11 +9,11 @@ class SingleProduct {
         this.main = main;
     }
 
-    async render() {
+    render() {
         this.main.innerHTML = singleProductPage;
 
         const productNumber = this.getNumberProduct();
-        const data: data = await api.load();
+        const data: data = getLocalStorage('data');
         const container = document.querySelector('.main__content') as HTMLElement;
 
         const { image, name, price, company, description, id } = data[productNumber];
