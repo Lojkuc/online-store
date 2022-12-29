@@ -34,8 +34,8 @@ class Server {
         if (!href) {
             let block = event.target as HTMLLinkElement;
 
-            if (block.href === undefined) {
-                block = event.currentTarget as HTMLLinkElement;
+            if (block.href === undefined && block.parentElement?.matches('a')) {
+                block = block.parentElement as HTMLLinkElement;
             }
             href = block.href;
         }
@@ -60,7 +60,18 @@ class Server {
         window.addEventListener('popstate', this.handleLocation);
         window.addEventListener('DOMContentLoaded', this.handleLocation);
     };
+
+    eventListeners() {
+        const pagesBlock = document.querySelector('.nav-link');
+
+        pagesBlock?.addEventListener('click', (e) => {
+            this.route(e);
+        });
+    }
 }
 
 const server = new Server();
 server.handleLocation();
+server.eventListeners();
+
+export default server;

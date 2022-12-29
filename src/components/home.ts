@@ -5,6 +5,7 @@ class Home {
     constructor(main: Element) {
         this.main = main;
     }
+
     render() {
         this.main.innerHTML = homePage;
     }

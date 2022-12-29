@@ -1,6 +1,6 @@
 class Api {
     async load() {
-        const resp = fetch('https://www.course-api.com/react-store-products');
+        const resp = fetch('./catalog.json');
         const files = (await resp).json();
         return files;
     }

@@ -5,6 +5,7 @@ class About {
     constructor(main: Element) {
         this.main = main;
     }
+
     render() {
         this.main.innerHTML = aboutPage;
     }

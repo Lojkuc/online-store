@@ -66,6 +66,7 @@ module.exports = {
             patterns: [
                 { from: "./src/assets/img", to: "img" },
                 { from: "netlify.toml", to: "" },
+                { from: "./src/assets/catalog", to: "" },
             ]
         }),
         // new NetlifyPlugin({

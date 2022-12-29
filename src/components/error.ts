@@ -5,6 +5,7 @@ class Err {
     constructor(main: Element) {
         this.main = main;
     }
+
     render() {
         this.main.innerHTML = errorPage;
     }

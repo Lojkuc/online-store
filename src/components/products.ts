@@ -1,8 +1,9 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data } from '../assets/utils/types';
-import { sort, $, getLocalStorage } from '../assets/utils/helpers';
+import { sort, $ } from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
+import server from '../server';
 
 class Products {
     main;
@@ -19,26 +20,32 @@ class Products {
 
     renderProducts(data: data) {
         this.main.innerHTML = productsPage;
-        const blockProducts = document.querySelector('.center-content__items') as HTMLElement;
-        const blockCategories = document.querySelector('.categories-aside__list') as HTMLElement;
-        const blockCompanies = document.querySelector('.aside__companies') as HTMLElement;
-        const blockPrice = document.querySelector('.aside__price') as HTMLElement;
+
+        const blockProducts = $('.center-content__items') as HTMLElement;
+        const blockCategories = $('.categories-aside__list') as HTMLElement;
+        const blockCompanies = $('.aside__companies') as HTMLElement;
+        const blockPrice = $('.aside__price') as HTMLElement;
 
         data.forEach(
-            (
-                {
-                    image,
-                    name,
-                    price,
-                    company,
-                    category,
-                }: { image: string; name: string; price: number; company: string; category: string },
-                index: number
-            ) => {
+            ({
+                image,
+                name,
+                price,
+                company,
+                category,
+                id,
+            }: {
+                image: string;
+                name: string;
+                price: number;
+                company: string;
+                category: string;
+                id: string;
+            }) => {
                 blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
-                  <a href="/product-detail${index}" onclick="route(event)"><img  src="${image}" alt="product" class="product__img"href="/product1" onclick="route(event)"></a>
+                  <a href="/product-detail_${id}"><img  src="${image}" alt="product" class="product__img"></a>
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>
@@ -93,8 +100,10 @@ class Products {
 
     async render() {
         this.productsData = await api.load();
+
         if (this.queryParams.isIncludeQueryParams('=')) {
-            this.sortProducts(this.queryParams.getQueryParams());
+            const sortData = this.sortProducts(this.queryParams.getQueryParams());
+            this.renderProducts(sortData);
         } else {
             this.productsData ? this.renderProducts(sort(this.productsData, 'price', 'low')) : console.log('no files');
         }
@@ -102,13 +111,22 @@ class Products {
 
     eventListeners() {
         const select = $('.filtres-center__sort');
+        const blockProducts = $('.center-content__items') as HTMLElement;
+
         select?.addEventListener('click', (e: Event) => {
             const currentSelect = e.target as HTMLOptionElement;
+            const sortData = this.sortProducts(currentSelect.value);
+
             if (currentSelect.value === 'disabled') {
                 return;
             }
+
             this.queryParams.addQueryParams(`${currentSelect.value}`);
-            this.sortProducts(currentSelect.value);
+            this.renderOnlyGoods(sortData);
+        });
+
+        blockProducts.addEventListener('click', (e) => {
+            server.route(e);
         });
     }
 
@@ -133,23 +151,55 @@ class Products {
     }
 
     sortProducts(method: string) {
+        let data: data = this.productsData;
+
         switch (method) {
             case 'sort=price-low':
-                sort(this.productsData, 'price', 'low');
+                data = sort(this.productsData, 'price', 'low');
                 break;
             case 'sort=price-high':
-                sort(this.productsData, 'price', 'high');
+                data = sort(this.productsData, 'price', 'high');
                 break;
             case 'sort=name-high':
-                sort(this.productsData, 'name', 'high');
+                data = sort(this.productsData, 'name', 'high');
                 break;
             case 'sort=name-low':
-                sort(this.productsData, 'name', 'low');
+                data = sort(this.productsData, 'name', 'low');
         }
-        this.companies.length = 0;
-        this.categories.length = 0;
-        this.renderProducts(getLocalStorage('data'));
+
+        return data;
     }
+
+    renderOnlyGoods(data: data) {
+        const blockProducts = $('.center-content__items') as HTMLElement;
+
+        blockProducts.innerHTML = '';
+
+        data.forEach(({ image, name, price, id }: { image: string; name: string; price: number; id: string }) => {
+            blockProducts.innerHTML += `
+                <div class="items-center__product product">
+                <div class="product__icon">
+                  <a href="/product-detail_${id}"><img  src="${image}" alt="product" class="product__img"></a>
+                  <div class="product__footer">
+                    <div class="footer-product__info info-product">
+                      <div class="info-product__name">${name}</div>
+                      <div class="info-product__price">$${price / 100}</div>
+                    </div>
+                    <button class="footer-product__cart button">Add to cart</button>
+                  </div>
+                </div>
+              </div>
+            `;
+        });
+    }
+    // findCurrentProduct(e: Event) {
+    //     const imageBlock = e.target as HTMLElement;
+    //     const nameElem = imageBlock.closest('.product') as HTMLElement;
+    //     const aimElement = nameElem.querySelector('.info-product__name') as HTMLElement;
+    //     const nameElement = aimElement.textContent;
+    //     const currentProduct = this.productsData.find((i) => i.name === nameElement);
+    //     return currentProduct;
+    // }
 }
 
 export default Products;

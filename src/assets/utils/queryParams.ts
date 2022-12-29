@@ -1,4 +1,3 @@
-// import queryParamsList from './consts';
 
 class QueryParams {
 
@@ -6,6 +5,7 @@ class QueryParams {
         const paramsFromURL = new URLSearchParams(window.location.search);
         return paramsFromURL.toString();
     }
+
     addQueryParams(param: string) {
         const paramsFromURL = new URLSearchParams(window.location.search);
 
@@ -17,6 +17,7 @@ class QueryParams {
             history.pushState(null, '', newUrl);
         }
     }
+
     isIncludeQueryParams(form: string) {
         const paramsFromURL = new URLSearchParams(window.location.search);
         return (paramsFromURL.toString().includes(form)) ? true : false;
