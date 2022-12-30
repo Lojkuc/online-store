@@ -24,16 +24,18 @@ const productsPage = `
                         <button class="btns-aside__reset button">Reset Filters</button>
                         <button class="btns-aside__save button">Save Filters</button>
                     </div>
-                    <div class="aside__categories">
-                        <div class="categories-aside__title title-aside">Category</div>
-                        <div class="categories-aside__list">
+                   <div class="aside__checkboxes">
+                        <div class="aside__categories">
+                            <div class="categories-aside__title title-aside">Category</div>
+                            <div class="categories-aside__list">
+                            </div>
                         </div>
-                    </div>
-                    <div class="aside__companies">
-                        <div class="companies-aside__title title-aside">Companies</div>
-                        <div class="companies-aside__list">
+                        <div class="aside__companies">
+                            <div class="companies-aside__title title-aside">Companies</div>
+                            <div class="companies-aside__list">
+                            </div>
                         </div>
-                    </div>
+                   </div>
                     <div class="aside__price">
                     </div>
                     <div class="aside__stock">

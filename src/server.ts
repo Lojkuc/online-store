@@ -31,6 +31,7 @@ class Server {
 
     route = (event: Event, href?: string) => {
         event.preventDefault();
+
         if (!href) {
             let block = event.target as HTMLLinkElement;
 

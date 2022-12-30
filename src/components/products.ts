@@ -1,6 +1,6 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
-import { data } from '../assets/utils/types';
+import { data, categoryArr, companyArr, IArrayParams, IDataObj } from '../assets/utils/types';
 import { sort, $ } from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
@@ -8,8 +8,8 @@ import server from '../server';
 class Products {
     main;
     productsData: data = [];
-    companies: string[] = [];
-    categories: string[] = [];
+    companies: companyArr = [];
+    categories: categoryArr = [];
     prices: number[] = [];
     queryParams;
 
@@ -34,6 +34,7 @@ class Products {
                 company,
                 category,
                 id,
+                stock,
             }: {
                 image: string;
                 name: string;
@@ -41,6 +42,7 @@ class Products {
                 company: string;
                 category: string;
                 id: string;
+                stock: number;
             }) => {
                 blockProducts.innerHTML += `
                 <div class="items-center__product product">
@@ -57,7 +59,9 @@ class Products {
               </div>
             `;
 
-                if (!this.companies.includes(company)) {
+                const companyObj = this.companies.find((item) => item.company === company);
+
+                if (!companyObj) {
                     blockCompanies.innerHTML += `
       <div class="categories-aside__item">
       <div class="item__input-container">
@@ -66,14 +70,27 @@ class Products {
               <span class="item__input-fake"></span>
               ${company}</label>
       </div>
-      <span>(3/5)</span>
+      <p>(<span id="${company}-stock">1</span>/<span>20</span>)</p>
   </div>
       `;
 
-                    this.companies.push(company);
+                    this.companies.push({
+                        company: company,
+                        stock: stock,
+                    });
+                } else {
+                    companyObj.stock += stock;
+
+                    const currentStockBlock = $(`#${company}-stock`);
+
+                    if (currentStockBlock !== null) {
+                        currentStockBlock.textContent = String(companyObj.stock);
+                    }
                 }
 
-                if (!this.categories.includes(category)) {
+                const categoryObj = this.categories.find((item) => item.category === category);
+
+                if (!categoryObj) {
                     blockCategories.innerHTML += `
         <div class="companies-aside__item">
         <div class="item__input-container">
@@ -82,10 +99,22 @@ class Products {
                 <span class="item__input-fake"></span>
                 ${category}</label>
         </div>
-        <span>(3/5)</span>
+        <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
     </div>
 `;
-                    this.categories.push(category);
+
+                    this.categories.push({
+                        category: category,
+                        stock: stock,
+                    });
+                } else {
+                    categoryObj.stock += stock;
+
+                    const currentStockBlock = $(`#${category}-stock`);
+
+                    if (currentStockBlock !== null) {
+                        currentStockBlock.textContent = String(categoryObj.stock);
+                    }
                 }
 
                 if (!this.prices.includes(price)) {
@@ -101,17 +130,33 @@ class Products {
     async render() {
         this.productsData = await api.load();
 
-        if (this.queryParams.isIncludeQueryParams('=')) {
-            const sortData = this.sortProducts(this.queryParams.getQueryParams());
-            this.renderProducts(sortData);
+        if (this.queryParams.url.searchParams.toString() !== '') {
+            // const sortData = this.sortProducts(this.queryParams.getQueryParams());
+            // this.renderProducts(sortData);
+            const sortData = this.selectSortingMethod();
+            if (sortData) {
+                this.renderProducts(this.productsData);
+                this.renderOnlyGoods(sortData);
+            }
         } else {
-            this.productsData ? this.renderProducts(sort(this.productsData, 'price', 'low')) : console.log('no files');
+            this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
         }
     }
 
     eventListeners() {
         const select = $('.filtres-center__sort');
         const blockProducts = $('.center-content__items') as HTMLElement;
+        const asideCheckboxes = $('.aside__checkboxes');
+        const asideCategories = $('.aside__categories');
+        const asideCompanies = $('.aside__companies');
+
+        asideCategories?.addEventListener('click', (e) => {
+            const categoryBlock = e.target as HTMLElement;
+            const filterParam = categoryBlock.closest('label')?.getAttribute('for');
+
+            this.queryParams.addQueryParams(`category=${filterParam}`);
+            server.route(e);
+        });
 
         select?.addEventListener('click', (e: Event) => {
             const currentSelect = e.target as HTMLOptionElement;
@@ -191,6 +236,42 @@ class Products {
               </div>
             `;
         });
+    }
+
+    selectSortingMethod() {
+        const params = this.queryParams.getQueryParams() as IArrayParams[];
+        const result: data = [];
+
+        if (params !== null) {
+            params.forEach((element) => {
+                this.productsData.forEach((item) => {
+                    const key = element.name as keyof IDataObj;
+
+                    for (const param of element.value) {
+                        if (param === item[key]) {
+                            result.push(item);
+                        }
+                    }
+                });
+            });
+            return result;
+        }
+        // if (params !== null) {
+        //     params.forEach((element) => {
+        //         this.productsData = this.productsData.map((item) => {
+        //             const key = element.name as keyof IDataObj;
+
+        //             for (const param of element.value) {
+        //                 if (param === item[key]) {
+        //                     return item;
+        //                 }
+        //             }
+        //         }) as data;
+        //     });
+        //     console.log(this.productsData);
+        // }
+
+        // this.productsData = this.productsData.
     }
     // findCurrentProduct(e: Event) {
     //     const imageBlock = e.target as HTMLElement;
