@@ -34,9 +34,20 @@ class QueryParams {
         // return result.join(';');
     }
 
-    addQueryParams(param: string) {
+    createQueryParams(param: string) {
         const nameParam = param.split('=')[0];
         const keyParam = param.split('=')[1];
+
+        if (window.location.href.includes(keyParam) && nameParam !== 'sort') {
+            const params = this.getQueryParams(nameParam) as string;
+            const arrParams = params.split(';');
+            const index = arrParams.indexOf(keyParam);
+            arrParams.splice(index, 1);
+
+            arrParams.length >= 1 ? this.url.searchParams.set(nameParam, arrParams.join(';')) : this.url.searchParams.delete(nameParam);
+
+            return this.url;
+        }
 
         if (this.isIncludeQueryParams(nameParam)) {
             this.url.searchParams.set(nameParam, `${this.getQueryParams(nameParam)};${keyParam}`)
@@ -44,7 +55,8 @@ class QueryParams {
             this.url.searchParams.set(nameParam, keyParam)
         }
 
-        history.pushState(null, '', this.url);
+        return this.url;
+        //history.pushState(null, '', this.url);
 
     }
 

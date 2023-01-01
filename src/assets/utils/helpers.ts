@@ -26,6 +26,26 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
     return data;
 };
 
+const addAttribute = (name: string, values: string[], attribute: string) => {
+    const asideContainer = $(`.${name}`);
+
+    if (asideContainer !== null) {
+        values.forEach((item) => {
+            const aim = $(`#${item}`, asideContainer);
+            aim?.setAttribute(attribute, attribute);
+        });
+    }
+};
+
+const checkAttribute = (e: Event) => {
+    const event = e.target as HTMLElement;
+    const input = $('input', event) as HTMLInputElement;
+
+    if (input.hasAttribute('checked')) {
+        input.removeAttribute('checked');
+    }
+};
+
 // const putLocalStorage = (keyName: string, keyValue: string) => {
 //     localStorage.setItem(keyName, keyValue);
 // };
@@ -39,9 +59,10 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
 //     }
 // };
 
-const $ = (selector: string) => document.querySelector(selector);
+const $ = (selector: string, parent?: Element) =>
+    parent ? parent.querySelector(selector) : document.querySelector(selector);
 
 const $All = (selector: string, parent?: Element) =>
     parent ? parent.querySelectorAll(selector) : document.querySelectorAll(selector);
 
-export { sort, $, $All };
+export { sort, $, $All, addAttribute, checkAttribute };

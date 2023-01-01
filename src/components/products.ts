@@ -1,13 +1,14 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data, categoryArr, companyArr, IArrayParams, IDataObj } from '../assets/utils/types';
-import { sort, $ } from '../assets/utils/helpers';
+import { sort, $, addAttribute, checkAttribute } from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
 
 class Products {
     main;
     productsData: data = [];
+    currentProductsData: data = [];
     companies: companyArr = [];
     categories: categoryArr = [];
     prices: number[] = [];
@@ -59,6 +60,34 @@ class Products {
               </div>
             `;
 
+                const categoryObj = this.categories.find((item) => item.category === category);
+
+                if (!categoryObj) {
+                    blockCategories.innerHTML += `
+        <div class="companies-aside__item">
+        <div class="item__input-container">
+            <label for="${category}">
+                <input id="${category}" type="checkbox">
+                <span class="item__input-fake"></span>
+                ${category}</label>
+        </div>
+        <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
+    </div>
+`;
+
+                    this.categories.push({
+                        category: category,
+                        stock: stock,
+                    });
+                } else {
+                    categoryObj.stock += stock;
+
+                    const currentStockBlock = $(`#${category}-stock`);
+
+                    if (currentStockBlock !== null) {
+                        currentStockBlock.textContent = String(categoryObj.stock);
+                    }
+                }
                 const companyObj = this.companies.find((item) => item.company === company);
 
                 if (!companyObj) {
@@ -88,35 +117,6 @@ class Products {
                     }
                 }
 
-                const categoryObj = this.categories.find((item) => item.category === category);
-
-                if (!categoryObj) {
-                    blockCategories.innerHTML += `
-        <div class="companies-aside__item">
-        <div class="item__input-container">
-            <label for="${category}">
-                <input id="${category}" type="checkbox">
-                <span class="item__input-fake"></span>
-                ${category}</label>
-        </div>
-        <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
-    </div>
-`;
-
-                    this.categories.push({
-                        category: category,
-                        stock: stock,
-                    });
-                } else {
-                    categoryObj.stock += stock;
-
-                    const currentStockBlock = $(`#${category}-stock`);
-
-                    if (currentStockBlock !== null) {
-                        currentStockBlock.textContent = String(categoryObj.stock);
-                    }
-                }
-
                 if (!this.prices.includes(price)) {
                     this.prices.push(price / 100);
                 }
@@ -131,10 +131,11 @@ class Products {
         this.productsData = await api.load();
 
         if (this.queryParams.url.searchParams.toString() !== '') {
-            // const sortData = this.sortProducts(this.queryParams.getQueryParams());
-            // this.renderProducts(sortData);
-            const sortData = this.selectSortingMethod();
-            if (sortData) {
+            const sortData = this.selectSortingMethod() as data;
+
+            if ($('.center-content__items')) {
+                this.renderOnlyGoods(sortData);
+            } else {
                 this.renderProducts(this.productsData);
                 this.renderOnlyGoods(sortData);
             }
@@ -146,7 +147,6 @@ class Products {
     eventListeners() {
         const select = $('.filtres-center__sort');
         const blockProducts = $('.center-content__items') as HTMLElement;
-        const asideCheckboxes = $('.aside__checkboxes');
         const asideCategories = $('.aside__categories');
         const asideCompanies = $('.aside__companies');
 
@@ -154,24 +154,41 @@ class Products {
             const categoryBlock = e.target as HTMLElement;
             const filterParam = categoryBlock.closest('label')?.getAttribute('for');
 
-            this.queryParams.addQueryParams(`category=${filterParam}`);
-            server.route(e);
+            const url = this.queryParams.createQueryParams(`category=${filterParam}`);
+
+            if (url) {
+                server.route(e, url);
+            }
+            checkAttribute(e);
+        });
+
+        asideCompanies?.addEventListener('click', (e) => {
+            const categoryBlock = e.target as HTMLElement;
+            const filterParam = categoryBlock.closest('label')?.getAttribute('for');
+
+            const url = this.queryParams.createQueryParams(`company=${filterParam}`);
+
+            if (url) {
+                server.route(e, url);
+            }
+            checkAttribute(e);
         });
 
         select?.addEventListener('click', (e: Event) => {
             const currentSelect = e.target as HTMLOptionElement;
-            const sortData = this.sortProducts(currentSelect.value);
 
             if (currentSelect.value === 'disabled') {
                 return;
             }
 
-            this.queryParams.addQueryParams(`${currentSelect.value}`);
-            this.renderOnlyGoods(sortData);
+            const url = this.queryParams.createQueryParams(`${currentSelect.value}`);
+            server.route(e, url);
         });
 
         blockProducts.addEventListener('click', (e) => {
-            server.route(e);
+            let block = e.target as HTMLLinkElement;
+            block = block.parentElement as HTMLLinkElement;
+            server.route(e, block.href);
         });
     }
 
@@ -195,21 +212,22 @@ class Products {
       `;
     }
 
-    sortProducts(method: string) {
-        let data: data = this.productsData;
+    sortProducts(method: string, data: data) {
+        const options = $(`option[value="sort=${method}"]`);
+        options?.setAttribute('selected', 'selected');
 
         switch (method) {
-            case 'sort=price-low':
-                data = sort(this.productsData, 'price', 'low');
+            case 'price-low':
+                data = sort(data, 'price', 'low');
                 break;
-            case 'sort=price-high':
-                data = sort(this.productsData, 'price', 'high');
+            case 'price-high':
+                data = sort(data, 'price', 'high');
                 break;
-            case 'sort=name-high':
-                data = sort(this.productsData, 'name', 'high');
+            case 'name-high':
+                data = sort(data, 'name', 'high');
                 break;
-            case 'sort=name-low':
-                data = sort(this.productsData, 'name', 'low');
+            case 'name-low':
+                data = sort(data, 'name', 'low');
         }
 
         return data;
@@ -240,20 +258,38 @@ class Products {
 
     selectSortingMethod() {
         const params = this.queryParams.getQueryParams() as IArrayParams[];
-        const result: data = [];
+        let result: data = [];
+        // let productsData: data = this.currentProductsData;
 
         if (params !== null) {
             params.forEach((element) => {
+                // if (element.name === 'category' && params.find((item) => item.name === 'companies')) {
+                //     productsData = this.currentProductsData;
+                // } else if (element.name === 'companies' && params.find((item) => item.name === 'categories')) {
+                //     productsData = this.currentProductsData;
+                // }
+                addAttribute(element.name, element.value, 'checked');
                 this.productsData.forEach((item) => {
                     const key = element.name as keyof IDataObj;
 
                     for (const param of element.value) {
-                        if (param === item[key]) {
+                        if (param === item[key] && !result.includes(item)) {
                             result.push(item);
                         }
                     }
                 });
             });
+
+            params.forEach((item) => {
+                if (item.name === 'sort') {
+                    result =
+                        result.length > 0
+                            ? this.sortProducts(item.value.join(''), result)
+                            : this.sortProducts(item.value.join(''), this.productsData);
+                }
+            });
+
+            this.currentProductsData = result;
             return result;
         }
         // if (params !== null) {
@@ -273,6 +309,22 @@ class Products {
 
         // this.productsData = this.productsData.
     }
+
+    // addAttributes() {
+    //     console.log(this.queryParams.getQueryParams());
+    //     const params = this.queryParams.getQueryParams() as IArrayParams[];
+    //     params.foEach(())
+    //     // const asideContainer = $(`.${name}`);
+
+    //     // if (asideContainer !== null) {
+    //     //     values.forEach((item) => {
+    //     //         const aim = $(`#${item}`, asideContainer);
+    //     //         console.log(aim);
+    //     //         aim?.hasAttribute('checked') ? aim.removeAttribute('checked') : aim?.setAttribute('checked', 'checked');
+    //     //     });
+    //     // }
+    // }
+
     // findCurrentProduct(e: Event) {
     //     const imageBlock = e.target as HTMLElement;
     //     const nameElem = imageBlock.closest('.product') as HTMLElement;

@@ -25,12 +25,12 @@ const productsPage = `
                         <button class="btns-aside__save button">Save Filters</button>
                     </div>
                    <div class="aside__checkboxes">
-                        <div class="aside__categories">
+                        <div class="aside__categories category">
                             <div class="categories-aside__title title-aside">Category</div>
                             <div class="categories-aside__list">
                             </div>
                         </div>
-                        <div class="aside__companies">
+                        <div class="aside__companies company">
                             <div class="companies-aside__title title-aside">Companies</div>
                             <div class="companies-aside__list">
                             </div>

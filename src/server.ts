@@ -29,19 +29,15 @@ class Server {
         },
     ];
 
-    route = (event: Event, href?: string) => {
+    route = (event: Event, href?: URL | string) => {
         event.preventDefault();
+        const block = event.target as HTMLLinkElement;
 
-        if (!href) {
-            let block = event.target as HTMLLinkElement;
-
-            if (block.href === undefined && block.parentElement?.matches('a')) {
-                block = block.parentElement as HTMLLinkElement;
-            }
-            href = block.href;
+        if (window.location.href === href?.toString()) {
+            return;
         }
 
-        window.history.pushState({}, '', href);
+        href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
         this.handleLocation();
     };
 
