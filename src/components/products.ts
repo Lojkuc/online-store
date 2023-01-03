@@ -52,7 +52,7 @@ class Products {
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>
-                      <div class="info-product__price">$${price / 100}</div>
+                      <div class="info-product__price">$${price}</div>
                     </div>
                     <button class="footer-product__cart button">Add to cart</button>
                   </div>
@@ -64,14 +64,15 @@ class Products {
 
                 if (!categoryObj) {
                     blockCategories.innerHTML += `
-        <div class="companies-aside__item">
+        <div class="categories-aside__item">
         <div class="item__input-container">
             <label for="${category}">
                 <input id="${category}" type="checkbox">
                 <span class="item__input-fake"></span>
                 ${category}</label>
+                <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
         </div>
-        <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
+      
     </div>
 `;
 
@@ -98,8 +99,8 @@ class Products {
               <input id="${company}" type="checkbox">
               <span class="item__input-fake"></span>
               ${company}</label>
+              <p>(<span id="${company}-stock">1</span>/<span>20</span>)</p>
       </div>
-      <p>(<span id="${company}-stock">1</span>/<span>20</span>)</p>
   </div>
       `;
 
@@ -118,7 +119,7 @@ class Products {
                 }
 
                 if (!this.prices.includes(price)) {
-                    this.prices.push(price / 100);
+                    this.prices.push(price);
                 }
             }
         );
@@ -131,14 +132,12 @@ class Products {
         this.productsData = await api.load();
 
         if (this.queryParams.url.searchParams.toString() !== '') {
-            const sortData = this.selectSortingMethod() as data;
-
-            if ($('.center-content__items')) {
-                this.renderOnlyGoods(sortData);
-            } else {
+            if (!$('.center-content__items')) {
                 this.renderProducts(this.productsData);
-                this.renderOnlyGoods(sortData);
             }
+
+            const sortData = this.selectSortingMethod() as data;
+            this.renderOnlyGoods(sortData);
         } else {
             this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
         }
@@ -147,31 +146,27 @@ class Products {
     eventListeners() {
         const select = $('.filtres-center__sort');
         const blockProducts = $('.center-content__items') as HTMLElement;
-        const asideCategories = $('.aside__categories');
-        const asideCompanies = $('.aside__companies');
+        const asideCheckboxes = $('.aside__checkboxes');
+        // const sliderPriceBlock = $('.slider__price');
+        const inputPriceMin = $('.price-min') as HTMLInputElement;
+        const inputPriceMax = $('.price-max') as HTMLInputElement;
 
-        asideCategories?.addEventListener('click', (e) => {
-            const categoryBlock = e.target as HTMLElement;
-            const filterParam = categoryBlock.closest('label')?.getAttribute('for');
+        asideCheckboxes?.addEventListener('click', (e) => {
+            const eventBlock = e.target as HTMLElement;
+            const itemContainer = eventBlock.closest('.item__input-container') as HTMLElement;
+            const input = $('input', itemContainer) as HTMLInputElement;
+            const filterParam = input.getAttribute('id');
 
-            const url = this.queryParams.createQueryParams(`category=${filterParam}`);
+            if (filterParam) {
+                const url = input.closest('.category')
+                    ? this.queryParams.createQueryParams(`category=${filterParam}`)
+                    : this.queryParams.createQueryParams(`company=${filterParam}`);
 
-            if (url) {
-                server.route(e, url);
+                if (url) {
+                    server.route(e, url);
+                }
             }
-            checkAttribute(e);
-        });
-
-        asideCompanies?.addEventListener('click', (e) => {
-            const categoryBlock = e.target as HTMLElement;
-            const filterParam = categoryBlock.closest('label')?.getAttribute('for');
-
-            const url = this.queryParams.createQueryParams(`company=${filterParam}`);
-
-            if (url) {
-                server.route(e, url);
-            }
-            checkAttribute(e);
+            checkAttribute(input);
         });
 
         select?.addEventListener('click', (e: Event) => {
@@ -190,13 +185,22 @@ class Products {
             block = block.parentElement as HTMLLinkElement;
             server.route(e, block.href);
         });
+
+        inputPriceMin?.addEventListener('change', (e) => {
+            const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
+            server.route(e, url);
+        });
+        inputPriceMax?.addEventListener('change', (e) => {
+            const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
+            server.route(e, url);
+        });
     }
 
     price(blockPrice: Element) {
         const sortPrices = this.prices.sort((a: number, b: number) => a - b);
         const min = sortPrices[0];
         const max = sortPrices[sortPrices.length - 1];
-        const length = sortPrices.length;
+        //const length = sortPrices.length;
 
         blockPrice.innerHTML = `
     <div class="aside__title title-aside">Price</div>
@@ -205,9 +209,9 @@ class Products {
         <div class="aside__range_separator"> ⟷ </div>
         <div class="aside__range_max">${max}$</div>
     </div>
-    <div class="range-slider">
-        <input class="aside__input" type="range" min="0" max="${length}" value="${length}"></input>
-        <input class="aside__input" type="range" min="0" max="${length}" value="0"></input>
+    <div class="range-slider slider__price">
+        <input class="aside__input price-max" step="10" type="range" min="0" max="${max}" value="${max}"></input>
+        <input class="aside__input price-min" step="10" type="range" min="0" max="${max}" value="0"></input>
     </div>
       `;
     }
@@ -235,6 +239,10 @@ class Products {
 
     renderOnlyGoods(data: data) {
         const blockProducts = $('.center-content__items') as HTMLElement;
+        const amountProductsBlock = $('.filtres-center__products') as HTMLElement;
+        amountProductsBlock.textContent = `
+        ${data.length} products found
+    `;
 
         blockProducts.innerHTML = '';
 
@@ -246,7 +254,7 @@ class Products {
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>
-                      <div class="info-product__price">$${price / 100}</div>
+                      <div class="info-product__price">$${price}</div>
                     </div>
                     <button class="footer-product__cart button">Add to cart</button>
                   </div>
@@ -258,81 +266,65 @@ class Products {
 
     selectSortingMethod() {
         const params = this.queryParams.getQueryParams() as IArrayParams[];
-        let result: data = [];
-        // let productsData: data = this.currentProductsData;
+        let productsData: data = this.productsData;
 
         if (params !== null) {
             params.forEach((element) => {
-                // if (element.name === 'category' && params.find((item) => item.name === 'companies')) {
-                //     productsData = this.currentProductsData;
-                // } else if (element.name === 'companies' && params.find((item) => item.name === 'categories')) {
-                //     productsData = this.currentProductsData;
-                // }
+                const result: data = [];
+
+                if (element.name === 'sort') {
+                    productsData =
+                        productsData.length > 0
+                            ? this.sortProducts(element.value.join(''), productsData)
+                            : this.sortProducts(element.value.join(''), this.productsData);
+                    return;
+                }
+
                 addAttribute(element.name, element.value, 'checked');
-                this.productsData.forEach((item) => {
+
+                productsData.forEach((item) => {
                     const key = element.name as keyof IDataObj;
 
-                    for (const param of element.value) {
-                        if (param === item[key] && !result.includes(item)) {
-                            result.push(item);
+                    if (element.name === 'category' || element.name === 'comapny') {
+                        for (const param of element.value) {
+                            if (param === item[key] && !result.includes(item)) {
+                                result.push(item);
+                            }
+                        }
+                    } else {
+                        if (element.name === 'price') {
+                            const valueArr = element.value.join('').split('-');
+                            const min = valueArr[0];
+                            const max = valueArr[1];
+
+                            this.renderOnlyPrice(element.name, min, max);
+
+                            if (item[key] <= max && item[key] >= min && !result.includes(item)) {
+                                result.push(item);
+                            }
                         }
                     }
+                    productsData = Array.from(result);
                 });
             });
 
-            params.forEach((item) => {
-                if (item.name === 'sort') {
-                    result =
-                        result.length > 0
-                            ? this.sortProducts(item.value.join(''), result)
-                            : this.sortProducts(item.value.join(''), this.productsData);
-                }
-            });
-
-            this.currentProductsData = result;
-            return result;
+            return productsData;
         }
-        // if (params !== null) {
-        //     params.forEach((element) => {
-        //         this.productsData = this.productsData.map((item) => {
-        //             const key = element.name as keyof IDataObj;
-
-        //             for (const param of element.value) {
-        //                 if (param === item[key]) {
-        //                     return item;
-        //                 }
-        //             }
-        //         }) as data;
-        //     });
-        //     console.log(this.productsData);
-        // }
-
-        // this.productsData = this.productsData.
     }
 
-    // addAttributes() {
-    //     console.log(this.queryParams.getQueryParams());
-    //     const params = this.queryParams.getQueryParams() as IArrayParams[];
-    //     params.foEach(())
-    //     // const asideContainer = $(`.${name}`);
-
-    //     // if (asideContainer !== null) {
-    //     //     values.forEach((item) => {
-    //     //         const aim = $(`#${item}`, asideContainer);
-    //     //         console.log(aim);
-    //     //         aim?.hasAttribute('checked') ? aim.removeAttribute('checked') : aim?.setAttribute('checked', 'checked');
-    //     //     });
-    //     // }
-    // }
-
-    // findCurrentProduct(e: Event) {
-    //     const imageBlock = e.target as HTMLElement;
-    //     const nameElem = imageBlock.closest('.product') as HTMLElement;
-    //     const aimElement = nameElem.querySelector('.info-product__name') as HTMLElement;
-    //     const nameElement = aimElement.textContent;
-    //     const currentProduct = this.productsData.find((i) => i.name === nameElement);
-    //     return currentProduct;
-    // }
+    renderOnlyPrice(name: string, min: string, max: string) {
+        const rangeContainer = $(`.aside__${name}`);
+        if (rangeContainer !== null) {
+            const asideMaxNumber = <HTMLElement>$('.aside__range_max', rangeContainer);
+            const asideMinNumber = <HTMLElement>$('.aside__range_min', rangeContainer);
+            const inputMin = $(`.${name}-min`) as HTMLInputElement;
+            const inputMax = $(`.${name}-max`) as HTMLInputElement;
+            inputMin.value = min;
+            inputMax.value = max;
+            asideMaxNumber.textContent = max;
+            asideMinNumber.textContent = min;
+        }
+    }
 }
 
 export default Products;

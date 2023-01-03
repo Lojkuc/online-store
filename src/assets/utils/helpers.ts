@@ -37,10 +37,11 @@ const addAttribute = (name: string, values: string[], attribute: string) => {
     }
 };
 
-const checkAttribute = (e: Event) => {
-    const event = e.target as HTMLElement;
-    const input = $('input', event) as HTMLInputElement;
+// const changeValue = (name: string, value: string[]) => {
 
+// };
+
+const checkAttribute = (input: HTMLElement) => {
     if (input.hasAttribute('checked')) {
         input.removeAttribute('checked');
     }

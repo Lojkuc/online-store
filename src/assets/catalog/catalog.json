@@ -2,7 +2,7 @@
     {
         "id": "recZkNf2kwmdBcqd0",
         "name": "accent chair",
-        "price": 25999,
+        "price": 550,
         "image": "./img/products/accent-chair.jpg",
         "colors": [
             "#ff0000",
@@ -18,7 +18,7 @@
     {
         "id": "recEHmzvupvT8ZONH",
         "name": "albany sectional",
-        "price": 109999,
+        "price": 309,
         "image": "./img/products/albany-sectional.jpg",
         "colors": [
             "#000",
@@ -32,7 +32,7 @@
     {
         "id": "rec5NBwZ5zCD9nfF0",
         "name": "albany table",
-        "price": 309999,
+        "price": 309,
         "image": "./img/products/albany-table.jpg",
         "colors": [
             "#ffb900",
@@ -46,7 +46,7 @@
     {
         "id": "recd1jIVIEChmiwhe",
         "name": "armchair",
-        "price": 12599,
+        "price": 650,
         "image": "./img/products/armchair.jpg",
         "colors": [
             "#000",
@@ -62,7 +62,7 @@
     {
         "id": "recoM2MyHJGHLVi5l",
         "name": "bar stool",
-        "price": 4099,
+        "price": 100,
         "image": "./img/products/bar-stool.jpg",
         "colors": [
             "#000",
@@ -78,7 +78,7 @@
     {
         "id": "recotY5Nh00DQFdkm",
         "name": "dining table",
-        "price": 42999,
+        "price": 400,
         "image": "./img/products/dining-table.jpg",
         "colors": [
             "#00ff00",
@@ -94,7 +94,7 @@
     {
         "id": "rec1Ntk7siEEW9ha1",
         "name": "emperor bed",
-        "price": 23999,
+        "price": 600,
         "image": "./img/products/emperor-bed.jpg",
         "colors": [
             "#0000ff",
@@ -109,7 +109,7 @@
     {
         "id": "recNZ0koOqEmilmoz",
         "name": "entertainment center",
-        "price": 59999,
+        "price": 599,
         "image": "./img/products/entertainment-center.jpg",
         "featured": true,
         "colors": [
@@ -125,7 +125,7 @@
     {
         "id": "recrfxv3EwpvJwvjq",
         "name": "high-back bench",
-        "price": 39999,
+        "price": 399,
         "image": "./img/products/high-back-bench.jpg",
         "featured": true,
         "colors": [
@@ -141,7 +141,7 @@
     {
         "id": "recoW8ecgjtKx2Sj2",
         "name": "leather chair",
-        "price": 20099,
+        "price": 220,
         "image": "./img/products/leather-chair.jpg",
         "colors": [
             "#ff0000",
@@ -156,7 +156,7 @@
     {
         "id": "recEOA6qtDag1hRbU",
         "name": "leather sofa",
-        "price": 99999,
+        "price": 999,
         "image": "./img/products/leather-sofa.jpg",
         "colors": [
             "#00ff00",
@@ -170,7 +170,7 @@
     {
         "id": "recoAJYUCuEKxcPSr",
         "name": "modern bookshelf",
-        "price": 31999,
+        "price": 319,
         "image": "./img/products/modern-bookshelf.jpg",
         "featured": true,
         "colors": [
@@ -186,7 +186,7 @@
     {
         "id": "recQ0fMd8T0Vk211E",
         "name": "modern poster",
-        "price": 3099,
+        "price": 80,
         "image": "./img/products/modern-poster.jpg",
         "colors": [
             "#000"
@@ -200,7 +200,7 @@
     {
         "id": "rec7CjDWKRgNQtrKe",
         "name": "shelf",
-        "price": 30999,
+        "price": 309,
         "image": "./img/products/shelf.jpg",
         "colors": [
             "#00ff00"
@@ -213,7 +213,7 @@
     {
         "id": "recF0KpwlkF7e8kXO",
         "name": "simple chair",
-        "price": 109999,
+        "price": 10,
         "image": "./img/products/simple-chair.jpg",
         "colors": [
             "#0000ff"
@@ -227,7 +227,7 @@
     {
         "id": "recs5BSVU3qQrOj4E",
         "name": "sofa set",
-        "price": 129999,
+        "price": 129,
         "image": "./img/products/sofa-set.jpg",
         "colors": [
             "#00ff00",
@@ -242,7 +242,7 @@
     {
         "id": "recroK1VD8qVdMP5H",
         "name": "suede armchair",
-        "price": 15999,
+        "price": 159,
         "image": "./img/products/suede-armchair.jpg",
         "colors": [
             "#ffb900"
@@ -255,7 +255,7 @@
     {
         "id": "rec7JInsuCEHgmaGe",
         "name": "utopia sofa",
-        "price": 79999,
+        "price": 799,
         "image": "./img/products/utopia-sofa.jpg",
         "colors": [
             "#ff0000",
@@ -269,7 +269,7 @@
     {
         "id": "rec3jeKnhInKHJuz2",
         "name": "vase table",
-        "price": 120999,
+        "price": 120,
         "image": "./img/products/vase-table.jpg",
         "featured": true,
         "colors": [
@@ -283,7 +283,7 @@
     {
         "id": "recv2ohxljlK2FZO7",
         "name": "wooden bed",
-        "price": 250099,
+        "price": 850,
         "image": "./img/products/wooden-bed.jpg",
         "colors": [
             "#000",
@@ -297,7 +297,7 @@
     {
         "id": "recJIjREF3dlFi3sR",
         "name": "wooden desk",
-        "price": 150999,
+        "price": 150,
         "image": "./img/products/wooden-desk.jpg",
         "colors": [
             "#000"
@@ -311,7 +311,7 @@
     {
         "id": "recm7wC8TBVdU9oEL",
         "name": "wooden office",
-        "price": 40099,
+        "price": 999,
         "image": "./img/products/wooden-office.jpg",
         "colors": [
             "#0000ff",
@@ -325,7 +325,7 @@
     {
         "id": "rectfNsySwAJeWDN2",
         "name": "wooden table",
-        "price": 234999,
+        "price": 234,
         "image": "./img/products/wooden-table.jpg",
         "featured": true,
         "colors": [
