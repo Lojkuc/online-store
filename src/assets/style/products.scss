@@ -325,7 +325,9 @@ input:checked+.item__input-fake::before {
 }
 
 .aside {
-    &__title {}
+    &__title {
+        text-transform: capitalize;
+    }
 
     &__range {
         display: flex;

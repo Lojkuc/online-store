@@ -1,7 +1,7 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data, categoryArr, companyArr, IArrayParams, IDataObj } from '../assets/utils/types';
-import { sort, $, addAttribute, checkAttribute } from '../assets/utils/helpers';
+import { sort, $, addAttribute, checkAttribute, deleteAllAtriutes } from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
 
@@ -12,6 +12,7 @@ class Products {
     companies: companyArr = [];
     categories: categoryArr = [];
     prices: number[] = [];
+    stocks: number[] = [];
     queryParams;
 
     constructor(main: Element) {
@@ -26,6 +27,7 @@ class Products {
         const blockCategories = $('.categories-aside__list') as HTMLElement;
         const blockCompanies = $('.aside__companies') as HTMLElement;
         const blockPrice = $('.aside__price') as HTMLElement;
+        const blockStock = $('.aside__stock') as HTMLElement;
 
         data.forEach(
             ({
@@ -121,11 +123,37 @@ class Products {
                 if (!this.prices.includes(price)) {
                     this.prices.push(price);
                 }
+                if (!this.stocks.includes(stock)) {
+                    this.stocks.push(stock);
+                }
             }
         );
 
-        this.price(blockPrice);
+        this.price(blockPrice, 'price');
+        this.price(blockStock, 'stock');
         this.eventListeners();
+    }
+
+    price(block: Element, type: string) {
+        const sortArr =
+            type === 'price'
+                ? this.prices.sort((a: number, b: number) => a - b)
+                : this.stocks.sort((a: number, b: number) => a - b);
+        const min = sortArr[0];
+        const max = sortArr[sortArr.length - 1];
+
+        block.innerHTML = `
+    <div class="aside__title title-aside">${type}</div>
+    <div class="aside__range">
+        <div class="aside__range_min">${type === 'price' ? min + '$' : min}</div>
+        <div class="aside__range_separator"> ⟷ </div>
+        <div class="aside__range_max">${type === 'price' ? max + '$' : max}</div>
+    </div>
+    <div class="range-slider slider__${type}">
+        <input class="aside__input ${type}-max" step="1" type="range" min="0" max="${max}" value="${max}"></input>
+        <input class="aside__input ${type}-min" step="1" type="range" min="0" max="${max}" value="0"></input>
+    </div>
+      `;
     }
 
     async render() {
@@ -136,6 +164,7 @@ class Products {
                 this.renderProducts(this.productsData);
             }
 
+            deleteAllAtriutes();
             const sortData = this.selectSortingMethod() as data;
             this.renderOnlyGoods(sortData);
         } else {
@@ -150,6 +179,8 @@ class Products {
         // const sliderPriceBlock = $('.slider__price');
         const inputPriceMin = $('.price-min') as HTMLInputElement;
         const inputPriceMax = $('.price-max') as HTMLInputElement;
+        const inputStockMin = $('.stock-min') as HTMLInputElement;
+        const inputStockMax = $('.stock-max') as HTMLInputElement;
 
         asideCheckboxes?.addEventListener('click', (e) => {
             const eventBlock = e.target as HTMLElement;
@@ -194,26 +225,14 @@ class Products {
             const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
             server.route(e, url);
         });
-    }
-
-    price(blockPrice: Element) {
-        const sortPrices = this.prices.sort((a: number, b: number) => a - b);
-        const min = sortPrices[0];
-        const max = sortPrices[sortPrices.length - 1];
-        //const length = sortPrices.length;
-
-        blockPrice.innerHTML = `
-    <div class="aside__title title-aside">Price</div>
-    <div class="aside__range">
-        <div class="aside__range_min">${min}$</div>
-        <div class="aside__range_separator"> ⟷ </div>
-        <div class="aside__range_max">${max}$</div>
-    </div>
-    <div class="range-slider slider__price">
-        <input class="aside__input price-max" step="10" type="range" min="0" max="${max}" value="${max}"></input>
-        <input class="aside__input price-min" step="10" type="range" min="0" max="${max}" value="0"></input>
-    </div>
-      `;
+        inputStockMin?.addEventListener('change', (e) => {
+            const url = this.queryParams.createQueryParams(`stock=${inputStockMin?.value}-${inputStockMax.value}`);
+            server.route(e, url);
+        });
+        inputStockMax?.addEventListener('change', (e) => {
+            const url = this.queryParams.createQueryParams(`stock=${inputStockMin?.value}-${inputStockMax.value}`);
+            server.route(e, url);
+        });
     }
 
     sortProducts(method: string, data: data) {
@@ -279,25 +298,24 @@ class Products {
                             : this.sortProducts(element.value.join(''), this.productsData);
                     return;
                 }
-
                 addAttribute(element.name, element.value, 'checked');
 
                 productsData.forEach((item) => {
                     const key = element.name as keyof IDataObj;
 
-                    if (element.name === 'category' || element.name === 'comapny') {
+                    if (element.name === 'category' || element.name === 'company') {
                         for (const param of element.value) {
                             if (param === item[key] && !result.includes(item)) {
                                 result.push(item);
                             }
                         }
                     } else {
-                        if (element.name === 'price') {
+                        if (element.name === 'price' || element.name === 'stock') {
                             const valueArr = element.value.join('').split('-');
                             const min = valueArr[0];
                             const max = valueArr[1];
 
-                            this.renderOnlyPrice(element.name, min, max);
+                            this.renderDualSlider(element.name, min, max);
 
                             if (item[key] <= max && item[key] >= min && !result.includes(item)) {
                                 result.push(item);
@@ -312,7 +330,7 @@ class Products {
         }
     }
 
-    renderOnlyPrice(name: string, min: string, max: string) {
+    renderDualSlider(name: string, min: string, max: string) {
         const rangeContainer = $(`.aside__${name}`);
         if (rangeContainer !== null) {
             const asideMaxNumber = <HTMLElement>$('.aside__range_max', rangeContainer);
@@ -321,8 +339,8 @@ class Products {
             const inputMax = $(`.${name}-max`) as HTMLInputElement;
             inputMin.value = min;
             inputMax.value = max;
-            asideMaxNumber.textContent = max;
-            asideMinNumber.textContent = min;
+            asideMaxNumber.textContent = name === 'price' ? max + '$' : max;
+            asideMinNumber.textContent = name === 'price' ? min + '$' : min;
         }
     }
 }

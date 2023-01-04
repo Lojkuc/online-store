@@ -19,7 +19,7 @@ class SingleProduct {
         const container = $('.main__content') as HTMLElement;
 
         if (currentProduct !== undefined) {
-            const { image, name, price, company, description, id } = currentProduct;
+            const { image, name, price, company, description, id, stock } = currentProduct;
             const navigationTitle = $('#breadcrumb') as HTMLElement;
 
             navigationTitle.textContent = currentProduct.name;
@@ -41,11 +41,11 @@ class SingleProduct {
             <div class="info__grade">
               <div class="grade__reviews">(100 customer reviews)</div>
             </div>
-            <div class="info__price">$${price / 100}</div>
+            <div class="info__price">$${price}</div>
             <p class="info__description">${description}</p>
             <p class="info__details">
-              <span class="details__key">Available : </span>
-              <span class="details__value">In stock</span>
+              <span class="details__key">Stock : </span>
+              <span class="details__value">${stock}</span>
             </p>
             <p class="info__details">
               <span class="details__key">SKU :</span>

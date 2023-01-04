@@ -37,14 +37,20 @@ const addAttribute = (name: string, values: string[], attribute: string) => {
     }
 };
 
-// const changeValue = (name: string, value: string[]) => {
-
-// };
-
 const checkAttribute = (input: HTMLElement) => {
-    if (input.hasAttribute('checked')) {
+    if (input?.hasAttribute('checked')) {
         input.removeAttribute('checked');
     }
+};
+
+const deleteAllAtriutes = () => {
+    const inputs = $All('input[type=checkbox]');
+    console.log(inputs);
+    inputs.forEach((item) => {
+        if (item.hasAttribute('checked')) {
+            item.removeAttribute('checked');
+        }
+    });
 };
 
 // const putLocalStorage = (keyName: string, keyValue: string) => {
@@ -66,4 +72,4 @@ const $ = (selector: string, parent?: Element) =>
 const $All = (selector: string, parent?: Element) =>
     parent ? parent.querySelectorAll(selector) : document.querySelectorAll(selector);
 
-export { sort, $, $All, addAttribute, checkAttribute };
+export { sort, $, $All, addAttribute, checkAttribute, deleteAllAtriutes };

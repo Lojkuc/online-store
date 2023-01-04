@@ -63,7 +63,7 @@ class QueryParams {
     isIncludeQueryParams(form: string) {
         const paramsFromURL = new URLSearchParams(window.location.search);
 
-        if (form === 'sort' || form === 'price') {
+        if (form === 'sort' || form === 'price' || form === 'stock') {
             return false;
         }
 
