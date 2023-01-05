@@ -5,7 +5,6 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
         data.sort((a, b): number => {
             const value1 = a[key] as number;
             const value2 = b[key] as number;
-            console.log(data);
             return option === 'low' ? value1 - value2 : value2 - value1;
         });
     }

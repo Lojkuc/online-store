@@ -311,6 +311,8 @@ class Products {
                         productsData.length > 0
                             ? this.sortProducts(element.value.join(''), productsData)
                             : this.sortProducts(element.value.join(''), this.productsData);
+                    console.log(productsData);
+                    console.log(this.productsData);
                     return;
                 }
                 addAttribute(element.name, element.value, 'checked');
