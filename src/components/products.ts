@@ -138,23 +138,23 @@ class Products {
             }
         );
 
-        this.price(blockPrice, 'price');
-        this.price(blockStock, 'stock');
+        this.slider(blockPrice, 'price');
+        this.slider(blockStock, 'stock');
         this.eventListeners();
     }
 
-    price(block: Element, type: string) {
+    slider(block: Element, type: string) {
         const sortArr =
             type === 'price'
                 ? this.prices.sort((a: number, b: number) => a - b)
                 : this.stocks.sort((a: number, b: number) => a - b);
-        const min = sortArr[0];
+        // const min = sortArr[0];
         const max = sortArr[sortArr.length - 1];
 
         block.innerHTML = `
     <div class="aside__title title-aside">${type}</div>
     <div class="aside__range">
-        <div class="aside__range_min">${type === 'price' ? min + '$' : min}</div>
+        <div class="aside__range_min">${type === 'price' ? 0 + '$' : 0}</div>
         <div class="aside__range_separator"> ⟷ </div>
         <div class="aside__range_max">${type === 'price' ? max + '$' : max}</div>
     </div>
@@ -175,8 +175,10 @@ class Products {
 
             deleteAllAtriutes();
             const sortData = this.selectSortingMethod() as data;
-            this.changeStocks(sortData);
-            this.renderOnlyGoods(sortData);
+            if (sortData.length) {
+                this.changeStocks(sortData);
+                this.renderOnlyGoods(sortData);
+            }
         } else {
             this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
         }
@@ -215,12 +217,8 @@ class Products {
             checkAttribute(input);
         });
 
-        select?.addEventListener('click', (e: Event) => {
+        select?.addEventListener('change', (e: Event) => {
             const currentSelect = e.target as HTMLOptionElement;
-
-            if (currentSelect.value === 'disabled') {
-                return;
-            }
 
             const url = this.queryParams.createQueryParams(`${currentSelect.value}`);
             server.route(e, url);
@@ -286,7 +284,6 @@ class Products {
                 break;
             case 'price-high':
                 data = sort(data, 'price', 'high');
-                console.log(data);
                 break;
             case 'name-high':
                 data = sort(data, 'name', 'high');
@@ -335,6 +332,13 @@ class Products {
                                 currentKey !== 'description'
                             ) {
                                 result.push(item);
+                            } else {
+                                const blockProducts = $('.center-content__items') as HTMLElement;
+                                blockProducts.innerHTML = `<h2>Products not found!</h2>`;
+                                const amountProductsBlock = $('.filtres-center__products') as HTMLElement;
+                                amountProductsBlock.textContent = `
+                                0 products found
+                            `;
                             }
                         }
                     } else {
@@ -447,7 +451,6 @@ class Products {
 
     renderSearch(value: string) {
         const inputSearch = <HTMLInputElement>$('.search__input');
-        console.log(value);
         inputSearch.value = value;
     }
 }
