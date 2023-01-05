@@ -4,66 +4,71 @@ import Products from './components/products';
 import SingleProduct from './components/singleProduct';
 import Err from './components/error';
 import './assets/style/style.scss';
-import Cart from './components/cart';
 
 class Server {
-    routes = [
-        {
-            path: '/',
-            data: Home,
-        },
-        {
-            path: '/about',
-            data: About,
-        },
-        {
-            path: '/products',
-            data: Products,
-        },
-        {
-            path: '/product-detail',
-            data: SingleProduct,
-        },
-        {
-            path: '/404',
-            data: Err,
-        },
-        {
-            path: '/cart',
-            data: Cart,
-        },
-    ];
+  routes = [
+    {
+      path: '/',
+      data: Home,
+    },
+    {
+      path: '/about',
+      data: About,
+    },
+    {
+      path: '/products',
+      data: Products,
+    },
+    {
+      path: '/product-detail',
+      data: SingleProduct,
+    },
+    {
+      path: '/404',
+      data: Err,
+    },
+  ];
 
-    route = (event: Event) => {
-        event.preventDefault();
-        let block = event.target as HTMLLinkElement;
+  route = (event: Event, href?: URL | string) => {
+    event.preventDefault();
+    const block = event.target as HTMLLinkElement;
 
-        if (block.href === undefined) {
-            block = event.currentTarget as HTMLLinkElement;
-        }
-        const href: string = block.href;
+    if (window.location.href === href?.toString()) {
+      return;
+    }
 
-        window.history.pushState({}, '', href);
-        this.handleLocation();
-    };
+    href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
+    this.handleLocation();
+  };
 
-    handleLocation = () => {
-        const html = !window.location.pathname.includes('product-detail')
-            ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1]
-            : this.routes.find((route) => route.path == '/product-detail');
+  handleLocation = () => {
+    const html = !window.location.pathname.includes('product-detail')
+      ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1]
+      : this.routes.find((route) => route.path == '/product-detail');
 
-        const blockForContent: Element | null = document.getElementById('content');
+    const blockForContent: Element | null = document.getElementById('content');
 
-        if (blockForContent !== null) {
-            const page = html?.data as typeof Home | typeof SingleProduct | typeof Products;
-            const cl = new page(blockForContent);
-            cl.render();
-        }
+    if (blockForContent !== null) {
+      const page = html?.data as typeof Home | typeof SingleProduct | typeof Products;
+      const cl = new page(blockForContent);
+      cl.render();
+    }
 
-        window.addEventListener('popstate', this.handleLocation);
-        window.addEventListener('DOMContentLoaded', this.handleLocation);
-    };
+    window.addEventListener('popstate', this.handleLocation);
+    window.addEventListener('DOMContentLoaded', this.handleLocation);
+  };
+
+  eventListeners() {
+    const pagesBlock = document.querySelector('.nav-link');
+
+    pagesBlock?.addEventListener('click', (e) => {
+      this.route(e);
+    });
+  }
 }
 
 const server = new Server();
 server.handleLocation();
+server.eventListeners();
+
+export default server;

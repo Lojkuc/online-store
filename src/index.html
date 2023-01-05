@@ -16,33 +16,25 @@
         <div class="container">
             <div class="header-inner">
                 <div class="logo-block">
-                    <a href="/">
-                        <img src="./img/logo.svg" alt="">
+                    <img src="./img/logo.svg" alt="">
+                </div>
+                <nav>
+                    <ul class="nav-link">
+                        <li><a class="link-item" href="/">Home</a></li>
+                        <li><a class=" link-item" href="/about">About</a></li>
+                        <li><a class="link-item" href="/products">Product</a></li>
+                    </ul>
+                </nav>
+                <div class="using-block">
+                    <a href="/cart" class="card" onclick="route(event)">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <p class="cart_text">Card</p>
+                    </a>
+                    <a href="/login" class="login" onclick="route(event)">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <p class="login">Login</p>
                     </a>
                 </div>
-                    <nav class="nav-menu">
-                        <ul class="nav-link">
-                            <li><a class="link-item" href="/" onclick="route(event)">Home</a></li>
-                            <li><a class="link-item" href="/about" onclick="route(event)">About</a></li>
-                            <li><a class="link-item" href="/products" onclick="route(event)">Product</a></li>
-                        </ul>
-                    </nav>
-                    <div class="using-block">
-                        <a href="/cart" class="card" onclick="route(event)">
-                            <i class="fa-solid fa-cart-shopping">
-                                <span class="counter-products">0</span>
-                            </i>
-                            <p class="cart_text">Card</p>
-                        </a>
-                        <span class="price">$0</span>
-                        <a href="/login" class="login" onclick="route(event)">
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            <p class="login">Login</p>
-                        </a>
-                    </div>
-                    <div class="burger-menu">
-                        <span></span>
-                    </div>
             </div>
         </div>
     </header>

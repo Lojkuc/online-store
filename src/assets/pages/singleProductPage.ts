@@ -8,11 +8,11 @@ const singleProductPage = `
       </h3>
       <h3>/</h3>
       <h3>
-        <a href="/">Products</a>
+        <a href="/products">Products</a>
       </h3>
       <h3>/</h3>
       <h3>
-        <a href="/">Modern Poster</a>
+        <a id="breadcrumb" href="#"></a>
       </h3>
     </div>
   </div>

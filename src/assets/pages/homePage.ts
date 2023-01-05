@@ -1,48 +1,48 @@
 const homePage = `
 <div class="container">
-  <div class="main-section">
-    <div class="info-block">
+<div class="main-section">
+  <div class="info-block">
       <h1>Design Your <br> Comfort Zone</h1>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, at sed omnis corporis doloremque possimus velit! Repudiandae nisi odit, aperiam odio ducimus, obcaecati libero et quia tempora excepturi quis alias?</p>
       <a class="button-home shop-now" href="">Shop Now</a>
     </div>
-    <div class="image-container">
-      <img src="./img/image_container_img1.jpeg" class="main-img" alt="">
-      <img src="./img/image_container_img2.jpeg" class="submain-img" alt="">
-    </div>
+  <div class="image-container">
+    <img src="./img/image_container_img1.jpeg" class="main-img" alt="">
+    <img src="./img/image_container_img2.jpeg" class="submain-img" alt="">
   </div>
 </div>
+</div>
 <div class="featured-products">
-  <div class="container">
-    <h2>Featured Products</h2>
-    <div class="block-product">
-      <div class="cart-product">
-        <div class="cart-image">
-          <img src="./img/card-furniture1.jpg" class="furniture-img" alt="">
-        </div>
-        <div class="cart-text">
-          <p>Entertainment Center</p>
-          <span>$599.99</span>
-        </div>
+<div class="container">
+  <h2>Featured Products</h2>
+  <div class="block-product">
+    <div class="card-product">
+      <div class="card-image">
+        <img src="./img/card-furniture1.jpg" class="furniture-img" alt="">
       </div>
-      <div class="cart-product">
-        <div class="cart-image">
-          <img src="./img/card-furniture2.jpg" class="furniture-img" alt="">
-        </div>
-        <div class="cart-text">
-          <p>High-Back Bench</p>
-          <span>$399.99</span>
-        </div>
+      <div class="card-text">
+        <p>Entertainment Center</p>
+        <span>$599.99</span>
       </div>
-      <div class="cart-product">
-        <div class="cart-image">
-          <img src="./img/card-furniture3.jpg" class="furniture-img" alt="">
-        </div>
-        <div class="cart-text">
-          <p>Modern Bookshelf</p>
-          <span>$319.99</span>
-        </div>
+    </div>
+    <div class="card-product">
+      <div class="card-image">
+        <img src="./img/card-furniture2.jpg" class="furniture-img" alt="">
       </div>
+      <div class="card-text">
+        <p>High-Back Bench</p>
+        <span>$399.99</span>
+      </div>
+    </div>
+    <div class="card-product">
+      <div class="card-image">
+        <img src="./img/card-furniture3.jpg" class="furniture-img" alt="">
+      </div>
+      <div class="card-text">
+        <p>Modern Bookshelf</p>
+        <span>$319.99</span>
+      </div>
+    </div>
   </div>
 </div>
   <a href="#" class="button-home">All products</a>

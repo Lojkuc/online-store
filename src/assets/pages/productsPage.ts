@@ -22,18 +22,20 @@ const productsPage = `
                     </div>
                     <div class="aside__btns">
                         <button class="btns-aside__reset button">Reset Filters</button>
-                        <button class="btns-aside__save button">Save Filters</button>
+                        <button class="btns-aside__save button">Copy Filters</button>
                     </div>
-                    <div class="aside__categories">
-                        <div class="categories-aside__title title-aside">Category</div>
-                        <div class="categories-aside__list">
+                   <div class="aside__checkboxes">
+                        <div class="aside__categories category">
+                            <div class="categories-aside__title title-aside">Category</div>
+                            <div class="categories-aside__list">
+                            </div>
                         </div>
-                    </div>
-                    <div class="aside__companies">
-                        <div class="companies-aside__title title-aside">Companies</div>
-                        <div class="companies-aside__list">
+                        <div class="aside__companies company">
+                            <div class="companies-aside__title title-aside">Companies</div>
+                            <div class="companies-aside__list">
+                            </div>
                         </div>
-                    </div>
+                   </div>
                     <div class="aside__price">
                     </div>
                     <div class="aside__stock">
@@ -66,11 +68,11 @@ const productsPage = `
                         <form class="filtres-center__sort">
                             <label for="sort">Sort by</label>
                             <select class="sort__select" name="sort" id="sort">
-                                <option >Choose sort category</option>
-                                <option id="price" value="lowest">Price (lowest)</option>
-                                <option id="price"  value="highest">Price (highest)</option>
-                                <option id="name"  value="a">Name (A-Z)</option>
-                                <option id="name"  value="z">Name (Z-A)</option>
+                                <option value="disabled">Choose sort category</option>
+                                <option id="price" value="sort=price-low">Price (lowest)</option>
+                                <option id="price"  value="sort=price-high">Price (highest)</option>
+                                <option id="name"  value="sort=name-high">Name (A-Z)</option>
+                                <option id="name"  value="sort=name-low">Name (Z-A)</option>
                             </select>
                         </form>
                     </div>

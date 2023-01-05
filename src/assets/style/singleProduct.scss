@@ -114,6 +114,10 @@
     }
 }
 
+.navigation-main__block {
+    text-transform: capitalize;
+}
+
 @media (max-width: 980px) {
     html {
         font-size: 0.8px;
