@@ -4,6 +4,12 @@ import Products from './components/products';
 import SingleProduct from './components/singleProduct';
 import Err from './components/error';
 import './assets/style/style.scss';
+import Cart from './components/cart';
+import { data } from './assets/utils/types';
+const cart: data[] = [];
+if (!localStorage.getItem('cart')) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 
 class Server {
     routes = [
@@ -26,6 +32,10 @@ class Server {
         {
             path: '/404',
             data: Err,
+        },
+        {
+            path: '/cart',
+            data: Cart,
         },
     ];
 

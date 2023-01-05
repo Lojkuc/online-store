@@ -6,7 +6,6 @@ const EslingPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
-
 module.exports = {
     entry: path.resolve(__dirname, './src/server'),
     mode: 'development',
@@ -50,7 +49,7 @@ module.exports = {
             rewrites: [
                 { from: /./, to: '/index.html' }, // all request to index.html
             ],
-        }
+        },
         // port: 8080,
         // open: true,
         // hot: true
@@ -64,9 +63,9 @@ module.exports = {
         new EslingPlugin({ extensions: 'ts' }),
         new CopyPlugin({
             patterns: [
-                { from: "./src/assets/img", to: "img" },
-                { from: "netlify.toml", to: "" },
-            ]
+                { from: './src/assets/img', to: 'img' },
+                { from: 'netlify.toml', to: '' },
+            ],
         }),
         // new NetlifyPlugin({
         //     redirects: [
@@ -78,5 +77,5 @@ module.exports = {
         //         }
         //     ]
         // }),
-    ]
+    ],
 };

@@ -10,6 +10,7 @@ interface IDataObj {
     description: string;
     category: string;
     shipping: string;
+    count: number;
 }
 
 export { data, IDataObj };

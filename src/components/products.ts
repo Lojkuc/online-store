@@ -2,21 +2,30 @@ import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data } from '../assets/utils/types';
 //import { sort, $ } from '../assets/utils/helpers';
-
+// import Cart from './cart';
 class Products {
     main;
     productsData: data = [];
     companies: string[] = [];
     categories: string[] = [];
     prices: number[] = [];
-
     constructor(main: Element) {
         this.main = main;
     }
-
+    switchViewProduct() {
+        const productView = document.querySelector('.center-content__items') as HTMLElement;
+        const buttonList = document.querySelector('.layouts__list');
+        const buttonGrid = document.querySelector('.layouts__grid');
+        buttonList?.addEventListener('click', function () {
+            productView.style.gridTemplateColumns = '2fr';
+        });
+        buttonGrid?.addEventListener('click', function () {
+            productView.style.gridTemplateColumns = '1fr 1fr';
+        });
+    }
     renderProducts(data: data) {
         this.main.innerHTML = productsPage;
-
+        this.switchViewProduct();
         const blockProducts = document.querySelector('.center-content__items') as HTMLElement;
         const blockCategories = document.querySelector('.categories-aside__list') as HTMLElement;
         const blockCompanies = document.querySelector('.aside__companies') as HTMLElement;
@@ -30,7 +39,7 @@ class Products {
                     price,
                     company,
                     category,
-                }: { image: string; name: string; price: number; company: string; category: string },
+                }: { count: number; image: string; name: string; price: number; company: string; category: string },
                 index: number
             ) => {
                 blockProducts.innerHTML += `
@@ -42,12 +51,19 @@ class Products {
                       <div class="info-product__name">${name}</div>
                       <div class="info-product__price">$${price / 100}</div>
                     </div>
-                    <button class="footer-product__cart button">Add to cart</button>
+                    <button class="footer-product__cart${index} button">Add to cart</button>
                   </div>
                 </div>
               </div>
             `;
-
+                blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
+                    el.addEventListener('click', function () {
+                        const arr = JSON.parse(localStorage.getItem('cart') as string);
+                        arr[index] = data[index];
+                        arr[index].count = 1;
+                        localStorage.setItem(`cart`, JSON.stringify(arr));
+                    })
+                );
                 if (!this.companies.includes(company)) {
                     blockCompanies.innerHTML += `
       <div class="categories-aside__item">
@@ -88,7 +104,6 @@ class Products {
         this.price(blockPrice);
         //this.eventListeners();
     }
-
     async render() {
         this.productsData = await api.load();
         this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
@@ -139,5 +154,4 @@ class Products {
       `;
     }
 }
-
 export default Products;
