@@ -21,7 +21,6 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
             }
         });
     }
-    console.log(data);
     return data;
 };
 

@@ -311,8 +311,6 @@ class Products {
                         productsData.length > 0
                             ? this.sortProducts(element.value.join(''), productsData)
                             : this.sortProducts(element.value.join(''), this.productsData);
-                    console.log(productsData);
-                    console.log(this.productsData);
                     return;
                 }
                 addAttribute(element.name, element.value, 'checked');
@@ -369,14 +367,16 @@ class Products {
         }
     }
 
-    changeStocks(data: data) {
-        if (!window.location.href.includes('price')) {
+    changeStocks(dat: data) {
+        const data: data = dat.slice(0);
+
+        if (!window.location.href.includes('price=')) {
             const sortPrices = data.sort((a, b) => a.price - b.price);
             const minPrice = String(sortPrices[0].price);
             const maxPrice = String(sortPrices[sortPrices.length - 1].price);
             this.renderDualSlider('price', minPrice, maxPrice);
         }
-        if (!window.location.href.includes('stock')) {
+        if (!window.location.href.includes('stock=')) {
             const sortStocks = data.sort((a, b) => a.stock - b.stock);
             const minStock = String(sortStocks[0].stock);
             const maxStock = String(sortStocks[sortStocks.length - 1].stock);
