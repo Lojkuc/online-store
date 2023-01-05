@@ -13,6 +13,7 @@ interface IDataObj {
   category: string;
   shipping: string;
   stock: number;
+  count: number;
 }
 
 interface IArrayParams {

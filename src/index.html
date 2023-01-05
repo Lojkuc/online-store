@@ -2,65 +2,73 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/vnd.microsoft.icon." href="./img/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/1a64f65040.js" crossorigin="anonymous"></script>
-    <title>ComfySloth</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" type="image/vnd.microsoft.icon." href="./img/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/1a64f65040.js" crossorigin="anonymous"></script>
+  <title>ComfySloth</title>
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="header-inner">
-                <div class="logo-block">
-                    <img src="./img/logo.svg" alt="">
-                </div>
-                <nav>
-                    <ul class="nav-link">
-                        <li><a class="link-item" href="/">Home</a></li>
-                        <li><a class=" link-item" href="/about">About</a></li>
-                        <li><a class="link-item" href="/products">Product</a></li>
-                    </ul>
-                </nav>
-                <div class="using-block">
-                    <a href="/cart" class="card" onclick="route(event)">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <p class="cart_text">Card</p>
-                    </a>
-                    <a href="/login" class="login" onclick="route(event)">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <p class="login">Login</p>
-                    </a>
-                </div>
-            </div>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo-block">
+          <a href="/">
+            <img src="./img/logo.svg" alt="">
+          </a>
         </div>
-    </header>
+        <nav class="nav-menu">
+          <ul class="nav-link">
+            <li><a class="link-item" href="/">Home</a></li>
+            <li><a class=" link-item" href="/about">About</a></li>
+            <li><a class="link-item" href="/products">Product</a></li>
+          </ul>
+        </nav>
+        <div class="using-block">
+          <a href="/cart" class="card" onclick="route(event)">
+            <i class="fa-solid fa-cart-shopping">
+              <span class="counter-products">0</span>
+            </i>
+            <p class="cart_text">Card</p>
+          </a>
+          <span class="price">$0</span>
+          <a href="/login" class="login" onclick="route(event)">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <p class="login">Login</p>
+          </a>
+        </div>
+        <div class="burger-menu">
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <div id="content">
-            <div class="container">
-            </div>
+  <main>
+    <div id="content">
+      <div class="container">
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="github-block">
+          <a href="https://github.com/evvgenchik">Github Lojuc</a>
+          <a href="https://github.com/Lojkuc">Github evvgenchik</a>
         </div>
-    </main>
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="github-block">
-                    <a href="https://github.com/evvgenchik">Github Lojuc</a>
-                    <a href="https://github.com/Lojkuc">Github evvgenchik</a>
-                </div>
-                <span>2022</span>
-                <div class="rsschool-block">
-                    <a href="https://rs.school/js/">
-                        <img src="./img/rslogo.svg" class="rsschool-img" alt="">
-                    </a>
-                </div>
-            </div>
+        <span>2022</span>
+        <div class="rsschool-block">
+          <a href="https://rs.school/js/">
+            <img src="./img/rslogo.svg" class="rsschool-img" alt="">
+          </a>
         </div>
-    </footer>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>

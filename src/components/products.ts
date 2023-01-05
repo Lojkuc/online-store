@@ -28,8 +28,21 @@ class Products {
     this.queryParams = new QueryParams();
   }
 
+  switchViewProduct() {
+    const productView = document.querySelector('.center-content__items') as HTMLElement;
+    const buttonList = document.querySelector('.layouts__list');
+    const buttonGrid = document.querySelector('.layouts__grid');
+    buttonList?.addEventListener('click', function () {
+      productView.style.gridTemplateColumns = '2fr';
+    });
+    buttonGrid?.addEventListener('click', function () {
+      productView.style.gridTemplateColumns = '1fr 1fr';
+    });
+  }
+
   renderProducts(data: data) {
     this.main.innerHTML = productsPage;
+    this.switchViewProduct();
 
     const blockProducts = $('.center-content__items') as HTMLElement;
     const blockCategories = $('.categories-aside__list') as HTMLElement;
@@ -54,6 +67,7 @@ class Products {
         category: string;
         id: string;
         stock: number;
+        count: number;
       }) => {
         blockProducts.innerHTML += `
                 <div class="items-center__product product">
@@ -69,6 +83,15 @@ class Products {
                 </div>
               </div>
             `;
+
+        blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
+          el.addEventListener('click', function () {
+            const arr = JSON.parse(localStorage.getItem('cart') as string);
+            arr[index] = data[index];
+            arr[index].count = 1;
+            localStorage.setItem(`cart`, JSON.stringify(arr));
+          })
+        );
 
         const categoryObj = this.categories.find((item) => item.category === category);
 
@@ -310,12 +333,12 @@ class Products {
               : this.sortProducts(element.value.join(''), this.productsData);
           return;
         }
-        addAttribute(element.name, element.value, 'checked');
 
         productsData.forEach((item) => {
           const key = element.name as keyof IDataObj;
 
           if (element.name === 'category' || element.name === 'company') {
+            addAttribute(element.name, element.value, 'checked');
             for (const param of element.value) {
               if (param === item[key] && !result.includes(item)) {
                 result.push(item);
@@ -393,12 +416,6 @@ class Products {
       const elementsFilter = data.filter((item) => item.category === atribute || item.company === atribute);
       item.textContent = String(elementsFilter.length);
     });
-
-    // data.forEach((item) => {
-    //     const currentValue = <HTMLElement>$(`#${item.category}-stock`);
-    //     const previosNumb = Number(currentValue.textContent) as number;
-    //     currentValue.textContent = String(previosNumb + 1);
-    // });
   }
 
   renderOnlyGoods(data: data) {
