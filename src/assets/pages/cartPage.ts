@@ -1,4 +1,8 @@
 import { data } from '../utils/types';
+const cart: data[] = [];
+if (!localStorage.getItem('cart')) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
 let blockWithCard = '';
 const data: data = JSON.parse(localStorage.getItem('cart') as string).filter((el: string) => Boolean(el));
 const tA = document.querySelector('.price') as HTMLElement;
