@@ -4,27 +4,27 @@ import { $ } from '../assets/utils/helpers';
 import api from '../assets/utils/api';
 
 class SingleProduct {
-    main;
+  main;
 
-    constructor(main: Element) {
-        this.main = main;
-    }
+  constructor(main: Element) {
+    this.main = main;
+  }
 
-    async render() {
-        this.main.innerHTML = singleProductPage;
+  async render() {
+    this.main.innerHTML = singleProductPage;
 
-        const productId = this.getIdProduct();
-        const data: data = await api.load();
-        const currentProduct = data.find((i) => i.id === productId);
-        const container = $('.main__content') as HTMLElement;
+    const productId = this.getIdProduct();
+    const data: data = await api.load();
+    const currentProduct = data.find((i) => i.id === productId);
+    const container = $('.main__content') as HTMLElement;
 
-        if (currentProduct !== undefined) {
-            const { image, name, price, company, description, id, stock } = currentProduct;
-            const navigationTitle = $('#breadcrumb') as HTMLElement;
+    if (currentProduct !== undefined) {
+      const { image, name, price, company, description, id, stock } = currentProduct;
+      const navigationTitle = $('#breadcrumb') as HTMLElement;
 
-            navigationTitle.textContent = currentProduct.name;
+      navigationTitle.textContent = currentProduct.name;
 
-            container.innerHTML = `
+      container.innerHTML = `
             <section class="content__gallery">
             <div class="gallery__photo">
               <img src="${image}" id="main-photo" alt="photo product" class="gallery__photo-img">
@@ -66,32 +66,32 @@ class SingleProduct {
             </div>
           </section>
             `;
-            this.eventLiteners();
-        }
+      this.eventLiteners();
     }
+  }
 
-    getIdProduct() {
-        const productNumber = window.location.pathname.split('_')[1];
+  getIdProduct() {
+    const productNumber = window.location.pathname.split('_')[1];
 
-        return productNumber;
+    return productNumber;
+  }
+
+  eventLiteners() {
+    const photoCont = document.querySelector('.gallery__subphoto');
+
+    photoCont?.addEventListener('click', (e: Event) => {
+      this.changeMainPhoto(e);
+    });
+  }
+
+  changeMainPhoto(e: Event) {
+    const currentImage = e.target as HTMLImageElement;
+    const mainPhoto: HTMLImageElement | null = document.querySelector('#main-photo');
+
+    if (mainPhoto !== null) {
+      mainPhoto.src = currentImage?.src;
     }
-
-    eventLiteners() {
-        const photoCont = document.querySelector('.gallery__subphoto');
-
-        photoCont?.addEventListener('click', (e: Event) => {
-            this.changeMainPhoto(e);
-        });
-    }
-
-    changeMainPhoto(e: Event) {
-        const currentImage = e.target as HTMLImageElement;
-        const mainPhoto: HTMLImageElement | null = document.querySelector('#main-photo');
-
-        if (mainPhoto !== null) {
-            mainPhoto.src = currentImage?.src;
-        }
-    }
+  }
 }
 
 export default SingleProduct;
