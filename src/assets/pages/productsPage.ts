@@ -22,7 +22,7 @@ const productsPage = `
                     </div>
                     <div class="aside__btns">
                         <button class="btns-aside__reset button">Reset Filters</button>
-                        <button class="btns-aside__save button">Save Filters</button>
+                        <button class="btns-aside__save button">Copy Filters</button>
                     </div>
                    <div class="aside__checkboxes">
                         <div class="aside__categories category">

@@ -23,22 +23,13 @@ class QueryParams {
 
             return arrParams;
         }
-
-        // const result: String[] = [];
-
-        // this.url.searchParams.forEach((item) => result.push(item))
-        // // for (const [key, value] of paramsFromURL.entries()) {
-        // //     console.log(`${key}=${value}`);
-        // // }
-
-        // return result.join(';');
     }
 
     createQueryParams(param: string) {
         const nameParam = param.split('=')[0];
         const keyParam = param.split('=')[1];
 
-        if (window.location.href.includes(keyParam) && nameParam !== 'sort') {
+        if (window.location.href.includes(keyParam) && nameParam !== 'sort' && nameParam !== 'search') {
             const params = this.getQueryParams(nameParam) as string;
             const arrParams = params.split(';');
             const index = arrParams.indexOf(keyParam);
@@ -63,7 +54,7 @@ class QueryParams {
     isIncludeQueryParams(form: string) {
         const paramsFromURL = new URLSearchParams(window.location.search);
 
-        if (form === 'sort' || form === 'price' || form === 'stock') {
+        if (form === 'sort' || form === 'price' || form === 'stock' || form === 'search') {
             return false;
         }
 

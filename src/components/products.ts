@@ -1,7 +1,15 @@
 import api from '../assets/utils/api';
 import productsPage from '../assets/pages/productsPage';
 import { data, categoryArr, companyArr, IArrayParams, IDataObj } from '../assets/utils/types';
-import { sort, $, addAttribute, checkAttribute, deleteAllAtriutes } from '../assets/utils/helpers';
+import {
+    sort,
+    $,
+    addAttribute,
+    checkAttribute,
+    deleteAllAtriutes,
+    changeTextHTML,
+    $All,
+} from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
 
@@ -72,24 +80,23 @@ class Products {
                 <input id="${category}" type="checkbox">
                 <span class="item__input-fake"></span>
                 ${category}</label>
-                <p>(<span id="${category}-stock">1</span>/<span>20</span>)</p>
+                <p>(<span class="current-stock" id="${category}-stock">1</span>/<span>1</span>)</p>
         </div>
       
     </div>
 `;
-
                     this.categories.push({
                         category: category,
-                        stock: stock,
+                        stock: 1,
                     });
                 } else {
-                    categoryObj.stock += stock;
+                    categoryObj.stock += 1;
 
-                    const currentStockBlock = $(`#${category}-stock`);
+                    const currentStockBlock = <HTMLElement>$(`#${category}-stock`);
+                    const AllStockBlock = <HTMLElement>currentStockBlock?.nextElementSibling;
 
-                    if (currentStockBlock !== null) {
-                        currentStockBlock.textContent = String(categoryObj.stock);
-                    }
+                    currentStockBlock.textContent = String(categoryObj.stock);
+                    AllStockBlock.textContent = String(categoryObj.stock);
                 }
                 const companyObj = this.companies.find((item) => item.company === company);
 
@@ -101,22 +108,24 @@ class Products {
               <input id="${company}" type="checkbox">
               <span class="item__input-fake"></span>
               ${company}</label>
-              <p>(<span id="${company}-stock">1</span>/<span>20</span>)</p>
+              <p>(<span class="current-stock" id="${company}-stock">1</span>/<span>20</span>)</p>
       </div>
   </div>
       `;
 
                     this.companies.push({
                         company: company,
-                        stock: stock,
+                        stock: 1,
                     });
                 } else {
-                    companyObj.stock += stock;
+                    companyObj.stock += 1;
 
                     const currentStockBlock = $(`#${company}-stock`);
+                    const AllStockBlock = <HTMLElement>currentStockBlock?.nextElementSibling;
 
                     if (currentStockBlock !== null) {
                         currentStockBlock.textContent = String(companyObj.stock);
+                        AllStockBlock.textContent = String(companyObj.stock);
                     }
                 }
 
@@ -166,6 +175,7 @@ class Products {
 
             deleteAllAtriutes();
             const sortData = this.selectSortingMethod() as data;
+            this.changeStocks(sortData);
             this.renderOnlyGoods(sortData);
         } else {
             this.productsData ? this.renderProducts(this.productsData) : console.log('no files');
@@ -177,6 +187,9 @@ class Products {
         const blockProducts = $('.center-content__items') as HTMLElement;
         const asideCheckboxes = $('.aside__checkboxes');
         // const sliderPriceBlock = $('.slider__price');
+        const inputSearch = $('.search__input') as HTMLInputElement;
+        const buttonSave = $('.btns-aside__save') as HTMLButtonElement;
+        const buttonReset = $('.btns-aside__reset') as HTMLButtonElement;
         const inputPriceMin = $('.price-min') as HTMLInputElement;
         const inputPriceMax = $('.price-max') as HTMLInputElement;
         const inputStockMin = $('.stock-min') as HTMLInputElement;
@@ -194,6 +207,8 @@ class Products {
                     : this.queryParams.createQueryParams(`company=${filterParam}`);
 
                 if (url) {
+                    url.searchParams.delete('price');
+                    url.searchParams.delete('stock');
                     server.route(e, url);
                 }
             }
@@ -217,10 +232,24 @@ class Products {
             server.route(e, block.href);
         });
 
-        inputPriceMin?.addEventListener('change', (e) => {
-            const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
-            server.route(e, url);
+        buttonReset.addEventListener('click', (e) => {
+            server.route(e, `${window.location.origin}${window.location.pathname}`);
         });
+
+        buttonSave.addEventListener('click', () => {
+            this.copyLink();
+            changeTextHTML(buttonSave, 'Copied');
+            setTimeout(changeTextHTML, 1000, buttonSave, 'Copy Filtres');
+        });
+
+        inputSearch?.addEventListener('input', (e) => {
+            const url = this.queryParams.createQueryParams(`search=${inputSearch.value}`);
+            server.route(e, url);
+        }),
+            inputPriceMin?.addEventListener('change', (e) => {
+                const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
+                server.route(e, url);
+            });
         inputPriceMax?.addEventListener('change', (e) => {
             const url = this.queryParams.createQueryParams(`price=${inputPriceMin?.value}-${inputPriceMax.value}`);
             server.route(e, url);
@@ -232,6 +261,18 @@ class Products {
         inputStockMax?.addEventListener('change', (e) => {
             const url = this.queryParams.createQueryParams(`stock=${inputStockMin?.value}-${inputStockMax.value}`);
             server.route(e, url);
+        });
+        inputPriceMin?.addEventListener('input', () => {
+            this.renderDualSlider('price', '0', '0', 'input');
+        });
+        inputPriceMax?.addEventListener('input', () => {
+            this.renderDualSlider('price', '0', '0', 'input');
+        });
+        inputStockMin?.addEventListener('input', () => {
+            this.renderDualSlider('stock', '0', '0', 'input');
+        });
+        inputStockMax?.addEventListener('input', () => {
+            this.renderDualSlider('stock', '0', '0', 'input');
         });
     }
 
@@ -245,6 +286,7 @@ class Products {
                 break;
             case 'price-high':
                 data = sort(data, 'price', 'high');
+                console.log(data);
                 break;
             case 'name-high':
                 data = sort(data, 'name', 'high');
@@ -254,6 +296,103 @@ class Products {
         }
 
         return data;
+    }
+
+    selectSortingMethod() {
+        const params = this.queryParams.getQueryParams() as IArrayParams[];
+        let productsData: data = this.productsData;
+
+        if (params !== null) {
+            params.forEach((element) => {
+                const result: data = [];
+
+                if (element.name === 'sort') {
+                    productsData =
+                        productsData.length > 0
+                            ? this.sortProducts(element.value.join(''), productsData)
+                            : this.sortProducts(element.value.join(''), this.productsData);
+                    return;
+                }
+                addAttribute(element.name, element.value, 'checked');
+
+                productsData.forEach((item) => {
+                    const key = element.name as keyof IDataObj;
+
+                    if (element.name === 'category' || element.name === 'company') {
+                        for (const param of element.value) {
+                            if (param === item[key] && !result.includes(item)) {
+                                result.push(item);
+                            }
+                        }
+                    }
+                    if (element.name === 'search') {
+                        for (const key in item) {
+                            const currentKey = key as keyof IDataObj;
+                            this.renderSearch(element.value.join(''));
+                            if (
+                                String(item[currentKey]).includes(element.value.join('')) &&
+                                !result.includes(item) &&
+                                currentKey !== 'description'
+                            ) {
+                                result.push(item);
+                            }
+                        }
+                    } else {
+                        if (element.name === 'price' || element.name === 'stock') {
+                            const valueArr = element.value.join('').split('-');
+                            const min = valueArr[0];
+                            const max = valueArr[1];
+
+                            this.renderDualSlider(element.name, min, max); //for the slider at the selected price
+
+                            if (item[key] <= max && item[key] >= min && !result.includes(item)) {
+                                result.push(item);
+                            }
+                        }
+                    }
+                    productsData = Array.from(result);
+                });
+            });
+
+            return productsData;
+        }
+    }
+
+    async copyLink() {
+        const url = window.location.href;
+        try {
+            await navigator.clipboard.writeText(url);
+        } catch (err) {
+            console.error('Error in copying text: ', err);
+        }
+    }
+
+    changeStocks(data: data) {
+        if (!window.location.href.includes('price')) {
+            const sortPrices = data.sort((a, b) => a.price - b.price);
+            const minPrice = String(sortPrices[0].price);
+            const maxPrice = String(sortPrices[sortPrices.length - 1].price);
+            this.renderDualSlider('price', minPrice, maxPrice);
+        }
+        if (!window.location.href.includes('stock')) {
+            const sortStocks = data.sort((a, b) => a.stock - b.stock);
+            const minStock = String(sortStocks[0].stock);
+            const maxStock = String(sortStocks[sortStocks.length - 1].stock);
+            this.renderDualSlider('stock', minStock, maxStock);
+        }
+        const allCurrentSpans = $All('.current-stock');
+
+        allCurrentSpans.forEach((item) => {
+            const atribute = item.getAttribute('id')?.split('-')[0];
+            const elementsFilter = data.filter((item) => item.category === atribute || item.company === atribute);
+            item.textContent = String(elementsFilter.length);
+        });
+
+        // data.forEach((item) => {
+        //     const currentValue = <HTMLElement>$(`#${item.category}-stock`);
+        //     const previosNumb = Number(currentValue.textContent) as number;
+        //     currentValue.textContent = String(previosNumb + 1);
+        // });
     }
 
     renderOnlyGoods(data: data) {
@@ -283,65 +422,31 @@ class Products {
         });
     }
 
-    selectSortingMethod() {
-        const params = this.queryParams.getQueryParams() as IArrayParams[];
-        let productsData: data = this.productsData;
-
-        if (params !== null) {
-            params.forEach((element) => {
-                const result: data = [];
-
-                if (element.name === 'sort') {
-                    productsData =
-                        productsData.length > 0
-                            ? this.sortProducts(element.value.join(''), productsData)
-                            : this.sortProducts(element.value.join(''), this.productsData);
-                    return;
-                }
-                addAttribute(element.name, element.value, 'checked');
-
-                productsData.forEach((item) => {
-                    const key = element.name as keyof IDataObj;
-
-                    if (element.name === 'category' || element.name === 'company') {
-                        for (const param of element.value) {
-                            if (param === item[key] && !result.includes(item)) {
-                                result.push(item);
-                            }
-                        }
-                    } else {
-                        if (element.name === 'price' || element.name === 'stock') {
-                            const valueArr = element.value.join('').split('-');
-                            const min = valueArr[0];
-                            const max = valueArr[1];
-
-                            this.renderDualSlider(element.name, min, max);
-
-                            if (item[key] <= max && item[key] >= min && !result.includes(item)) {
-                                result.push(item);
-                            }
-                        }
-                    }
-                    productsData = Array.from(result);
-                });
-            });
-
-            return productsData;
-        }
-    }
-
-    renderDualSlider(name: string, min: string, max: string) {
+    renderDualSlider(name: string, min: string, max: string, event?: string) {
         const rangeContainer = $(`.aside__${name}`);
         if (rangeContainer !== null) {
             const asideMaxNumber = <HTMLElement>$('.aside__range_max', rangeContainer);
             const asideMinNumber = <HTMLElement>$('.aside__range_min', rangeContainer);
             const inputMin = $(`.${name}-min`) as HTMLInputElement;
             const inputMax = $(`.${name}-max`) as HTMLInputElement;
+
+            if (event === 'input') {
+                asideMaxNumber.textContent = inputMax.value;
+                asideMinNumber.textContent = inputMin.value;
+                return;
+            }
+
             inputMin.value = min;
             inputMax.value = max;
             asideMaxNumber.textContent = name === 'price' ? max + '$' : max;
             asideMinNumber.textContent = name === 'price' ? min + '$' : min;
         }
+    }
+
+    renderSearch(value: string) {
+        const inputSearch = <HTMLInputElement>$('.search__input');
+        console.log(value);
+        inputSearch.value = value;
     }
 }
 

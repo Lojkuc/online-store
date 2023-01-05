@@ -5,7 +5,7 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
         data.sort((a, b): number => {
             const value1 = a[key] as number;
             const value2 = b[key] as number;
-
+            console.log(data);
             return option === 'low' ? value1 - value2 : value2 - value1;
         });
     }
@@ -22,7 +22,7 @@ const sort = (data: data, key: keyof IDataObj, option: string) => {
             }
         });
     }
-
+    console.log(data);
     return data;
 };
 
@@ -45,7 +45,6 @@ const checkAttribute = (input: HTMLElement) => {
 
 const deleteAllAtriutes = () => {
     const inputs = $All('input[type=checkbox]');
-    console.log(inputs);
     inputs.forEach((item) => {
         if (item.hasAttribute('checked')) {
             item.removeAttribute('checked');
@@ -53,6 +52,22 @@ const deleteAllAtriutes = () => {
     });
 };
 
+const changeTextHTML = (elem: HTMLElement, text: string) => {
+    elem.textContent = text;
+};
+
+// const chngeSpansSlider = () => {
+//     const rangeContainer = $(`.aside__${name}`);
+//     if (rangeContainer !== null) {
+//         const asideMaxNumber = <HTMLElement>$('.aside__range_max', rangeContainer);
+//         const asideMinNumber = <HTMLElement>$('.aside__range_min', rangeContainer);
+//         const inputMin = $(`.${name}-min`) as HTMLInputElement;
+//         const inputMax = $(`.${name}-max`) as HTMLInputElement;
+//     }
+//     asideMaxNumber.textContent = inputMax.value;
+//     asideMinNumber.textContent = inputMin.value;
+//     return;
+// }
 // const putLocalStorage = (keyName: string, keyValue: string) => {
 //     localStorage.setItem(keyName, keyValue);
 // };
@@ -72,4 +87,4 @@ const $ = (selector: string, parent?: Element) =>
 const $All = (selector: string, parent?: Element) =>
     parent ? parent.querySelectorAll(selector) : document.querySelectorAll(selector);
 
-export { sort, $, $All, addAttribute, checkAttribute, deleteAllAtriutes };
+export { sort, $, $All, addAttribute, checkAttribute, deleteAllAtriutes, changeTextHTML };
