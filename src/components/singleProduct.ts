@@ -1,15 +1,14 @@
 import singleProductPage from '../assets/pages/singleProductPage';
-import { data } from '../assets/utils/types';
+import { data, IDataObj } from '../assets/utils/types';
 import { $ } from '../assets/utils/helpers';
 import api from '../assets/utils/api';
-
+import { cartPage } from '../assets/pages/cartPage';
 class SingleProduct {
   main;
 
   constructor(main: Element) {
     this.main = main;
   }
-
   async render() {
     this.main.innerHTML = singleProductPage;
 
@@ -61,7 +60,7 @@ class SingleProduct {
                 <h2 class="cart__number">1</h2>
                 <button class="cart__plus">+</button>
               </div>
-              <button class="info__cart button">Add to cart</button>
+              <button class="info__cart button " id ='${id}'>Add to cart</button>
               <button class="info__buy button">Buy now</button>
             </div>
           </section>
@@ -78,9 +77,22 @@ class SingleProduct {
 
   eventLiteners() {
     const photoCont = document.querySelector('.gallery__subphoto');
-
+    const addProduct = document.querySelector('.info__cart');
     photoCont?.addEventListener('click', (e: Event) => {
       this.changeMainPhoto(e);
+    });
+    addProduct?.addEventListener('click', async (e) => {
+      const dataArr = await api.load();
+      const target = e.target as HTMLElement;
+      const id = target.id;
+      const component = dataArr.find((el: IDataObj) => el.id == id);
+      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      const arrId = arr.map((el: IDataObj) => el.id);
+      if (arrId.includes(component.id)) {
+        arr.map((el: IDataObj) => (el.id == component.id ? el.count++ : el.count));
+      } else arr.push(component);
+      localStorage.setItem(`cart`, JSON.stringify(arr));
+      cartPage();
     });
   }
 

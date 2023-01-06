@@ -408,7 +408,7 @@ input:checked+.item__input-fake::before {
 .content__inner {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 1fr;
   grid-column-gap: 100px;
   margin-bottom: 100px;
   justify-content: center;

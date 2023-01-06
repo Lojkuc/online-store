@@ -12,7 +12,7 @@ import {
 } from '../assets/utils/helpers';
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
-
+import { cartPage } from '../assets/pages/cartPage';
 class Products {
   main;
   productsData: data = [];
@@ -87,9 +87,12 @@ class Products {
         blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
           el.addEventListener('click', function () {
             const arr = JSON.parse(localStorage.getItem('cart') as string);
-            arr[index] = data[index];
-            arr[index].count = 1;
+            const arrId = arr.map((el: IDataObj) => el.id);
+            if (arrId.includes(data[index].id)) {
+              arr.map((el: IDataObj) => (el.id == data[index].id ? el.count++ : el.count));
+            } else arr.push(data[index]);
             localStorage.setItem(`cart`, JSON.stringify(arr));
+            cartPage();
           })
         );
 
@@ -442,6 +445,17 @@ class Products {
                 </div>
               </div>
             `;
+      blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
+        el.addEventListener('click', function () {
+          const arr = JSON.parse(localStorage.getItem('cart') as string);
+          const arrId = arr.map((el: IDataObj) => el.id);
+          if (arrId.includes(data[index].id)) {
+            arr.map((el: IDataObj) => (el.id == data[index].id ? el.count++ : el.count));
+          } else arr.push(data[index]);
+          localStorage.setItem(`cart`, JSON.stringify(arr));
+          cartPage();
+        })
+      );
     });
   }
 

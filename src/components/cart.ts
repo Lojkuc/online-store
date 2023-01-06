@@ -1,5 +1,5 @@
 import cartPageEmpty from '../assets/pages/cartPageEmpty';
-import cartPage from '../assets/pages/cartPage';
+import { cartPage } from '../assets/pages/cartPage';
 class Cart {
   main;
   constructor(main: Element) {
@@ -9,9 +9,8 @@ class Cart {
     if (localStorage.getItem('cart') == '[]') {
       this.main.innerHTML = cartPageEmpty;
     } else {
-      this.main.innerHTML = cartPage;
+      this.main.innerHTML = cartPage();
     }
   }
 }
-
 export default Cart;

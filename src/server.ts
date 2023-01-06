@@ -41,7 +41,6 @@ class Server {
     if (window.location.href === href?.toString()) {
       return;
     }
-    console.log(block);
     href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
     this.handleLocation();
   };
