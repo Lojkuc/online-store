@@ -41,7 +41,7 @@ class Server {
     if (window.location.href === href?.toString()) {
       return;
     }
-
+    console.log(block);
     href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
     this.handleLocation();
   };
@@ -65,9 +65,14 @@ class Server {
 
   eventListeners() {
     const pagesBlock = document.querySelector('.nav-link');
+    const cart = document.querySelector('.card');
 
     pagesBlock?.addEventListener('click', (e) => {
       this.route(e);
+    });
+    cart?.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLLinkElement;
+      this.route(e, target.href);
     });
   }
 }

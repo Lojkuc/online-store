@@ -11,7 +11,7 @@ const countProduct = document.querySelector('.counter-products') as HTMLElement;
 function renderCart(): void {
   const totalAmount: number = data.reduce((sum: number, el) => el.price * el.count + sum, 0);
   let count: number = data.reduce((sum: number, el) => el.count + sum, 0);
-  tA.innerHTML = `$${totalAmount / 100}`;
+  tA.innerHTML = `$${totalAmount}`;
   countProduct.innerHTML = `${count++}`;
   for (let i = 0; i < data.length; i++) {
     if (data[i] == null) continue;
