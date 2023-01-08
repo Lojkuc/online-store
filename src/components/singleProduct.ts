@@ -96,6 +96,7 @@ class SingleProduct {
         arr.map((el: IDataObj) => {
           if (el.id == component.id) {
             el.count += countNow;
+            el.stock -= countNow;
           } else {
             el.count;
           }
