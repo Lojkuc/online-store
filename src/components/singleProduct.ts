@@ -78,10 +78,14 @@ class SingleProduct {
   eventLiteners() {
     const photoCont = document.querySelector('.gallery__subphoto');
     const addProduct = document.querySelector('.info__cart');
+    const countProductPlus = document.querySelector('.cart__plus');
+    const countProductMinus = document.querySelector('.cart__minus');
+    const countProducts = document.querySelector('.cart__number') as Element;
     photoCont?.addEventListener('click', (e: Event) => {
       this.changeMainPhoto(e);
     });
     addProduct?.addEventListener('click', async (e) => {
+      const countNow = +countProducts.innerHTML;
       const dataArr = await api.load();
       const target = e.target as HTMLElement;
       const id = target.id;
@@ -89,10 +93,31 @@ class SingleProduct {
       const arr = JSON.parse(localStorage.getItem('cart') as string);
       const arrId = arr.map((el: IDataObj) => el.id);
       if (arrId.includes(component.id)) {
-        arr.map((el: IDataObj) => (el.id == component.id ? el.count++ : el.count));
+        arr.map((el: IDataObj) => {
+          if (el.id == component.id) {
+            el.count += countNow;
+          } else {
+            el.count;
+          }
+        });
       } else arr.push(component);
       localStorage.setItem(`cart`, JSON.stringify(arr));
       cartPage();
+    });
+    countProductPlus?.addEventListener('click', (e: Event) => {
+      const target = e.target as Element;
+      const component = target.previousElementSibling as Element;
+      let content = +component.innerHTML as number;
+      component.innerHTML = `${++content}`;
+    });
+    countProductMinus?.addEventListener('click', (e: Event) => {
+      const target = e.target as Element;
+      const component = target.nextElementSibling as Element;
+      let content = +component.innerHTML as number;
+      if (component.innerHTML == `${1}`) {
+        return;
+      }
+      component.innerHTML = `${--content}`;
     });
   }
 
