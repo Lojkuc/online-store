@@ -1,5 +1,7 @@
 import cartPageEmpty from '../assets/pages/cartPageEmpty';
 import cartPage from '../assets/pages/cartPage';
+//import { $ } from '../assets/utils/helpers';
+import Popup from './popup';
 class Cart {
   main;
   constructor(main: Element) {
@@ -11,6 +13,11 @@ class Cart {
     } else {
       this.main.innerHTML = cartPage;
     }
+  }
+
+  openPopup() {
+    const popup = new Popup();
+    popup.openPopup();
   }
 }
 

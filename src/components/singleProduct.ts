@@ -2,6 +2,7 @@ import singleProductPage from '../assets/pages/singleProductPage';
 import { data } from '../assets/utils/types';
 import { $ } from '../assets/utils/helpers';
 import api from '../assets/utils/api';
+import server from '../server';
 
 class SingleProduct {
   main;
@@ -62,7 +63,7 @@ class SingleProduct {
                 <button class="cart__plus">+</button>
               </div>
               <button class="info__cart button">Add to cart</button>
-              <button class="info__buy button">Buy now</button>
+              <a href="/cart"><button class="info__buy button">Buy now</button></a>
             </div>
           </section>
             `;
@@ -78,9 +79,16 @@ class SingleProduct {
 
   eventLiteners() {
     const photoCont = document.querySelector('.gallery__subphoto');
+    const buyBtn = <HTMLButtonElement>$('.info__buy');
 
     photoCont?.addEventListener('click', (e: Event) => {
       this.changeMainPhoto(e);
+    });
+
+    buyBtn.addEventListener('click', (e) => {
+      const link = <string>buyBtn.closest('a')?.href;
+      server.route(e, link);
+      //this.openPopup();
     });
   }
 
@@ -92,6 +100,24 @@ class SingleProduct {
       mainPhoto.src = currentImage?.src;
     }
   }
+
+  // openPopup() {
+  //   const popup = <HTMLElement>$('.popup-wrapper');
+  //   popup.classList.add('active');
+
+  //   popup.addEventListener('click', (e) => {
+  //     this.closePopup(e, popup);
+  //   });
+  // }
+
+  // closePopup(e: Event, popup: HTMLElement) {
+  //   const blockEvent = <HTMLElement>e.target;
+
+  //   if (blockEvent.closest('.popup')) {
+  //     return;
+  //   }
+  //   popup.classList.remove('active');
+  // }
 }
 
 export default SingleProduct;

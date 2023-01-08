@@ -25,42 +25,6 @@ const singleProductPage = `
   </div>
 </div>
 </main>
-
-<div class="popup">
-<div class="popup__container">
-  <h2 class="popup__title">Personal details </h2>
-  <div class="popup__person">
-    <div class="popup__name">
-      <input type="text" placeholder="Name" class="popup__name-input popup__input">
-    </div>
-    <div class="popup__phone">
-      <input type="text" placeholder="Phone" class="popup__phone-input popup__input">
-    </div>
-    <div class="popup__address">
-      <input type="text" placeholder="Address" class="popup__address-input popup__input">
-    </div>
-    <div class="popup__email">
-      <input type="text" placeholder="E-mail" class="popup__email-input popup__input">
-    </div>
-  </div>
-  <div class="popup__card">
-    <div class="card__container">
-      <h2 class="popup__title">Card details</h2>
-      <img src="./img/visa.png" alt="card form" class="card__form">
-      <div class="card__number">
-        <input type="text" placeholder="Card number" class="card__number_input popup__input">
-      </div>
-      <div class="card__data">
-        <input type="text" placeholder="Month/Year" class="card__data_input popup__input">
-      </div>
-      <div class="card__code">
-        <input type="text" placeholder="CVV" class="card__code_input popup__input">
-      </div>
-    </div>
-  </div>
-  <button class="popup__button button">Confirm</button>
-</div>
-</div>
 `;
 
 export default singleProductPage;

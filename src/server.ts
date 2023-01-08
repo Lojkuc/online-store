@@ -41,8 +41,18 @@ class Server {
     if (window.location.href === href?.toString()) {
       return;
     }
-    console.log(block);
+
     href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
+
+    if (block.classList.contains('info__buy')) {
+      const blockForContent = <HTMLElement>document.getElementById('content');
+      const cl = this.routes[5].data as typeof Cart;
+      const cart = new cl(blockForContent);
+      cart.render();
+      cart.openPopup();
+      return;
+    }
+
     this.handleLocation();
   };
 
