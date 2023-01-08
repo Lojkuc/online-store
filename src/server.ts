@@ -58,7 +58,7 @@ class Server {
 
   handleLocation = () => {
     const html = !window.location.pathname.includes('product-detail')
-      ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[this.routes.length - 1]
+      ? this.routes.find((route) => route.path == window.location.pathname) || this.routes[4]
       : this.routes.find((route) => route.path == '/product-detail');
 
     const blockForContent: Element | null = document.getElementById('content');

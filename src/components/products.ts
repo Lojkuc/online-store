@@ -22,27 +22,12 @@ class Products {
   prices: number[] = [];
   stocks: number[] = [];
   queryParams;
+  arrParams: string[] = ['category', 'company', 'view', 'sort', 'search', 'price', 'stock'];
 
   constructor(main: Element) {
     this.main = main;
     this.queryParams = new QueryParams();
   }
-
-  // switchViewProduct() {
-  //   const productView = document.querySelector('.center-content__items') as HTMLElement;
-  //   const buttonList = document.querySelector('.layouts__list');
-  //   const buttonGrid = document.querySelector('.layouts__grid');
-  //   buttonList?.addEventListener('click', (e) => {
-  //     productView.style.gridTemplateColumns = '2fr';
-  //     const url = this.queryParams.createQueryParams('view=list');
-  //     server.route(e, url);
-  //   });
-  //   buttonGrid?.addEventListener('click', (e) => {
-  //     productView.style.gridTemplateColumns = '1fr 1fr';
-  //     const url = this.queryParams.createQueryParams('view=grid');
-  //     server.route(e, url);
-  //   });
-  // }
 
   renderProducts(data: data) {
     this.main.innerHTML = productsPage;
@@ -338,10 +323,15 @@ class Products {
       params.forEach((element) => {
         const result: data = [];
 
+        if (!this.arrParams.includes(element.name)) {
+          return;
+        }
+
         if (element.name === 'view') {
           this.switchViewProducts(element.value.join(''));
           return;
         }
+        console.log(element);
 
         if (element.name === 'sort') {
           productsData =
@@ -358,11 +348,12 @@ class Products {
             addAttribute(element.name, element.value, 'checked');
 
             for (const param of element.value) {
-              console.log(param);
-              console.log(item[key]);
               if (param === item[key] && !result.includes(item)) {
                 result.push(item);
               }
+            }
+            if (result.length === 0) {
+              this.addNotFoundMessage();
             }
           }
 
@@ -378,12 +369,7 @@ class Products {
               ) {
                 result.push(item);
               } else {
-                const blockProducts = $('.center-content__items') as HTMLElement;
-                blockProducts.innerHTML = `<h2>Products not found!</h2>`;
-                const amountProductsBlock = $('.filtres-center__products') as HTMLElement;
-                amountProductsBlock.textContent = `
-                                0 products found
-                            `;
+                this.addNotFoundMessage();
               }
             }
           } else {
@@ -396,6 +382,9 @@ class Products {
 
               if (item[key] <= max && item[key] >= min && !result.includes(item)) {
                 result.push(item);
+              }
+              if (result.length === 0) {
+                this.addNotFoundMessage();
               }
             }
           }
@@ -499,6 +488,15 @@ class Products {
     method === 'list'
       ? (productView.style.gridTemplateColumns = '2fr')
       : (productView.style.gridTemplateColumns = '1fr 1fr');
+  }
+
+  addNotFoundMessage() {
+    const blockProducts = $('.center-content__items') as HTMLElement;
+    blockProducts.innerHTML = `<h2>Products not found!</h2>`;
+    const amountProductsBlock = $('.filtres-center__products') as HTMLElement;
+    amountProductsBlock.textContent = `
+                    0 products found
+                `;
   }
 }
 
