@@ -14,7 +14,7 @@ export const cartPage = () => {
     let count: number = data.reduce((sum: number, el) => el.count + sum, 0);
     price.innerHTML = `$${totalAmount}`;
     countProduct.innerHTML = `${count++}`;
-    blockWithTotalPrice += ` <div class="block_buy">
+    blockWithTotalPrice = ` <div class="block_buy">
     <div class="block_price">
         <h1>Total</h1>
         <h2 class="total__price">$${totalAmount}</h2>
@@ -66,6 +66,7 @@ export const cartPage = () => {
     const updateTotal = () => {
       data = product;
       getTotal();
+      console.log(blockWithCard);
     };
     const deleteItem = (isMinus: boolean) => {
       product.splice(index, 1);

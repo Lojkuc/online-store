@@ -85,12 +85,12 @@ class SingleProduct {
       this.changeMainPhoto(e);
     });
     addProduct?.addEventListener('click', async (e) => {
+      const arr = JSON.parse(localStorage.getItem('cart') as string);
       const countNow = +countProducts.innerHTML;
       const dataArr = await api.load();
       const target = e.target as HTMLElement;
       const id = target.id;
       const component = dataArr.find((el: IDataObj) => el.id == id);
-      const arr = JSON.parse(localStorage.getItem('cart') as string);
       const arrId = arr.map((el: IDataObj) => el.id);
       if (arrId.includes(component.id)) {
         arr.map((el: IDataObj) => {
