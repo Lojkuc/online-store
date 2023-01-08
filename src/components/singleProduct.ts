@@ -23,7 +23,7 @@ class SingleProduct {
       const { image, name, price, company, description, id, stock } = currentProduct;
       const navigationTitle = $('#breadcrumb') as HTMLElement;
 
-      navigationTitle.textContent = currentProduct.name;
+      navigationTitle.textContent = `${currentProduct.category} / ${currentProduct.company} / ${currentProduct.name}`;
 
       container.innerHTML = `
             <section class="content__gallery">
@@ -100,24 +100,6 @@ class SingleProduct {
       mainPhoto.src = currentImage?.src;
     }
   }
-
-  // openPopup() {
-  //   const popup = <HTMLElement>$('.popup-wrapper');
-  //   popup.classList.add('active');
-
-  //   popup.addEventListener('click', (e) => {
-  //     this.closePopup(e, popup);
-  //   });
-  // }
-
-  // closePopup(e: Event, popup: HTMLElement) {
-  //   const blockEvent = <HTMLElement>e.target;
-
-  //   if (blockEvent.closest('.popup')) {
-  //     return;
-  //   }
-  //   popup.classList.remove('active');
-  // }
 }
 
 export default SingleProduct;

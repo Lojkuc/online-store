@@ -133,7 +133,8 @@
 @media (max-width: 780px) {
   .navigation-main__block {
     font-size: 25rem;
-    gap: 10rem;
+    gap: 5rem;
+    flex-wrap: wrap;
   }
 
   .main {
