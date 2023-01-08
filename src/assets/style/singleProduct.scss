@@ -2,7 +2,9 @@
 @import "./modal-popup.scss";
 
 
-
+button{
+    cursor: pointer;
+}
 .main {
     &__content {
         display: flex;

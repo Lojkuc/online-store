@@ -58,6 +58,9 @@ export const cartPage = () => {
       localStorage.setItem(`cart`, JSON.stringify(product));
       const cartProduct = isMinus ? target.parentElement?.parentElement : target.parentElement;
       cartProduct?.remove();
+      if (!product.length) {
+        location.reload();
+      }
       updateTotal();
     };
     const changeCount = (isMinus: boolean) => {
@@ -74,7 +77,6 @@ export const cartPage = () => {
         } else {
           product[index].count++;
           product[index].stock--;
-          console.log(product[index].stock);
         }
         const counter = isMinus ? <Element>target.nextSibling : <Element>target.previousSibling;
         counter.textContent = ` ${product[index].count} `;
