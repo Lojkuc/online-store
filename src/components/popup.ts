@@ -11,7 +11,6 @@ class Popup {
   inputCardData;
   inputCardCVV;
   inputsAll;
-  result;
 
   constructor() {
     this.formPopup = <HTMLFormElement>$('.form__popup');
@@ -23,7 +22,6 @@ class Popup {
     this.inputCardData = <HTMLInputElement>$('.card__data_input');
     this.inputCardCVV = <HTMLInputElement>$('.card__code_input');
     this.inputsAll = $All('.popup__input');
-    this.result = false;
   }
 
   openPopup() {
@@ -51,8 +49,9 @@ class Popup {
       e.preventDefault();
       this.checkValids();
 
-      if (this.result === true) {
-        setTimeout(() => server.route(e, `${window.location.origin}/`), 5000);
+      if (this.lastCheckValid()) {
+        this.addSuccessMessage();
+        setTimeout(() => server.route(e, `${window.location.origin}/`), 4000);
       }
     });
 
@@ -211,8 +210,6 @@ class Popup {
     const parent = <HTMLElement>block.parentNode;
     const mistake = $('.error-message', parent);
 
-    this.result = false;
-
     if (mistake) {
       return;
     }
@@ -225,13 +222,21 @@ class Popup {
     const parent = <HTMLElement>block.parentNode;
     const mistake = $('.error-message', parent);
 
-    this.result = true;
-
     block.classList.remove('error');
 
     if (mistake) {
       parent.removeChild(mistake);
     }
+  }
+
+  lastCheckValid() {
+    console.log(this.inputsAll);
+    console.log(Array.from(this.inputsAll).every((item) => item.classList.contains('error')));
+    return Array.from(this.inputsAll).every((item) => !item.classList.contains('error'));
+  }
+
+  addSuccessMessage() {
+    this.formPopup.innerHTML = `<h2 class="success-message">Сongratulations! Your order has been placed</h2>`;
   }
 }
 export default Popup;
