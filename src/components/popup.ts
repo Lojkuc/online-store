@@ -96,7 +96,6 @@ class Popup {
     this.cardCvvValidation(this.inputCardCVV.value)
       ? this.removeErrorMessage(this.inputCardCVV)
       : this.addErrorMessage(this.inputCardCVV);
-    console.log(window.location);
   }
 
   nameValidation(value: string) {
@@ -230,8 +229,6 @@ class Popup {
   }
 
   lastCheckValid() {
-    console.log(this.inputsAll);
-    console.log(Array.from(this.inputsAll).every((item) => item.classList.contains('error')));
     return Array.from(this.inputsAll).every((item) => !item.classList.contains('error'));
   }
 

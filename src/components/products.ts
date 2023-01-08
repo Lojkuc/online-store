@@ -28,21 +28,24 @@ class Products {
     this.queryParams = new QueryParams();
   }
 
-  switchViewProduct() {
-    const productView = document.querySelector('.center-content__items') as HTMLElement;
-    const buttonList = document.querySelector('.layouts__list');
-    const buttonGrid = document.querySelector('.layouts__grid');
-    buttonList?.addEventListener('click', function () {
-      productView.style.gridTemplateColumns = '2fr';
-    });
-    buttonGrid?.addEventListener('click', function () {
-      productView.style.gridTemplateColumns = '1fr 1fr';
-    });
-  }
+  // switchViewProduct() {
+  //   const productView = document.querySelector('.center-content__items') as HTMLElement;
+  //   const buttonList = document.querySelector('.layouts__list');
+  //   const buttonGrid = document.querySelector('.layouts__grid');
+  //   buttonList?.addEventListener('click', (e) => {
+  //     productView.style.gridTemplateColumns = '2fr';
+  //     const url = this.queryParams.createQueryParams('view=list');
+  //     server.route(e, url);
+  //   });
+  //   buttonGrid?.addEventListener('click', (e) => {
+  //     productView.style.gridTemplateColumns = '1fr 1fr';
+  //     const url = this.queryParams.createQueryParams('view=grid');
+  //     server.route(e, url);
+  //   });
+  // }
 
   renderProducts(data: data) {
     this.main.innerHTML = productsPage;
-    this.switchViewProduct();
 
     const blockProducts = $('.center-content__items') as HTMLElement;
     const blockCategories = $('.categories-aside__list') as HTMLElement;
@@ -211,7 +214,6 @@ class Products {
     const select = $('.filtres-center__sort');
     const blockProducts = $('.center-content__items') as HTMLElement;
     const asideCheckboxes = $('.aside__checkboxes');
-    // const sliderPriceBlock = $('.slider__price');
     const inputSearch = $('.search__input') as HTMLInputElement;
     const buttonSave = $('.btns-aside__save') as HTMLButtonElement;
     const buttonReset = $('.btns-aside__reset') as HTMLButtonElement;
@@ -219,6 +221,7 @@ class Products {
     const inputPriceMax = $('.price-max') as HTMLInputElement;
     const inputStockMin = $('.stock-min') as HTMLInputElement;
     const inputStockMax = $('.stock-max') as HTMLInputElement;
+    const btnsView = $('.filtres-center__layouts');
 
     asideCheckboxes?.addEventListener('click', (e) => {
       const eventBlock = e.target as HTMLElement;
@@ -261,6 +264,15 @@ class Products {
       this.copyLink();
       changeTextHTML(buttonSave, 'Copied');
       setTimeout(changeTextHTML, 1000, buttonSave, 'Copy Filtres');
+    });
+
+    btnsView?.addEventListener('click', (e) => {
+      const bttn = <HTMLElement>e.target;
+      const url = bttn.classList.value.includes('grid')
+        ? this.queryParams.createQueryParams('view=grid')
+        : this.queryParams.createQueryParams('view=list');
+
+      server.route(e, url);
     });
 
     inputSearch?.addEventListener('input', (e) => {
@@ -326,6 +338,11 @@ class Products {
       params.forEach((element) => {
         const result: data = [];
 
+        if (element.name === 'view') {
+          this.switchViewProducts(element.value.join(''));
+          return;
+        }
+
         if (element.name === 'sort') {
           productsData =
             productsData.length > 0
@@ -339,16 +356,21 @@ class Products {
 
           if (element.name === 'category' || element.name === 'company') {
             addAttribute(element.name, element.value, 'checked');
+
             for (const param of element.value) {
+              console.log(param);
+              console.log(item[key]);
               if (param === item[key] && !result.includes(item)) {
                 result.push(item);
               }
             }
           }
+
           if (element.name === 'search') {
             for (const key in item) {
               const currentKey = key as keyof IDataObj;
               this.renderSearch(element.value.join(''));
+
               if (
                 String(item[currentKey]).includes(element.value.join('')) &&
                 !result.includes(item) &&
@@ -469,6 +491,14 @@ class Products {
   renderSearch(value: string) {
     const inputSearch = <HTMLInputElement>$('.search__input');
     inputSearch.value = value;
+  }
+
+  switchViewProducts(method: string) {
+    const productView = document.querySelector('.center-content__items') as HTMLElement;
+
+    method === 'list'
+      ? (productView.style.gridTemplateColumns = '2fr')
+      : (productView.style.gridTemplateColumns = '1fr 1fr');
   }
 }
 
