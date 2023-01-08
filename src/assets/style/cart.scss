@@ -6,3 +6,19 @@
   align-items: center;
   padding: 50px 0;
 }
+.block_buy{
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  row-gap: 30px;
+}
+.block_price,.block_count{
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+.block__submit{
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
