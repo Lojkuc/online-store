@@ -41,7 +41,6 @@ class Server {
     if (window.location.href === href?.toString()) {
       return;
     }
-
     href ? window.history.pushState({}, '', href) : window.history.pushState({}, '', block.href);
 
     if (block.classList.contains('info__buy')) {
