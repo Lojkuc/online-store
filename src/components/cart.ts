@@ -50,8 +50,7 @@ class Cart {
       sum += sumElement;
     });
     console.log(sum);
-    totalPrice.textContent = String(sum);
-    console.log(totalPrice);
+    totalPrice.textContent = `$${String(sum)}`;
   }
 }
 
