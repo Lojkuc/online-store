@@ -5,7 +5,7 @@ import SingleProduct from './components/singleProduct';
 import Err from './components/error';
 import './assets/style/style.scss';
 import Cart from './components/cart';
-
+import addBurgerMenu from './assets/script/burgerMenu';
 class Server {
   routes = [
     {
@@ -89,5 +89,5 @@ class Server {
 const server = new Server();
 server.handleLocation();
 server.eventListeners();
-
+addBurgerMenu();
 export default server;
