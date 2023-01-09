@@ -6,8 +6,7 @@ interface IDataObj {
   id: string;
   name: string;
   price: number;
-  image: string;
-  colors: string[];
+  image: string[];
   company: string;
   description: string;
   category: string;

@@ -22,7 +22,7 @@ export const cartPage = () => {
       blockWithCard += `
         <div class="content__inner cart__product">
             <div class="content__item">
-              <img src="${data[i].image}" width="300" height="200"alt="">
+              <img src="${data[i].image[0]}" width="300" height="200"alt="">
               <h5>${data[i].name.toUpperCase()}</h5>
             </div>
             <div class="content__price">

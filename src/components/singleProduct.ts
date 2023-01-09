@@ -27,13 +27,13 @@ class SingleProduct {
       container.innerHTML = `
             <section class="content__gallery">
             <div class="gallery__photo">
-              <img src="${image}" id="main-photo" alt="photo product" class="gallery__photo-img">
+              <img src="${image[0]}" id="main-photo" alt="photo product" class="gallery__photo-img">
             </div>
             <div class="gallery__subphoto">
-              <img src="${image}" alt="photo product" class="gallery__photo-img">
-              <img src="../img/product-addition1.jpg" alt="photo product" class="gallery__photo-img">
-              <img src="../img/product-addition2.jpg" alt="photo product" class="gallery__photo-img">
-              <img src="../img/product-addition3.jpg" alt="photo product" class="gallery__photo-img">
+              <img src="${image[0]}" alt="photo product" class="gallery__photo-img">
+              <img src="${image[1]}" alt="photo product" class="gallery__photo-img">
+              <img src="${image[2]}" alt="photo product" class="gallery__photo-img">
+              <img src="${image[3]}" alt="photo product" class="gallery__photo-img">
             </div>
           </section>
           <section class="content__info">

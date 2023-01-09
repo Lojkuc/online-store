@@ -50,7 +50,7 @@ class Products {
         id,
         stock,
       }: {
-        image: string;
+        image: string[];
         name: string;
         price: number;
         company: string;
@@ -62,7 +62,7 @@ class Products {
         blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
-                  <a href="/product-detail_${id}"><img  src="${image}" alt="product" class="product__img"></a>
+                  <a href="/product-detail_${id}"><img  src="${image[0]}" alt="product" class="product__img"></a>
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>
@@ -448,11 +448,11 @@ class Products {
 
     blockProducts.innerHTML = '';
 
-    data.forEach(({ image, name, price, id }: { image: string; name: string; price: number; id: string }) => {
+    data.forEach(({ image, name, price, id }: { image: string[]; name: string; price: number; id: string }) => {
       blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
-                  <a href="/product-detail_${id}"><img  src="${image}" alt="product" class="product__img"></a>
+                  <a href="/product-detail_${id}"><img  src="${image[0]}" alt="product" class="product__img"></a>
                   <div class="product__footer">
                     <div class="footer-product__info info-product">
                       <div class="info-product__name">${name}</div>

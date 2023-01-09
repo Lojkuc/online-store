@@ -4,7 +4,7 @@ const homePage = `
     <div class="info-block">
       <h1>Design Your <br> Comfort Zone</h1>
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, at sed omnis corporis doloremque possimus velit! Repudiandae nisi odit, aperiam odio ducimus, obcaecati libero et quia tempora excepturi quis alias?</p>
-      <a class="button-home shop-now" href="">Shop Now</a>
+      <a class="button-home shop-now" href="/products">Shop Now</a>
     </div>
     <div class="image-container">
       <img src="./img/image_container_img1.jpeg" class="main-img" alt="">
@@ -18,7 +18,7 @@ const homePage = `
     <div class="block-product">
       <div class="cart-product">
         <div class="cart-image">
-          <img src="./img/card-furniture1.jpg" class="furniture-img" alt="">
+          <a href="/products"><img src="./img/card-furniture1.jpg" class="furniture-img" alt=""></a>
         </div>
         <div class="cart-text">
           <p>Entertainment Center</p>
@@ -27,7 +27,7 @@ const homePage = `
       </div>
       <div class="cart-product">
         <div class="cart-image">
-          <img src="./img/card-furniture2.jpg" class="furniture-img" alt="">
+         <a href="/products"><img src="./img/card-furniture2.jpg" class="furniture-img" alt=""></a>
         </div>
         <div class="cart-text">
           <p>High-Back Bench</p>
@@ -36,7 +36,7 @@ const homePage = `
       </div>
       <div class="cart-product">
         <div class="cart-image">
-          <img src="./img/card-furniture3.jpg" class="furniture-img" alt="">
+         <a href="/products"><img src="./img/card-furniture3.jpg" class="furniture-img" alt=""></a>
         </div>
         <div class="cart-text">
           <p>Modern Bookshelf</p>
@@ -45,7 +45,7 @@ const homePage = `
       </div>
   </div>
 </div>
-  <a href="#" class="button-home">All products</a>
+  <a href="/products" class="button-home">All products</a>
 </div>
 <div class="custom-furniture">
 <div class="container">
