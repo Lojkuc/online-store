@@ -40,17 +40,21 @@ class Cart {
 
   changeMainSum() {
     const totalPrice = <HTMLElement>$('.total__price');
+    const totalCount = <HTMLElement>$('.total__count');
     const productsJson = <string>localStorage.getItem('cart');
     const productsArr = <data>JSON.parse(productsJson);
 
     let sum = 0;
+    let count = 0;
 
     productsArr.forEach((element) => {
       const sumElement = element.count * element.price;
+      count += element.count;
       sum += sumElement;
     });
     console.log(sum);
     totalPrice.textContent = `$${String(sum)}`;
+    totalCount.textContent = `${String(count)}`;
   }
 }
 
