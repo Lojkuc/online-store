@@ -63,6 +63,8 @@ class Products {
         const arrId = arr.map((el: IDataObj) => el.id);
         if (arrId.includes(id)) {
           text = 'Product added';
+        } else {
+          text = 'Add to cart';
         }
         blockProducts.innerHTML += `
                 <div class="items-center__product product">
@@ -81,13 +83,14 @@ class Products {
 
         blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
           el.addEventListener('click', function () {
-            const arr = JSON.parse(localStorage.getItem('cart') as string);
+            let arr = JSON.parse(localStorage.getItem('cart') as string);
             const arrId = arr.map((el: IDataObj) => el.id);
             if (!arrId.includes(data[index].id)) {
               arr.push(data[index]);
+            } else {
+              arr = arr.filter((el: IDataObj) => el.id != data[index].id);
             }
             localStorage.setItem(`cart`, JSON.stringify(arr));
-            console.log('1');
           })
         );
 
