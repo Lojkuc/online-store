@@ -1,6 +1,7 @@
 import cartPageEmpty from '../assets/pages/cartPageEmpty';
 import { cartPage } from '../assets/pages/cartPage';
 import Popup from './popup';
+import { $ } from '../assets/utils/helpers';
 
 class Cart {
   main;
@@ -14,7 +15,14 @@ class Cart {
       this.main.innerHTML = cartPageEmpty;
     } else {
       this.main.innerHTML = cartPage();
+      this.eventlisteners();
     }
+  }
+
+  eventlisteners() {
+    const buyBtn = <HTMLButtonElement>$('.buy__submit');
+
+    buyBtn.addEventListener('click', this.openPopup);
   }
 
   openPopup() {

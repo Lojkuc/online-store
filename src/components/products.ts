@@ -13,7 +13,6 @@ import {
 import QueryParams from '../assets/utils/queryParams';
 import server from '../server';
 import { cartPage } from '../assets/pages/cartPage';
-// import e from 'express';
 class Products {
   main;
   productsData: data = [];
@@ -59,6 +58,12 @@ class Products {
         stock: number;
         count: number;
       }) => {
+        let text = 'Add to cart';
+        const arr = JSON.parse(localStorage.getItem('cart') as string);
+        const arrId = arr.map((el: IDataObj) => el.id);
+        if (arrId.includes(id)) {
+          text = 'Product added';
+        }
         blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
@@ -68,7 +73,7 @@ class Products {
                       <div class="info-product__name">${name}</div>
                       <div class="info-product__price">$${price}</div>
                     </div>
-                    <button class="footer-product__cart button">Add to cart</button>
+                    <button class="footer-product__cart button">${text}</button>
                   </div>
                 </div>
               </div>
@@ -78,16 +83,11 @@ class Products {
           el.addEventListener('click', function () {
             const arr = JSON.parse(localStorage.getItem('cart') as string);
             const arrId = arr.map((el: IDataObj) => el.id);
-            if (arrId.includes(data[index].id)) {
-              arr.map((el: IDataObj) => {
-                if (el.id == data[index].id) {
-                  el.count++;
-                  el.stock--;
-                }
-              });
-            } else arr.push(data[index]);
+            if (!arrId.includes(data[index].id)) {
+              arr.push(data[index]);
+            }
             localStorage.setItem(`cart`, JSON.stringify(arr));
-            cartPage();
+            console.log('1');
           })
         );
 
@@ -449,6 +449,12 @@ class Products {
     blockProducts.innerHTML = '';
 
     data.forEach(({ image, name, price, id }: { image: string[]; name: string; price: number; id: string }) => {
+      let text = 'Add to cart';
+      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      const arrId = arr.map((el: IDataObj) => el.id);
+      if (arrId.includes(id)) {
+        text = 'Product added';
+      }
       blockProducts.innerHTML += `
                 <div class="items-center__product product">
                 <div class="product__icon">
@@ -458,7 +464,7 @@ class Products {
                       <div class="info-product__name">${name}</div>
                       <div class="info-product__price">$${price}</div>
                     </div>
-                    <button class="footer-product__cart button">Add to cart</button>
+                    <button class="footer-product__cart button">${text}</button>
                   </div>
                 </div>
               </div>
@@ -471,7 +477,6 @@ class Products {
             arr.map((el: IDataObj) => (el.id == data[index].id ? el.count++ : el.count));
           } else arr.push(data[index]);
           localStorage.setItem(`cart`, JSON.stringify(arr));
-          cartPage();
         })
       );
     });

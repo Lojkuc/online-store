@@ -5,15 +5,28 @@ export const cartPage = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }
   let blockWithCard = '';
+  let blockWithTotalPrice = '';
   let data: data = JSON.parse(localStorage.getItem('cart') as string).filter((el: string) => Boolean(el));
-  const tA = document.querySelector('.price') as HTMLElement;
+  const price = document.querySelector('.price') as HTMLElement;
   const countProduct = document.querySelector('.counter-products') as HTMLElement;
-
   const getTotal = () => {
     const totalAmount: number = data.reduce((sum: number, el) => el.price * el.count + sum, 0);
     let count: number = data.reduce((sum: number, el) => el.count + sum, 0);
-    tA.innerHTML = `$${totalAmount}`;
+    price.innerHTML = `$${totalAmount}`;
     countProduct.innerHTML = `${count++}`;
+    blockWithTotalPrice = ` <div class="block_buy">
+    <div class="block_price">
+        <h1>Total</h1>
+        <h2 class="total__price">$${totalAmount}</h2>
+    </div>
+    <div class="block_count">
+    <h2 class="total__count">${--count}</h2>
+        <h1>items</h1>
+    </div>
+    <div class="block__submit">
+        <button class="buy__submit">SUBMIT</button>
+    </div>
+  </div>`;
   };
   function renderCart(): void {
     getTotal();
@@ -34,10 +47,11 @@ export const cartPage = () => {
               <button class="counter_plus" data-id="${data[i].id}">+</button>
             </div>
             <div class="content__subtotal">
-              $${(data[i].price * data[i].count).toFixed(2)}
+              $${data[i].price * data[i].count}
             </div>
             <button class="delete__product" data-id="${data[i].id}">REMOVE</i></button>
             </div>
+            
         `;
     }
   }
@@ -52,12 +66,16 @@ export const cartPage = () => {
     const updateTotal = () => {
       data = product;
       getTotal();
+      console.log(blockWithCard);
     };
     const deleteItem = (isMinus: boolean) => {
       product.splice(index, 1);
       localStorage.setItem(`cart`, JSON.stringify(product));
       const cartProduct = isMinus ? target.parentElement?.parentElement : target.parentElement;
       cartProduct?.remove();
+      if (!product.length) {
+        location.reload();
+      }
       updateTotal();
     };
     const changeCount = (isMinus: boolean) => {
@@ -74,7 +92,6 @@ export const cartPage = () => {
         } else {
           product[index].count++;
           product[index].stock--;
-          console.log(product[index].stock);
         }
         const counter = isMinus ? <Element>target.nextSibling : <Element>target.previousSibling;
         counter.textContent = ` ${product[index].count} `;
@@ -113,6 +130,7 @@ export const cartPage = () => {
     <h5></h5>
   </div>
   ${blockWithCard}
+  ${blockWithTotalPrice}
 </div>
 </div>
 

@@ -418,3 +418,8 @@ input:checked+.item__input-fake::before {
     padding-bottom: 10px;
   }
 }
+.footer-product__cart{
+  &.add{
+    background-color: #102a42;
+  }
+}
