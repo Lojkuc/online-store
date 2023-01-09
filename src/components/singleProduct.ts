@@ -96,6 +96,7 @@ class SingleProduct {
       const id = target.id;
       const component = dataArr.find((el: IDataObj) => el.id == id);
       const arrId = arr.map((el: IDataObj) => el.id);
+      console.log(arrId);
 
       if (arrId.includes(component.id)) {
         arr.map((el: IDataObj) => {
@@ -117,6 +118,7 @@ class SingleProduct {
       const component = target.previousElementSibling as Element;
       let content = +component.innerHTML as number;
       component.innerHTML = `${++content}`;
+      console.log(content);
     });
 
     countProductMinus?.addEventListener('click', (e: Event) => {
