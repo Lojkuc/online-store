@@ -42,14 +42,14 @@ export const cartPage = () => {
               $${data[i].price}
             </div>
             <div class="content__quantity">
-              <button class="counter_minus" data-id="${data[i].id}">-</button>
+              <button class="counter_minus btn" data-id="${data[i].id}">-</button>
                 ${data[i].count}
-              <button class="counter_plus" data-id="${data[i].id}">+</button>
+              <button class="counter_plus btn" data-id="${data[i].id}">+</button>
             </div>
             <div class="content__subtotal">
               $${data[i].price * data[i].count}
             </div>
-            <button class="delete__product" data-id="${data[i].id}">REMOVE</i></button>
+            <button class="delete__product btn" data-id="${data[i].id}">REMOVE</i></button>
             </div>
             
         `;
@@ -66,7 +66,6 @@ export const cartPage = () => {
     const updateTotal = () => {
       data = product;
       getTotal();
-      console.log(blockWithCard);
     };
     const deleteItem = (isMinus: boolean) => {
       product.splice(index, 1);
