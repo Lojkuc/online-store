@@ -91,6 +91,7 @@ class Products {
               arr = arr.filter((el: IDataObj) => el.id != data[index].id);
             }
             localStorage.setItem(`cart`, JSON.stringify(arr));
+            cartPage();
           })
         );
 
@@ -474,12 +475,15 @@ class Products {
             `;
       blockProducts.querySelectorAll('.button')?.forEach((el, index) =>
         el.addEventListener('click', function () {
-          const arr = JSON.parse(localStorage.getItem('cart') as string);
+          let arr = JSON.parse(localStorage.getItem('cart') as string);
           const arrId = arr.map((el: IDataObj) => el.id);
-          if (arrId.includes(data[index].id)) {
-            arr.map((el: IDataObj) => (el.id == data[index].id ? el.count++ : el.count));
-          } else arr.push(data[index]);
+          if (!arrId.includes(data[index].id)) {
+            arr.push(data[index]);
+          } else {
+            arr = arr.filter((el: IDataObj) => el.id != data[index].id);
+          }
           localStorage.setItem(`cart`, JSON.stringify(arr));
+          cartPage();
         })
       );
     });
