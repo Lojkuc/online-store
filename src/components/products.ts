@@ -519,9 +519,9 @@ class Products {
     const productView = document.querySelector('.center-content__items') as HTMLElement;
 
     if (method === 'list') {
-      productView.style.gridTemplateColumns = '2fr';
+      productView.classList.add('list');
     } else {
-      productView.style.gridTemplateColumns = '1fr 1fr 1fr';
+      productView.classList.remove('list');
     }
   }
 

@@ -128,6 +128,7 @@ hr {
   &__img {
     object-fit: cover;
     width: 100%;
+    height: 200rem;
     margin-bottom: 10rem;
     border-radius: 2%;
     cursor: pointer;
@@ -150,7 +151,18 @@ hr {
     gap: 5rem;
   }
 }
+.list.center-content {
+  &__items {
+    grid-template-columns: 1fr;
+  }
+}
 
+.list .product { 
+  &__img {
+    height: 350rem;
+    outline: 1px solid #eee;
+  }
+}
 .info-product {
   &__name {
     text-transform: capitalize;
