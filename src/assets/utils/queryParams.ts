@@ -29,7 +29,7 @@ class QueryParams {
     const nameParam = param.split('=')[0];
     const keyParam = param.split('=')[1];
 
-    if (window.location.href.includes(keyParam) && nameParam !== 'sort' && nameParam !== 'search' && nameParam !== 'view') {
+    if (window.location.href.includes(keyParam) && nameParam !== 'sort' && nameParam !== 'search' && nameParam !== 'view' && nameParam !== 'limit' && nameParam !== 'page') {
       const params = this.getQueryParams(nameParam) as string;
       const arrParams = params.split(';');
       const index = arrParams.indexOf(keyParam);
@@ -54,7 +54,7 @@ class QueryParams {
   isIncludeQueryParams(form: string) {
     const paramsFromURL = new URLSearchParams(window.location.search);
 
-    if (form === 'sort' || form === 'price' || form === 'stock' || form === 'search' || form === 'view') {
+    if (form === 'sort' || form === 'price' || form === 'stock' || form === 'search' || form === 'view' || form === 'limit' || form === 'page') {
       return false;
     }
 

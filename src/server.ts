@@ -51,7 +51,6 @@ class Server {
       cart.openPopup();
       return;
     }
-
     this.handleLocation();
   };
 
