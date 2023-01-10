@@ -21,8 +21,11 @@ class SingleProduct {
     if (currentProduct !== undefined) {
       const { image, name, price, company, description, id, stock } = currentProduct;
       const navigationTitle = $('#breadcrumb') as HTMLElement;
-
-      navigationTitle.textContent = `${currentProduct.category} / ${currentProduct.company} / ${currentProduct.name}`;
+      cartPage();
+      navigationTitle.innerHTML = `
+      <a href="/products?category=${currentProduct.category}">${currentProduct.category}</a> / 
+      <a href="/products?company=${currentProduct.company}">${currentProduct.company}</a> 
+      / ${currentProduct.name}`;
       let text = 'Add to cart';
       const arr = JSON.parse(localStorage.getItem('cart') as string);
       const arrId = arr.map((el: IDataObj) => el.id);
