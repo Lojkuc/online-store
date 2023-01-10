@@ -518,9 +518,11 @@ class Products {
   switchViewProducts(method: string) {
     const productView = document.querySelector('.center-content__items') as HTMLElement;
 
-    method === 'list'
-      ? (productView.style.gridTemplateColumns = '2fr')
-      : (productView.style.gridTemplateColumns = '1fr 1fr 1fr');
+    if (method === 'list') {
+      productView.style.gridTemplateColumns = '2fr';
+    } else {
+      productView.style.gridTemplateColumns = '1fr 1fr 1fr';
+    }
   }
 
   addNotFoundMessage() {
