@@ -42,7 +42,10 @@ export const cartPage = () => {
         <div class="content__inner cart__product">
             <div class="content__item">
               <img src="${data[i].image[0]}" width="300" height="200"alt="">
-              <h5>${data[i].name.toUpperCase()}</h5>
+            <div class="item__info">
+                <p class="item__name">${data[i].name.toUpperCase()}</p>
+                <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
+            </div>
             </div>
             <div class="content__price">
               $${data[i].price}

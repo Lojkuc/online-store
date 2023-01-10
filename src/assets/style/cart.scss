@@ -31,21 +31,28 @@
   text-decoration: line-through;
 }
 
+.item__info {
+  display: flex;
+  flex-direction: column;
+
+  .item__name {
+    font-size: 20rem;
+    font-weight: bold;
+    margin-top: 5rem;
+  }
+
+
+  p {
+    font-size: 16rem;
+  }
+}
+
 .discount_price,
 .block_disount {
   display: flex;
   align-items: center;
   column-gap: 20px;
 }
-
-// .order {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-.block_buy {}
-
 
 .add__promo {
   &::before {
@@ -85,12 +92,9 @@
     gap: 10px;
   }
 
-
   &__input {
     font-size: 14px;
   }
-
-  &__button {}
 
   &__codes {
     flex-wrap: nowrap;
@@ -112,13 +116,4 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-}
-
-.btn {}
-
-.codes {
-
-  &__for-apply {}
-
-  &__applied {}
 }

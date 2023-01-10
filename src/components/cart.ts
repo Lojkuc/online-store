@@ -67,8 +67,6 @@ class Cart {
 
     if (+discontNumber > 0) {
       const discountSum = sum - (sum / 100) * +discontNumber;
-      // const newTotal = document.createElement('div');
-      // newTotal.classList.add('discount_price');
       totalPriceBlock.classList.add('crossed');
       newTotal.innerHTML = `
     <h2 class="total__price">Total: $${discountSum}</h2>`;
