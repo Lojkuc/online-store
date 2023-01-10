@@ -39,27 +39,28 @@ export const cartPage = () => {
     for (let i = 0; i < data.length; i++) {
       if (data[i] == null) continue;
       blockWithCard += `
-          <div class="content__inner cart__product">
-              <div class="content__item">
-                <img src="${data[i].image[0]}" width="300" height="200"alt="">
-              <div class="item__info">
-                  <p class="item__name">${data[i].name.toUpperCase()}</p>
-                  <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
-              </div>
-              </div>
-              <div class="content__price">
-                $${data[i].price}
-              </div>
-              <div class="content__quantity">
-                <button class="counter_minus btn button" data-id="${data[i].id}">-</button>
-                  ${data[i].count}
-                <button class="counter_plus btn button" data-id="${data[i].id}">+</button>
-              </div>
-              <div class="content__subtotal">
-                $${data[i].price * data[i].count}
-              </div>
-              <button class="delete__product btn button" data-id="${data[i].id}">REMOVE</i></button>
-              </div>
+        <div class="content__inner cart__product">
+            <div class="content__item">
+            <a href="/product-detail_${data[i].id}">
+            <img src="${data[i].image[0]}" width="300" height="200"alt=""></a>
+            <div class="item__info">
+                <p class="item__name">${data[i].name.toUpperCase()}</p>
+                <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
+            </div>
+            </div>
+            <div class="content__price">
+              $${data[i].price}
+            </div>
+            <div class="content__quantity">
+              <button class="counter_minus btn button" data-id="${data[i].id}">-</button>
+                ${data[i].count}
+              <button class="counter_plus btn button" data-id="${data[i].id}">+</button>
+            </div>
+            <div class="content__subtotal">
+              $${data[i].price * data[i].count}
+            </div>
+            <button class="delete__product btn button" data-id="${data[i].id}">REMOVE</i></button>
+            </div>
             
         `;
     }

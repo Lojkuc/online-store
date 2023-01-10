@@ -62,7 +62,7 @@ class Products {
         const arr = JSON.parse(localStorage.getItem('cart') as string);
         const arrId = arr.map((el: IDataObj) => el.id);
         if (arrId.includes(id)) {
-          text = 'Product added';
+          text = 'Remove from cart';
         } else {
           text = 'Add to cart';
         }
@@ -456,7 +456,7 @@ class Products {
       const arr = JSON.parse(localStorage.getItem('cart') as string);
       const arrId = arr.map((el: IDataObj) => el.id);
       if (arrId.includes(id)) {
-        text = 'Product added';
+        text = 'Remove from cart';
       }
       blockProducts.innerHTML += `
                 <div class="items-center__product product">
@@ -517,9 +517,11 @@ class Products {
   switchViewProducts(method: string) {
     const productView = document.querySelector('.center-content__items') as HTMLElement;
 
-    method === 'list'
-      ? (productView.style.gridTemplateColumns = '2fr')
-      : (productView.style.gridTemplateColumns = '1fr 1fr');
+    if (method === 'list') {
+      productView.style.gridTemplateColumns = '2fr';
+    } else {
+      productView.style.gridTemplateColumns = '1fr 1fr 1fr';
+    }
   }
 
   addNotFoundMessage() {

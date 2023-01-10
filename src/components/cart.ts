@@ -195,8 +195,9 @@ class Cart {
   changeNumberPage(e: Event, sign: string) {
     const pageNumber = <HTMLElement>$('.page-pgn__number');
     const currentNumber = <string>pageNumber.textContent;
+    const inputLimit = <HTMLInputElement>$('.limit-pgn__input');
 
-    if (sign === '+') {
+    if (sign === '+' && this.data.length > +inputLimit.value * +currentNumber) {
       pageNumber.textContent = String(Number(currentNumber) + 1);
     }
     if (sign === '-' && +currentNumber > 1) {
