@@ -62,7 +62,7 @@ class SingleProduct {
                 <button class="cart__plus">+</button>
               </div>
               <button class="info__cart button " id ='${id}'>Add to cart</button>
-              <a href="/cart"><button class="info__buy button">Buy now</button></a>
+              <button class="info__buy button" id ='${id}'>Buy now</button>
             </div>
           </section>
             `;
@@ -83,7 +83,6 @@ class SingleProduct {
     const countProductMinus = document.querySelector('.cart__minus');
     const countProducts = document.querySelector('.cart__number') as Element;
     const buyBtn = <HTMLButtonElement>$('.info__buy');
-
     photoCont?.addEventListener('click', (e: Event) => {
       this.changeMainPhoto(e);
     });
@@ -117,6 +116,7 @@ class SingleProduct {
       const component = target.previousElementSibling as Element;
       let content = +component.innerHTML as number;
       component.innerHTML = `${++content}`;
+      console.log(content);
     });
 
     countProductMinus?.addEventListener('click', (e: Event) => {
@@ -131,7 +131,30 @@ class SingleProduct {
       component.innerHTML = `${--content}`;
     });
 
-    buyBtn.addEventListener('click', (e) => {
+    buyBtn.addEventListener('click', async (e) => {
+      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      const countNow = +countProducts.innerHTML;
+      const dataArr = await api.load();
+      const target = e.target as HTMLElement;
+      const id = target.id;
+      const component = dataArr.find((el: IDataObj) => el.id == id);
+      const arrId = arr.map((el: IDataObj) => el.id);
+      console.log(arrId);
+      if (arrId.includes(component.id)) {
+        arr.map((el: IDataObj) => {
+          if (el.id == component.id) {
+            el.count += countNow;
+            el.stock -= countNow;
+          } else {
+            el.count;
+          }
+        });
+      } else arr.push(component);
+
+      localStorage.setItem(`cart`, JSON.stringify(arr));
+      console.log(localStorage);
+
+      cartPage();
       const link = <string>buyBtn.closest('a')?.href;
       server.route(e, link);
     });

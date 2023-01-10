@@ -15,23 +15,19 @@ export const cartPage = () => {
     price.innerHTML = `$${totalAmount}`;
     countProduct.innerHTML = `${count++}`;
     blockWithTotalPrice = ` <div class="block_buy">
-    <div class="block_disount">
-        <h1>Discount</h1>
-        <h2 class="total__discount"><span class="total__discount-number">0</span>%</h2>
-    </div>
     <div class="block_promo-apply">
         <h1 class ="promo-apply__title"></h1>
-        <div class="promo-list"></div>
     </div>
     <div class="discount_price">
 </div>
     <div class="block_price">
-        <h1>Total</h1>
-        <h2 class="total__price"><span class="total-price__number">$${totalAmount}</span></h2>
+        <h2 class="total-price__number">Total: $${totalAmount}</h2>
     </div>
+    <div class="block_disount">
+    <h2 class="total__discount">Discount: <span class="total__discount-number">0</span>%</h2>
+</div>
     <div class="block_count">
-    <h2 class="total__count">${--count}</h2>
-        <h1>items</h1>
+  <h2 class="total__count">Items: ${--count}</h2>
     </div>
     <div class="block__submit">
         <button class="buy__submit">SUBMIT</button>
@@ -139,17 +135,19 @@ export const cartPage = () => {
     <h5></h5>
   </div>
   ${blockWithCard}
-  ${blockWithTotalPrice}
-  <div promo>
-  <form class="promo__form">
-  <p class="codes__apply">Promo for test: 'RS', 'EPM'</p>
-    <input type="text" placeholder="Enter Your Promo Code" class="promo__input">
-    <button class="promo__button" type="submit">Check</button>
-  </form>
-  <div class="promo__codes">
-    <p class="codes__apply1"></p>
-    <p class="codes__apply2"></p>
+<div class ="order">
+    <div class="promo">
+    <form class="promo__form">
+    <div class="promo-list">Applied codes:</div>
+      <input type="text" placeholder="Promo for test: 'RS', 'EPM'" class="promo__input">
+      <button class="promo__button" type="submit">Check</button>
+    </form>
+    <div class="promo__codes">
+      <p class="codes__apply1"></p>
+      <p class="codes__apply2"></p>
+    </div>
   </div>
+  ${blockWithTotalPrice}
 </div>
 </div>
 </div>

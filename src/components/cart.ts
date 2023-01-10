@@ -44,34 +44,38 @@ class Cart {
   }
 
   changeMainSum() {
-    const totalPrice = <HTMLElement>$('.total__price');
+    const totalPrice = <HTMLElement>$('.total-price__number');
     const totalPriceBlock = <HTMLElement>$('.block_price');
     const totalDiscountBlock = <HTMLElement>$('.total__discount-number');
     const discontNumber = <string>totalDiscountBlock.textContent;
+    const newTotal = <HTMLElement>$('.discount_price');
 
+    const totalCount = <HTMLElement>$('.total__count');
     const productsJson = <string>localStorage.getItem('cart');
     const productsArr = <data>JSON.parse(productsJson);
 
     let sum = 0;
+    let count = 0;
 
     productsArr.forEach((element) => {
       const sumElement = element.count * element.price;
+      count += element.count;
       sum += sumElement;
     });
-    totalPrice.textContent = String(sum);
+    totalPrice.textContent = `Total: $${String(sum)}`;
+    totalCount.textContent = `Items: ${String(count)}`;
 
     if (+discontNumber > 0) {
-      console.log('br');
       const discountSum = sum - (sum / 100) * +discontNumber;
       // const newTotal = document.createElement('div');
       // newTotal.classList.add('discount_price');
-      const newTotal = <HTMLElement>$('.discount_price');
       totalPriceBlock.classList.add('crossed');
       newTotal.innerHTML = `
-      <h1>Total</h1>
-    <h2 class="total__price">$${discountSum}</h2>`;
-
+    <h2 class="total__price">Total: $${discountSum}</h2>`;
       totalPriceBlock.before(newTotal);
+    } else {
+      newTotal.innerHTML = ``;
+      totalPriceBlock.classList.remove('crossed');
     }
   }
 
@@ -113,7 +117,7 @@ class Cart {
     const currentDiscount = <string>discountNumber.textContent;
     discountNumber.textContent = String(+currentDiscount + 10);
     const blockPromoCodes = <HTMLElement>$('.promo-list');
-    blockPromoCodes.innerHTML += `<span class = "${cls}">${promo}</span>`;
+    blockPromoCodes.innerHTML += `<span class = "${cls}"> ${promo}</span>`;
   }
 
   deleteDiscount(btn: HTMLElement, cls: string) {

@@ -27,7 +27,7 @@
   row-gap: 30px;
 }
 
-.discount_price.crossed {
+.block_price.crossed {
   text-decoration: line-through;
 }
 
@@ -38,16 +38,32 @@
   column-gap: 20px;
 }
 
+.order {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .promo {
-
-  &__form {}
+  &__form {
+    border: 5px dashed sandybrown;
+    width: 220px;
+    margin: 0 auto;
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
   &__input {}
 
   &__button {}
 
-  &__codes {}
+  &__codes {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
 }
 
 .codes {
