@@ -2,9 +2,10 @@
 @import "./modal-popup.scss";
 
 
-button{
-    cursor: pointer;
+button {
+  cursor: pointer;
 }
+
 .main {
   &__content {
     display: flex;
@@ -118,6 +119,18 @@ button{
 
 .navigation-main__block {
   text-transform: capitalize;
+}
+
+.add__promo {
+  &::before {
+    content: '+';
+  }
+}
+
+.add__promo.remove {
+  &::before {
+    content: '-';
+  }
 }
 
 @media (max-width: 980px) {

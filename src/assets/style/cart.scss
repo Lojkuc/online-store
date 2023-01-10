@@ -1,4 +1,4 @@
-.container__cart{
+.container__cart {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -6,19 +6,53 @@
   align-items: center;
   padding: 50px 0;
 }
-.block_buy{
+
+.block_buy {
   display: flex;
   align-items: flex-end;
   flex-direction: column;
   row-gap: 30px;
 }
-.block_price,.block_count{
+
+.block_price,
+.block_count {
   display: flex;
   align-items: center;
   column-gap: 20px;
 }
-.block__submit{
+
+.block__submit {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+}
+
+.discount_price.crossed {
+  text-decoration: line-through;
+}
+
+.discount_price,
+.block_disount {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+
+.promo {
+
+  &__form {}
+
+  &__input {}
+
+  &__button {}
+
+  &__codes {}
+}
+
+.codes {
+
+  &__for-apply {}
+
+  &__applied {}
 }

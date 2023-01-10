@@ -15,9 +15,19 @@ export const cartPage = () => {
     price.innerHTML = `$${totalAmount}`;
     countProduct.innerHTML = `${count++}`;
     blockWithTotalPrice = ` <div class="block_buy">
+    <div class="block_disount">
+        <h1>Discount</h1>
+        <h2 class="total__discount"><span class="total__discount-number">0</span>%</h2>
+    </div>
+    <div class="block_promo-apply">
+        <h1 class ="promo-apply__title"></h1>
+        <div class="promo-list"></div>
+    </div>
+    <div class="discount_price">
+</div>
     <div class="block_price">
         <h1>Total</h1>
-        <h2 class="total__price">$${totalAmount}</h2>
+        <h2 class="total__price"><span class="total-price__number">$${totalAmount}</span></h2>
     </div>
     <div class="block_count">
     <h2 class="total__count">${--count}</h2>
@@ -130,6 +140,17 @@ export const cartPage = () => {
   </div>
   ${blockWithCard}
   ${blockWithTotalPrice}
+  <div promo>
+  <form class="promo__form">
+  <p class="codes__apply">Promo for test: 'RS', 'EPM'</p>
+    <input type="text" placeholder="Enter Your Promo Code" class="promo__input">
+    <button class="promo__button" type="submit">Check</button>
+  </form>
+  <div class="promo__codes">
+    <p class="codes__apply1"></p>
+    <p class="codes__apply2"></p>
+  </div>
+</div>
 </div>
 </div>
 

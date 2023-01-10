@@ -23,6 +23,7 @@ class Cart {
   eventlisteners() {
     const buyBtn = <HTMLButtonElement>$('.buy__submit');
     const allBtns = $All('.btn');
+    const promoBtn = <HTMLButtonElement>$('.promo__button');
 
     buyBtn.addEventListener('click', this.openPopup);
 
@@ -31,6 +32,10 @@ class Cart {
         setTimeout(this.changeMainSum, 0);
       })
     );
+
+    promoBtn.addEventListener('click', (e) => {
+      this.addPromoCode(e);
+    });
   }
 
   openPopup() {
@@ -40,6 +45,10 @@ class Cart {
 
   changeMainSum() {
     const totalPrice = <HTMLElement>$('.total__price');
+    const totalPriceBlock = <HTMLElement>$('.block_price');
+    const totalDiscountBlock = <HTMLElement>$('.total__discount-number');
+    const discontNumber = <string>totalDiscountBlock.textContent;
+
     const productsJson = <string>localStorage.getItem('cart');
     const productsArr = <data>JSON.parse(productsJson);
 
@@ -49,9 +58,72 @@ class Cart {
       const sumElement = element.count * element.price;
       sum += sumElement;
     });
-    console.log(sum);
     totalPrice.textContent = String(sum);
-    console.log(totalPrice);
+
+    if (+discontNumber > 0) {
+      console.log('br');
+      const discountSum = sum - (sum / 100) * +discontNumber;
+      // const newTotal = document.createElement('div');
+      // newTotal.classList.add('discount_price');
+      const newTotal = <HTMLElement>$('.discount_price');
+      totalPriceBlock.classList.add('crossed');
+      newTotal.innerHTML = `
+      <h1>Total</h1>
+    <h2 class="total__price">$${discountSum}</h2>`;
+
+      totalPriceBlock.before(newTotal);
+    }
+  }
+
+  addPromoCode(e: Event) {
+    e.preventDefault();
+    const input = <HTMLInputElement>$('.promo__input');
+    const value = input.value;
+    const btn = document.createElement('button');
+    btn.classList.add('add__promo');
+
+    if (value === 'RS') {
+      const promoBlock = <HTMLElement>$('.codes__apply1');
+      promoBlock.innerHTML = '<span>RS - 10%</span>';
+      promoBlock.prepend(btn);
+      btn.addEventListener('click', (e) => {
+        const btn = <HTMLButtonElement>e.currentTarget;
+        btn.classList.contains('remove') ? this.deleteDiscount(btn, 'RS') : this.addDiscountSum(btn, 'RS - 10%', 'RS');
+        this.changeMainSum();
+      });
+    }
+
+    if (value === 'EPM') {
+      const promoBlock = <HTMLElement>$('.codes__apply2');
+      promoBlock.innerHTML = '<span>EPAM - 10%</span>';
+      promoBlock.prepend(btn);
+      btn.addEventListener('click', (e) => {
+        const btn = <HTMLButtonElement>e.currentTarget;
+        btn.classList.contains('remove')
+          ? this.deleteDiscount(btn, 'EPM')
+          : this.addDiscountSum(btn, 'EPAM - 10%', 'EPM');
+        this.changeMainSum();
+      });
+    }
+  }
+
+  addDiscountSum(btn: HTMLElement, promo: string, cls: string) {
+    btn.classList.add('remove');
+    const discountNumber = <HTMLElement>$('.total__discount-number');
+    const currentDiscount = <string>discountNumber.textContent;
+    discountNumber.textContent = String(+currentDiscount + 10);
+    const blockPromoCodes = <HTMLElement>$('.promo-list');
+    blockPromoCodes.innerHTML += `<span class = "${cls}">${promo}</span>`;
+  }
+
+  deleteDiscount(btn: HTMLElement, cls: string) {
+    btn.classList.remove('remove');
+    const discountNumber = <HTMLElement>$('.total__discount-number');
+    const currentDiscount = <string>discountNumber.textContent;
+    discountNumber.textContent = String(+currentDiscount - 10);
+    const blockPromoCodes = <HTMLElement>$('.promo-list');
+    const blockForDelete = <HTMLElement>$(`.${cls}`);
+    blockPromoCodes.removeChild(blockForDelete);
   }
 }
 
