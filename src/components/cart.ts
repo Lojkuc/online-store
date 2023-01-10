@@ -91,6 +91,7 @@ class Cart {
       promoBlock.innerHTML = '<span>RS - 10%</span>';
       promoBlock.prepend(btn);
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const btn = <HTMLButtonElement>e.currentTarget;
         btn.classList.contains('remove') ? this.deleteDiscount(btn, 'RS') : this.addDiscountSum(btn, 'RS - 10%', 'RS');
         this.changeMainSum();
@@ -102,6 +103,7 @@ class Cart {
       promoBlock.innerHTML = '<span>EPAM - 10%</span>';
       promoBlock.prepend(btn);
       btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const btn = <HTMLButtonElement>e.currentTarget;
         btn.classList.contains('remove')
           ? this.deleteDiscount(btn, 'EPM')

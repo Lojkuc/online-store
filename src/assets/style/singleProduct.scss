@@ -121,17 +121,6 @@ button {
   text-transform: capitalize;
 }
 
-.add__promo {
-  &::before {
-    content: '+';
-  }
-}
-
-.add__promo.remove {
-  &::before {
-    content: '-';
-  }
-}
 
 @media (max-width: 980px) {
   html {

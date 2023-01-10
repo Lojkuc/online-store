@@ -30,7 +30,7 @@ export const cartPage = () => {
   <h2 class="total__count">Items: ${--count}</h2>
     </div>
     <div class="block__submit">
-        <button class="buy__submit">SUBMIT</button>
+        <button class="buy__submit button">SUBMIT</button>
     </div>
   </div>`;
   };
@@ -48,14 +48,14 @@ export const cartPage = () => {
               $${data[i].price}
             </div>
             <div class="content__quantity">
-              <button class="counter_minus btn" data-id="${data[i].id}">-</button>
+              <button class="counter_minus btn button" data-id="${data[i].id}">-</button>
                 ${data[i].count}
-              <button class="counter_plus btn" data-id="${data[i].id}">+</button>
+              <button class="counter_plus btn button" data-id="${data[i].id}">+</button>
             </div>
             <div class="content__subtotal">
               $${data[i].price * data[i].count}
             </div>
-            <button class="delete__product btn" data-id="${data[i].id}">REMOVE</i></button>
+            <button class="delete__product btn button" data-id="${data[i].id}">REMOVE</i></button>
             </div>
             
         `;
@@ -135,19 +135,17 @@ export const cartPage = () => {
     <h5></h5>
   </div>
   ${blockWithCard}
-<div class ="order">
-    <div class="promo">
-    <form class="promo__form">
-    <div class="promo-list">Applied codes:</div>
-      <input type="text" placeholder="Promo for test: 'RS', 'EPM'" class="promo__input">
-      <button class="promo__button" type="submit">Check</button>
-    </form>
-    <div class="promo__codes">
-      <p class="codes__apply1"></p>
-      <p class="codes__apply2"></p>
-    </div>
-  </div>
   ${blockWithTotalPrice}
+  <div promo>
+  <form class="promo__form">
+  <div class="promo-list">Applied codes:</div>
+    <input type="text" placeholder="Promo for test: 'RS', 'EPM'" class="promo__input">
+    <button class="promo__button button" type="submit">Check</button>
+    <div class="promo__codes">
+    <p class="codes__apply1"></p>
+    <p class="codes__apply2"></p>
+  </div>
+  </form>
 </div>
 </div>
 </div>
