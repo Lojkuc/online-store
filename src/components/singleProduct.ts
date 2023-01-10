@@ -23,7 +23,14 @@ class SingleProduct {
       const navigationTitle = $('#breadcrumb') as HTMLElement;
 
       navigationTitle.textContent = `${currentProduct.category} / ${currentProduct.company} / ${currentProduct.name}`;
-
+      let text = 'Add to cart';
+      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      const arrId = arr.map((el: IDataObj) => el.id);
+      if (arrId.includes(id)) {
+        text = 'Remove from cart';
+      } else {
+        text = 'Add to cart';
+      }
       container.innerHTML = `
             <section class="content__gallery">
             <div class="gallery__photo">
@@ -61,7 +68,7 @@ class SingleProduct {
                 <h2 class="cart__number">1</h2>
                 <button class="cart__plus">+</button>
               </div>
-              <button class="info__cart button " id ='${id}'>Add to cart</button>
+              <button class="add_to_cart button " id ='${id}'>${text}</button>
               <button class="info__buy button" id ='${id}'>Buy now</button>
             </div>
           </section>
@@ -78,7 +85,7 @@ class SingleProduct {
 
   eventLiteners() {
     const photoCont = document.querySelector('.gallery__subphoto');
-    const addProduct = document.querySelector('.info__cart');
+    const addProduct = document.querySelector('.add_to_cart');
     const countProductPlus = document.querySelector('.cart__plus');
     const countProductMinus = document.querySelector('.cart__minus');
     const countProducts = document.querySelector('.cart__number') as Element;
@@ -88,7 +95,7 @@ class SingleProduct {
     });
 
     addProduct?.addEventListener('click', async (e) => {
-      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      let arr = JSON.parse(localStorage.getItem('cart') as string);
       const countNow = +countProducts.innerHTML;
       const dataArr = await api.load();
       const target = e.target as HTMLElement;
@@ -96,16 +103,15 @@ class SingleProduct {
       const component = dataArr.find((el: IDataObj) => el.id == id);
       const arrId = arr.map((el: IDataObj) => el.id);
 
-      if (arrId.includes(component.id)) {
-        arr.map((el: IDataObj) => {
-          if (el.id == component.id) {
-            el.count += countNow;
-            el.stock -= countNow;
-          } else {
-            el.count;
-          }
-        });
-      } else arr.push(component);
+      if (!arrId.includes(component.id)) {
+        component.count = countNow;
+        component.stock -= countNow;
+        arr.push(component);
+        addProduct.textContent = 'Remove from cart';
+      } else {
+        arr = arr.filter((el: IDataObj) => el.id != component.id);
+        addProduct.textContent = 'Add to cart';
+      }
 
       localStorage.setItem(`cart`, JSON.stringify(arr));
       cartPage();
@@ -132,28 +138,23 @@ class SingleProduct {
     });
 
     buyBtn.addEventListener('click', async (e) => {
-      const arr = JSON.parse(localStorage.getItem('cart') as string);
+      let arr = JSON.parse(localStorage.getItem('cart') as string);
       const countNow = +countProducts.innerHTML;
       const dataArr = await api.load();
       const target = e.target as HTMLElement;
       const id = target.id;
       const component = dataArr.find((el: IDataObj) => el.id == id);
       const arrId = arr.map((el: IDataObj) => el.id);
-      console.log(arrId);
-      if (arrId.includes(component.id)) {
-        arr.map((el: IDataObj) => {
-          if (el.id == component.id) {
-            el.count += countNow;
-            el.stock -= countNow;
-          } else {
-            el.count;
-          }
-        });
-      } else arr.push(component);
+
+      if (!arrId.includes(component.id)) {
+        component.count = countNow;
+        component.stock -= countNow;
+        arr.push(component);
+      } else {
+        arr = arr.filter((el: IDataObj) => el.id != component.id);
+      }
 
       localStorage.setItem(`cart`, JSON.stringify(arr));
-      console.log(localStorage);
-
       cartPage();
       const link = <string>buyBtn.closest('a')?.href;
       server.route(e, link);
