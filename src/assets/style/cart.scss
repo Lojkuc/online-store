@@ -117,3 +117,55 @@
   align-items: center;
   gap: 2rem;
 }
+
+
+.content {
+
+  &__control {
+    border-top: 3rem solid #e4e8ed;
+    border-bottom: 3rem solid #e4e8ed;
+    padding: 5rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10rem;
+    margin-bottom: 20rem;
+  }
+}
+
+
+.control-content {
+
+  &__title {}
+
+  &__pgn {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+  }
+}
+
+.pgn {
+
+  &__limit {}
+
+  &__page {}
+}
+
+.limit-pgn {
+
+  &__text {}
+
+  &__input {
+    width: 47rem;
+    height: 24rem;
+  }
+}
+
+.page-pgn {
+
+  &__text {}
+
+  &__button {}
+
+  &__number {}
+}

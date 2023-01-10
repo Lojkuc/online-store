@@ -3,12 +3,18 @@ import { cartPage } from '../assets/pages/cartPage';
 import Popup from './popup';
 import { $, $All } from '../assets/utils/helpers';
 import { data } from '../assets/utils/types';
+import QueryParams from '../assets/utils/queryParams';
+import server from '../server';
+import { IArrayParams } from '../assets/utils/types';
 
 class Cart {
   main;
-
+  queryParams;
+  data: data;
   constructor(main: Element) {
     this.main = main;
+    this.queryParams = new QueryParams();
+    this.data = JSON.parse(localStorage.getItem('cart') as string).filter((el: string) => Boolean(el));
   }
 
   render() {
@@ -17,24 +23,80 @@ class Cart {
     } else {
       this.main.innerHTML = cartPage();
       this.eventlisteners();
+      if (this.queryParams.url.searchParams.toString() !== '') {
+        this.checkQueryParams();
+      }
+    }
+  }
+
+  renderCart(page = 1, limit: number = this.data.length) {
+    const containerProducts = <HTMLElement>$('.products-container');
+    containerProducts.innerHTML = '';
+
+    if (localStorage.getItem('cart')) {
+      for (let i = page * limit - limit; i < limit * page; i++) {
+        if (this.data[i] == null) continue;
+        containerProducts.innerHTML += `
+          <div class="content__inner cart__product">
+              <div class="content__item">
+                <img src="${this.data[i].image[0]}" width="300" height="200"alt="">
+              <div class="item__info">
+                  <p class="item__name">${this.data[i].name.toUpperCase()}</p>
+                  <p>${this.data[i].category.toUpperCase()}/${this.data[i].company.toUpperCase()}</p>
+              </div>
+              </div>
+              <div class="content__price">
+                $${this.data[i].price}
+              </div>
+              <div class="content__quantity">
+                <button class="counter_minus btn button" data-id="${this.data[i].id}">-</button>
+                  ${this.data[i].count}
+                <button class="counter_plus btn button" data-id="${this.data[i].id}">+</button>
+              </div>
+              <div class="content__subtotal">
+                $${this.data[i].price * this.data[i].count}
+              </div>
+              <button class="delete__product btn button" data-id="${this.data[i].id}">REMOVE</i></button>
+              </div>
+              
+          `;
+      }
     }
   }
 
   eventlisteners() {
+    const limitInput = <HTMLInputElement>$('.limit-pgn__input');
     const buyBtn = <HTMLButtonElement>$('.buy__submit');
     const allBtns = $All('.btn');
     const promoBtn = <HTMLButtonElement>$('.promo__button');
+    const leftBtn = <HTMLButtonElement>$('.page-pgn__button-left');
+    const rightBtn = <HTMLButtonElement>$('.page-pgn__button-right');
 
     buyBtn.addEventListener('click', this.openPopup);
 
     allBtns.forEach((item) =>
       item.addEventListener('click', () => {
-        setTimeout(this.changeMainSum, 0);
+        setTimeout(() => {
+          this.changeMainSum();
+        }, 0);
       })
     );
 
     promoBtn.addEventListener('click', (e) => {
       this.addPromoCode(e);
+    });
+
+    limitInput.addEventListener('change', (e) => {
+      const url = this.queryParams.createQueryParams(`limit=${limitInput.value}`);
+      server.route(e, url);
+    });
+
+    leftBtn.addEventListener('click', (e) => {
+      this.changeNumberPage(e, '-');
+    });
+
+    rightBtn.addEventListener('click', (e) => {
+      this.changeNumberPage(e, '+');
     });
   }
 
@@ -128,6 +190,49 @@ class Cart {
     const blockPromoCodes = <HTMLElement>$('.promo-list');
     const blockForDelete = <HTMLElement>$(`.${cls}`);
     blockPromoCodes.removeChild(blockForDelete);
+  }
+
+  changeNumberPage(e: Event, sign: string) {
+    const pageNumber = <HTMLElement>$('.page-pgn__number');
+    const currentNumber = <string>pageNumber.textContent;
+    const inputLimit = <HTMLInputElement>$('.limit-pgn__input');
+
+    if (sign === '+' && this.data.length > +inputLimit.value * +currentNumber) {
+      pageNumber.textContent = String(Number(currentNumber) + 1);
+    }
+    if (sign === '-' && +currentNumber > 1) {
+      pageNumber.textContent = String(Number(currentNumber) - 1);
+    }
+    const url = this.queryParams.createQueryParams(`page=${pageNumber.textContent}`);
+
+    server.route(e, url);
+  }
+
+  checkQueryParams() {
+    const params = <IArrayParams[]>this.queryParams.getQueryParams();
+    const inputLimit = <HTMLInputElement>$('.limit-pgn__input');
+    const pageNumber = <HTMLElement>$('.page-pgn__number');
+    const currentPage = <number>Number(pageNumber.textContent);
+    let newPage = currentPage;
+
+    params.forEach((item) => {
+      if (item.name === 'limit') {
+        inputLimit.value = item.value.join('');
+      }
+      if (item.name === 'page') {
+        newPage = +item.value.join('');
+        pageNumber.textContent = String(newPage);
+      }
+    });
+    this.renderCart(newPage, +inputLimit.value);
+    const allBtns = $All('.btn');
+    allBtns.forEach((item) =>
+      item.addEventListener('click', () => {
+        setTimeout(() => {
+          this.changeMainSum();
+        }, 0);
+      })
+    );
   }
 }
 

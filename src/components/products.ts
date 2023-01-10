@@ -107,7 +107,6 @@ class Products {
                 ${category}</label>
                 <p>(<span class="current-stock" id="${category}-stock">1</span>/<span>1</span>)</p>
         </div>
-      
     </div>
 `;
           this.categories.push({

@@ -40,9 +40,9 @@ export const cartPage = () => {
       if (data[i] == null) continue;
       blockWithCard += `
         <div class="content__inner cart__product">
-            <div class="content__item"><a href="/product-detail_${data[i].id}"><img src="${
-        data[i].image[0]
-      }" width="300" height="200"alt=""></a>
+            <div class="content__item">
+            <a href="/product-detail_${data[i].id}">
+            <img src="${data[i].image[0]}" width="300" height="200"alt=""></a>
             <div class="item__info">
                 <p class="item__name">${data[i].name.toUpperCase()}</p>
                 <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
@@ -131,6 +131,21 @@ export const cartPage = () => {
 </div>
 <div class="container__cart">
 <div class="container">
+<div class="content__control">
+  <h3 class="control-content__title">Products In Cart</h3>
+  <div class="control-content__pgn pgn">
+    <div class="pgn__limit">
+      <span class="limit-pgn__text">Limit:</span>
+      <input type="number" min = "1" max="4" class="limit-pgn__input">
+    </div>
+    <div class="pgn__page">
+      <span class="page-pgn__text">Page:</span>
+      <button class="page-pgn__button-left button"><</button>
+      <span class="page-pgn__number">1</span>
+      <button class="page-pgn__button-right button">></button>
+    </div>
+  </div>
+</div>
   <div class="content__inner">
     <h4>Item</h4>
     <h4>Price</h4>
@@ -138,7 +153,9 @@ export const cartPage = () => {
     <h4>Subtotal</h4>
     <h5></h5>
   </div>
+  <div class = "products-container">
   ${blockWithCard}
+  </div>
   ${blockWithTotalPrice}
   <div promo>
   <form class="promo__form">
