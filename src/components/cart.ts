@@ -39,9 +39,9 @@ class Cart {
         containerProducts.innerHTML += `
           <div class="content__inner cart__product">
               <div class="content__item">
-                <img src="${this.data[i].image[0]}" width="300" height="200"alt="">
+               <img src="${this.data[i].image[0]}" width="300" height="200"alt="">
               <div class="item__info">
-                  <p class="item__name">${this.data[i].name.toUpperCase()}</p>
+                  <p class="item__name">${i + 1}) ${this.data[i].name.toUpperCase()}</p>
                   <p>${this.data[i].category.toUpperCase()}/${this.data[i].company.toUpperCase()}</p>
               </div>
               </div>
@@ -200,9 +200,11 @@ class Cart {
     if (sign === '+' && this.data.length > +inputLimit.value * +currentNumber) {
       pageNumber.textContent = String(Number(currentNumber) + 1);
     }
+
     if (sign === '-' && +currentNumber > 1) {
       pageNumber.textContent = String(Number(currentNumber) - 1);
     }
+
     const url = this.queryParams.createQueryParams(`page=${pageNumber.textContent}`);
 
     server.route(e, url);
@@ -226,6 +228,7 @@ class Cart {
     });
     this.renderCart(newPage, +inputLimit.value);
     const allBtns = $All('.btn');
+
     allBtns.forEach((item) =>
       item.addEventListener('click', () => {
         setTimeout(() => {

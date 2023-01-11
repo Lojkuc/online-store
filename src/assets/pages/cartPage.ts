@@ -136,7 +136,7 @@ export const cartPage = () => {
   <div class="control-content__pgn pgn">
     <div class="pgn__limit">
       <span class="limit-pgn__text">Limit:</span>
-      <input type="number" min = "1" max="4" class="limit-pgn__input">
+      <input type="number" value="1" min = "1" max="4" class="limit-pgn__input">
     </div>
     <div class="pgn__page">
       <span class="page-pgn__text">Page:</span>
