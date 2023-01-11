@@ -44,7 +44,7 @@ export const cartPage = () => {
             <a href="/product-detail_${data[i].id}">
             <img src="${data[i].image[0]}" width="300" height="200"alt=""></a>
             <div class="item__info">
-                <p class="item__name">${data[i].name.toUpperCase()}</p>
+                <p class="item__name">${i + 1})${data[i].name.toUpperCase()}</p>
                 <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
             </div>
             </div>
