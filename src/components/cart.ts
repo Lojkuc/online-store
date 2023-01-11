@@ -22,6 +22,9 @@ class Cart {
       this.main.innerHTML = cartPageEmpty;
     } else {
       this.main.innerHTML = cartPage();
+      const limitInput = <HTMLInputElement>$('.limit-pgn__input');
+      limitInput.value = String(this.data.length);
+
       this.eventlisteners();
       if (this.queryParams.url.searchParams.toString() !== '') {
         this.checkQueryParams();
@@ -41,7 +44,7 @@ class Cart {
               <div class="content__item">
                <img src="${this.data[i].image[0]}" width="300" height="200"alt="">
               <div class="item__info">
-                  <p class="item__name">${i + 1})${this.data[i].name.toUpperCase()}</p>
+                  <p class="item__name">${i + 1}.${this.data[i].name.toUpperCase()}</p>
                   <p>${this.data[i].category.toUpperCase()}/${this.data[i].company.toUpperCase()}</p>
               </div>
               </div>
@@ -228,14 +231,13 @@ class Cart {
     });
     this.renderCart(newPage, +inputLimit.value);
     const allBtns = $All('.btn');
-
-    // allBtns.forEach((item) =>
-    //   item.addEventListener('click', () => {
-    //     setTimeout(() => {
-    //       this.changeMainSum();
-    //     }, 0);
-    //   })
-    // );
+    allBtns.forEach((item) =>
+      item.addEventListener('click', () => {
+        setTimeout(() => {
+          this.changeMainSum();
+        }, 0);
+      })
+    );
   }
 }
 

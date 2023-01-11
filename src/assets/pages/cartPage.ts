@@ -44,7 +44,7 @@ export const cartPage = () => {
             <a href="/product-detail_${data[i].id}">
             <img src="${data[i].image[0]}" width="300" height="200"alt=""></a>
             <div class="item__info">
-                <p class="item__name">${i + 1})${data[i].name.toUpperCase()}</p>
+                <p class="item__name">${i + 1}.${data[i].name.toUpperCase()}</p>
                 <p>${data[i].category.toUpperCase()}/${data[i].company.toUpperCase()}</p>
             </div>
             </div>
@@ -136,7 +136,7 @@ export const cartPage = () => {
   <div class="control-content__pgn pgn">
     <div class="pgn__limit">
       <span class="limit-pgn__text">Limit:</span>
-      <input type="number" value="1" min = "1" max="4" class="limit-pgn__input">
+      <input type="number" value="1" min = "1"  class="limit-pgn__input">
     </div>
     <div class="pgn__page">
       <span class="page-pgn__text">Page:</span>
