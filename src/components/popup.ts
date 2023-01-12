@@ -51,6 +51,7 @@ class Popup {
 
       if (this.lastCheckValid()) {
         this.addSuccessMessage();
+        this.clearCart();
         setTimeout(() => server.route(e, `${window.location.origin}/`), 4000);
       }
     });
@@ -238,6 +239,13 @@ class Popup {
 
   addSuccessMessage() {
     this.formPopup.innerHTML = `<h2 class="success-message">Сongratulations! Your order has been placed</h2>`;
+  }
+  clearCart() {
+    localStorage.removeItem('cart');
+    const countProduct = document.querySelector('.counter-products') as HTMLElement;
+    const price = document.querySelector('.price') as HTMLElement;
+    price.textContent = '$0';
+    countProduct.textContent = '0';
   }
 }
 export default Popup;
