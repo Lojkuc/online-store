@@ -75,8 +75,6 @@ class Popup {
 
       if (input.value === '') {
         input.classList.add('error');
-      } else {
-        input.classList.remove('error');
       }
     });
 
@@ -234,6 +232,8 @@ class Popup {
   }
 
   lastCheckValid() {
+    console.log(Array.from(this.inputsAll).every((item) => !item.classList.contains('error')));
+    console.log(this.inputsAll);
     return Array.from(this.inputsAll).every((item) => !item.classList.contains('error'));
   }
 
