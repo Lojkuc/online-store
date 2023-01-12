@@ -241,7 +241,7 @@ class Popup {
     this.formPopup.innerHTML = `<h2 class="success-message">Сongratulations! Your order has been placed</h2>`;
   }
   clearCart() {
-    localStorage.removeItem('cart');
+    localStorage.setItem('cart', '[]');
     const countProduct = document.querySelector('.counter-products') as HTMLElement;
     const price = document.querySelector('.price') as HTMLElement;
     price.textContent = '$0';
