@@ -200,7 +200,7 @@ export const cartPage = () => {
           <input maxlength="5" type="text" placeholder="Month/Year" class="card__data_input popup__input">
         </div>
         <div class="card__code">
-          <input type="text" placeholder="CVV" class="card__code_input popup__input">
+          <input type="number" placeholder="CVV" class="card__code_input popup__input">
         </div>
       </div>
     </div>

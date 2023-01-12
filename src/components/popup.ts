@@ -62,6 +62,10 @@ class Popup {
     this.inputCardNumber.addEventListener('input', () => {
       this.changeCardIcon();
     });
+
+    this.inputCardCVV.addEventListener('input', () => {
+      this.inputCardCVV.value = this.inputCardCVV.value.substring(0, 3);
+    });
   }
 
   checkValids() {
