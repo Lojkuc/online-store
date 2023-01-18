@@ -54,31 +54,6 @@ const changeTextHTML = (elem: HTMLElement, text: string) => {
   elem.textContent = text;
 };
 
-// const chngeSpansSlider = () => {
-//     const rangeContainer = $(`.aside__${name}`);
-//     if (rangeContainer !== null) {
-//         const asideMaxNumber = <HTMLElement>$('.aside__range_max', rangeContainer);
-//         const asideMinNumber = <HTMLElement>$('.aside__range_min', rangeContainer);
-//         const inputMin = $(`.${name}-min`) as HTMLInputElement;
-//         const inputMax = $(`.${name}-max`) as HTMLInputElement;
-//     }
-//     asideMaxNumber.textContent = inputMax.value;
-//     asideMinNumber.textContent = inputMin.value;
-//     return;
-// }
-// const putLocalStorage = (keyName: string, keyValue: string) => {
-//     localStorage.setItem(keyName, keyValue);
-// };
-
-// const getLocalStorage = (keyName: string) => {
-//     const data = localStorage.getItem(keyName);
-//     if (data !== null) {
-//         return JSON.parse(data);
-//     } else {
-//         throw new Error('Json is empty');
-//     }
-// };
-
 const $ = (selector: string, parent?: Element) => {
   return parent ? parent.querySelector(selector) : document.querySelector(selector);
 };

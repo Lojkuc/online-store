@@ -77,7 +77,7 @@ const homePage = `
   </div>
   <div class="input-block">
     <input type="email" name="email" id="email" placeholder="Enter your email">
-    <a href="" class="button-home subscribe">Subscribe</a>
+    <a class="button-home subscribe">Subscribe</a>
   </div>
 </div>
 </div>

@@ -87,11 +87,11 @@ class SingleProduct {
   }
 
   eventLiteners() {
-    const photoCont = document.querySelector('.gallery__subphoto');
-    const addProduct = document.querySelector('.add_to_cart');
-    const countProductPlus = document.querySelector('.cart__plus');
-    const countProductMinus = document.querySelector('.cart__minus');
-    const countProducts = document.querySelector('.cart__number') as Element;
+    const photoCont = $('.gallery__subphoto');
+    const addProduct = $('.add_to_cart');
+    const countProductPlus = $('.cart__plus');
+    const countProductMinus = $('.cart__minus');
+    const countProducts = $('.cart__number') as Element;
     const buyBtn = <HTMLButtonElement>$('.info__buy');
     photoCont?.addEventListener('click', (e: Event) => {
       this.changeMainPhoto(e);
@@ -166,7 +166,7 @@ class SingleProduct {
 
   changeMainPhoto(e: Event) {
     const currentImage = e.target as HTMLImageElement;
-    const mainPhoto: HTMLImageElement | null = document.querySelector('#main-photo');
+    const mainPhoto = <HTMLImageElement>$('#main-photo');
 
     if (mainPhoto !== null) {
       mainPhoto.src = currentImage?.src;

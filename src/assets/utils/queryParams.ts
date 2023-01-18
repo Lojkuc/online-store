@@ -47,8 +47,6 @@ class QueryParams {
     }
 
     return this.url;
-    //history.pushState(null, '', this.url);
-
   }
 
   isIncludeQueryParams(form: string) {
@@ -59,12 +57,6 @@ class QueryParams {
     }
 
     return this.url.searchParams.has(form)
-
-    // if (form === 'sort') {
-    //     return (paramsFromURL.toString().includes(form)) ? true : false;
-    // } else if (paramsFromURL.toString().includes('=')) {
-    //     return true;
-    // }
   }
 }
 

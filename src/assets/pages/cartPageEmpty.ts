@@ -14,7 +14,7 @@ const cartPageEmpty = `
   </div>
   <div class="container__cart">
   <h1>Your cart is empty</h1>
-  <a href="/products" onclick="route(event)" class="button-home">Fill it</a>
+  <a href="/products" class="button-home">Fill it</a>
   </div>
   
 <div class= "popup-wrapper">
