@@ -1,10 +1,8 @@
 const path = require('path');
-const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 module.exports = {
   entry: path.resolve(__dirname, './src/server'),
@@ -50,9 +48,6 @@ module.exports = {
         { from: /./, to: '/index.html' }, // all request to index.html
       ],
     },
-    // port: 8080,
-    // open: true,
-    // hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -68,15 +63,5 @@ module.exports = {
         { from: "./src/assets/catalog", to: "" },
       ]
     }),
-    // new NetlifyPlugin({
-    //     redirects: [
-    //         {
-    //             from: "/api/*",
-    //             to: "/index.html",
-    //             status: 200,
-    //             force: true,
-    //         }
-    //     ]
-    // }),
   ],
 };

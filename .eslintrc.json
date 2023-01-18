@@ -8,7 +8,8 @@
     "plugin:prettier/recommended",
     "prettier",
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:css/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,

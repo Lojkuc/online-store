@@ -135,8 +135,6 @@
 
 .control-content {
 
-  &__title {}
-
   &__pgn {
     display: flex;
     align-items: center;
@@ -144,28 +142,10 @@
   }
 }
 
-.pgn {
-
-  &__limit {}
-
-  &__page {}
-}
-
 .limit-pgn {
-
-  &__text {}
 
   &__input {
     width: 47rem;
     height: 24rem;
   }
-}
-
-.page-pgn {
-
-  &__text {}
-
-  &__button {}
-
-  &__number {}
 }
